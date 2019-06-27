@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<person>
+  <firstname>Gurubux</firstname>
+  <lastname>Gill</lastname>
+  <home>Mumbai</home>
+  <skill name="Java"/>
+  <skill name="Python"/>
+  <skill name="Solidity"/>
+  <skill name="HTML"/>
+</person>
