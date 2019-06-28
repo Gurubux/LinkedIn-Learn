@@ -734,22 +734,87 @@ r+b or r+t for binary and text(default) modes
 
 
 TEXT VS. BINARY MODE
-TEXT FILES
-BINARY FILES
 
+
+TEXT FILES
+
+def main():
+    infile = open('lines.txt', 'rt')
+    outfile = open('lines-copy.txt', 'wt')
+    for line in infile:
+        #print(line.rstrip(), file=outfile)
+        # OR 
+        outfile.writelines(line)
+        print('.', end='', flush=True)
+    outfile.close()
+    print('\ndone.')
+
+
+Write into a file
+print(line.rstrip(), file=outfile)
+        # OR 
+outfile.writelines(line)
+
+BINARY FILES
+Creating a copy of an image file
+def main():
+    infile = open('berlin.jpg', 'rb')
+    outfile = open('berlin-copy.jpg', 'wb')
+    while True:
+        buf = infile.read(10240)
+        if buf:
+            outfile.write(buf)
+            print('.', end='', flush=True)
+        else: break
+    outfile.close()
+    print('\ndone.')
 ----------------------------------------------------------------------------------------------------------------------
 13. BUILT-IN FUNCTIONS
 ----------------------------------------------------------------------------------------------------------------------
 NUMERIC FUNCTIONS
+int()
+abs()
+divmod(15,6) #(2, 3)
+
+y = 57 + 23j #(57+23j)
+#OR
+y = complex(57, 23) #(57+23j)
+
 STRING FUNCTIONS
+__repr__()
+ascii()
+chr()
+ord()
+
+
 CONTAINER FUNCTIONS
+reversed()
+sum()
+max()
+min()
+any()
+all()
+zip() # zip 2 list together
+enumerate() # To get an Index : Value pair out of a tuple
+
 OBJECT AND CLASS FUNCTIONS
+type()
+isinstance()
+id()
+
+
 
 ----------------------------------------------------------------------------------------------------------------------
 14. MODULES
 ----------------------------------------------------------------------------------------------------------------------
 USING STANDARD MODULES
+import sys,os,random,datetime,calender,
+
+
 CREATING A MODULE
+saytime
+#local time is half past six
+
 
 ----------------------------------------------------------------------------------------------------------------------
 15. DATABASES
