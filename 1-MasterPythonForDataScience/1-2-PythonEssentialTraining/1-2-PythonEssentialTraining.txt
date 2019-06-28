@@ -106,3 +106,390 @@ A DATABASE INTERFACE
 EXAMPLE: SHORT URL DATABASE
 
 CONCLUSION
+
+
+
+INTRODUCTION
+WELCOME (IN PROGRESS)
+EXERCISE FILES
+ABOUT PYTHON 3
+There`s a core philosophy behind the Python language, which includes the following statements: 
+	Beautiful is better than ugly. It`s always a good idea to make your code elegant and readable. 
+	Explicit is better than implicit. Don`t make your readers guess what your code does, make it obvious. 
+	Simple is better than complex. If you can make it simple, do. 
+	Complex is better than complicated. If complexity is necessary, don`t complicate it. 
+	Readability counts. As a casual reader with a good understanding of the Python language, you should be able to understand the code with a minimal amount of effort.
+For complete LIST 
+import this
+>>>
+The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren`t special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you`re Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it`s a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let`s do more of those!
+----------------------------------------------------------------------------------------------------------------------
+1. INSTALLATION
+----------------------------------------------------------------------------------------------------------------------
+INSTALLING PYTHON AND KOMODO ON A MAC
+INSTALLING PYTHON AND KOMODO ON WINDOWS
+
+----------------------------------------------------------------------------------------------------------------------
+2. LANGUAGE OVERVIEW
+----------------------------------------------------------------------------------------------------------------------
+ABOUT THE OVERVIEW
+HELLO WORLD
+
+PYTHON ANATOMY
+#!/usr/bin/env python3
+
+EXPRESSIONS AND STATEMENTS
+Generally speaking, a statement is a unit of execution, and an expression is a unit of evaluation. 
+WHITESPACE AND COMMENTS
+USING PRINT()
+s="World"
+#python 2
+"HEllo %s"%s
+#python 3 - string is a object in python3 so
+"HEllo {}".format(s)
+#after 3.6 
+f"HEllo {s}"
+
+
+BLOCKS AND SCOPE
+CONDITIONALS
+LOOPS
+# simple fibonacci series
+# the sum of two elements defines the next set
+
+a, b = 0, 1
+while b < 1000:
+    print(b, end = ' ', flush = True)
+    a, b = b, a + b
+
+print() # line ending
+
+FUNCTIONS
+def isprime(n):
+    if n <= 1:
+        return False
+    for x in range(2, n):
+        if n % x == 0:
+            return False
+    else:
+        return True
+def listOfPrimes(n):
+    for i in range(n):
+        if isprime(i):
+            print(i, end=' ')
+n = 29
+if isprime(n):
+    print(f'{n} is prime')
+else:
+    print(f'{n} not prime')
+
+listOfPrimes(100)
+
+OBJECTS
+
+class Duck:
+    sound = 'Quaccckkk'
+    walking = 'Walks Like a duck'
+    def quack(self):
+        print(self.sound)
+
+    def walk(self):
+        print(self.walking)
+
+def main():
+    donald = Duck()
+    donald.quack()
+    donald.walk()
+
+if __name__ == '__main__': main()
+
+----------------------------------------------------------------------------------------------------------------------
+3. TYPES AND VALUES
+----------------------------------------------------------------------------------------------------------------------
+OVERVIEW
+THE STRING TYPE
+a=8
+b=9
+print(f"x is {a:<010} and  {b:>010}")
+>>>x is 8000000000 and  0000000009
+
+
+NUMERIC TYPES
+integer floating
+// / % 
+x = .1+.1+.1-.3
+>>> 5.551115123125783e-17 <class 'float'>
+#should be 0.00
+
+from decimal import *
+a = Decimal('.10')
+b = Decimal('.30')
+x = a+a+a-b
+print(x,type(x))
+>>>
+0.00 <class 'decimal.Decimal'>
+
+
+print(x,type(x))
+THE BOOL TYPE
+x = False
+print(x,type(x))
+if x :
+    print("True" )
+else: 
+    print("False" )
+x = 0
+print(x,type(x))
+if x :
+    print("True" )
+else: 
+    print("False" )
+x = None
+print(x,type(x))
+if x :
+    print("True" )
+else: 
+    print("False" )
+    
+x = ""
+print(x,type(x))
+if x :
+    print("True" )
+else: 
+    print("False" )    
+>>>
+False <class 'bool'>
+False
+0 <class 'int'>
+False
+None <class 'NoneType'>
+False
+ <class 'str'>
+False
+
+
+SEQUENCE TYPES
+List mutable
+Tuple Immutable
+range() Immutable
+dict mutable
+
+
+TYPE() AND ID()
+a = (1, "Two", {"Three":3})
+b = (1, "Two", {"Three":3})
+print(a is b)
+print(a[0] is b[0])
+>>>
+False
+True
+
+
+print(isinstance(a,tuple))
+print(isinstance(a,list))
+>>>
+True
+False
+----------------------------------------------------------------------------------------------------------------------
+4. CONDITIONALS
+----------------------------------------------------------------------------------------------------------------------
+CONDITIONAL SYNTAX
+if True:
+    print('if true')
+elif False:
+    print('elif true')
+else:
+    print('neither true')
+
+CONDITIONAL OPERATORS
+Comparision operators == ! <=>= == 
+Identity operators is, is not
+Membership operators in, not in
+
+CONDITIONAL ASSIGNMENT
+#Ternary
+hungry = True
+x = 'Feed the bear now!' if hungry else 'Do not feed the bear.'
+
+----------------------------------------------------------------------------------------------------------------------
+5. OPERATORS
+----------------------------------------------------------------------------------------------------------------------
+ARITHMETIC OPERATORS
++ - * / // % **  -- ++
+BITWISE OPERATORS
+& | ^ << >>
+COMPARISON OPERATORS
+< > <= >= == !=
+BOOLEAN OPERATORS
+and or not,in, not in, is, not is
+OPERATOR PRECEDENCE
+Paranthesis.
+Exponent,unary , MDR,AS, Bitwise Shifts, Bitwise AND,Bitwise OR, Bitwise XOR, Bitwise OR, Comparision including membership tests and identity tests, Boolean NOT, Boolean AND, Boolean OR
+----------------------------------------------------------------------------------------------------------------------
+6. LOOPS
+----------------------------------------------------------------------------------------------------------------------
+PYTHON LOOPS
+THE WHILE LOOP
+secret = 'swordfish'
+pw = ''
+
+while pw != secret:
+    pw = input("What's the secret word? ")
+
+THE FOR LOOP
+animals = ( 'bear', 'bunny', 'dog', 'cat', 'velociraptor' )
+
+for pet in animals:
+    print(pet)
+
+ADDITIONAL CONTROLS
+continue, break, else
+----------------------------------------------------------------------------------------------------------------------
+7. FUNCTIONS
+----------------------------------------------------------------------------------------------------------------------
+DEFINING A FUNCTION
+def main():
+    kitten()
+
+def kitten():
+    print('Meow.')
+
+if __name__ == '__main__': main()
+#All functions Returns None
+
+FUNCTION ARGUMENTS
+def kitten(*args):
+    if len(args):
+        for s in args:
+            print(s)
+    else: print('Meow.')
+kitten('meow', 'grrr', 'purr') 
+y = ('meow', 'grrr', 'purr') 
+kitten(*y) 
+#arguments with Defaults should be in the end
+def puppy(a,b=2,c=True):
+    if c:
+        print('a+b = ',a+b)
+    else: print('Meow.')
+puppy(10)
+puppy(10,c=True)
+puppy(10,3)
+
+
+https://www.linkedin.com/learning/python-essential-training-2/function-arguments
+
+ARGUMENT LISTS
+def kitten(*args):
+    if len(args):
+        for s in args:
+            print(s)
+    else: print('Meow.')
+kitten('meow', 'grrr', 'purr') 
+y = ('meow', 'grrr', 'purr') 
+kitten(*y) 
+
+
+
+KEYWORD ARGUMENTS
+def kitten(**kwargs):
+    if len(kwargs):
+        for k in kwargs:
+            print('Kitten {} says {}'.format(k, kwargs[k]))
+    else: print('Meow.')
+
+kitten(Buffy = 'meow', Zilla = 'grr', Angel = 'rawr')
+d = dict(Buffy = 'meow', Zilla = 'grr', Angel = 'rawr')
+kitten(**d)
+
+
+RETURN VALUES
+GENERATORS
+DECORATORS
+
+----------------------------------------------------------------------------------------------------------------------
+8. STRUCTURED DATA
+----------------------------------------------------------------------------------------------------------------------
+BASIC DATA STRUCTURES
+LISTS AND TUPLES
+DICTIONARIES
+SETS
+LIST COMPREHENSION
+MIXED STRUCTURES
+
+----------------------------------------------------------------------------------------------------------------------
+9. CLASSES
+----------------------------------------------------------------------------------------------------------------------
+CREATING A CLASS
+CONSTRUCTING AN OBJECT
+CLASS METHODS
+OBJECT DATA
+INHERITANCE
+ITERATOR OBJECTS
+
+----------------------------------------------------------------------------------------------------------------------
+10. EXCEPTIONS
+----------------------------------------------------------------------------------------------------------------------
+HANDLING EXCEPTIONS
+REPORTING ERRORS
+
+----------------------------------------------------------------------------------------------------------------------
+11. STRING OBJECTS
+----------------------------------------------------------------------------------------------------------------------
+OVERVIEW OF STRING OBJECTS
+COMMON STRING METHODS
+4M 15S
+FORMATTING STRINGS
+SPLITTING AND JOINING
+
+----------------------------------------------------------------------------------------------------------------------
+12. FILE I/O
+----------------------------------------------------------------------------------------------------------------------
+OPENING FILES
+TEXT VS. BINARY MODE
+TEXT FILES
+BINARY FILES
+
+----------------------------------------------------------------------------------------------------------------------
+13. BUILT-IN FUNCTIONS
+----------------------------------------------------------------------------------------------------------------------
+NUMERIC FUNCTIONS
+STRING FUNCTIONS
+CONTAINER FUNCTIONS
+OBJECT AND CLASS FUNCTIONS
+
+----------------------------------------------------------------------------------------------------------------------
+14. MODULES
+----------------------------------------------------------------------------------------------------------------------
+USING STANDARD MODULES
+CREATING A MODULE
+
+----------------------------------------------------------------------------------------------------------------------
+15. DATABASES
+----------------------------------------------------------------------------------------------------------------------
+PYTHON DATABASE API
+A DATABASE INTERFACE
+EXAMPLE: SHORT URL DATABASE
+
+----------------------------------------------------------------------------------------------------------------------
+CONCLUSION
+----------------------------------------------------------------------------------------------------------------------

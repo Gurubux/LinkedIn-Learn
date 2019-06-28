@@ -9,10 +9,14 @@ def isprime(n):
             return False
     else:
         return True
-
-n = 5
+def listOfPrimes(n):
+    for i in range(n):
+        if isprime(i):
+            print(i, end=' ')
+n = 29
 if isprime(n):
     print(f'{n} is prime')
 else:
     print(f'{n} not prime')
 
+listOfPrimes(100)

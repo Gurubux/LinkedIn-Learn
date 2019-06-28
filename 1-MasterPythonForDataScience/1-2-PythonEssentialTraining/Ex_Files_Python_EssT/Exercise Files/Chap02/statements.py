@@ -6,3 +6,4 @@ import platform
 version = platform.python_version()
 
 print('This is python version {}'.format(version))
+print(f'This is python version {version}')

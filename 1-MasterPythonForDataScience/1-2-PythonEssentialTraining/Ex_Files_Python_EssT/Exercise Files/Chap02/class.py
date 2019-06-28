@@ -2,11 +2,13 @@
 # Copyright 2009-2017 BHG http://bw.org/
 
 class Duck:
+    sound = 'Quaccckkk'
+    walking = 'Walks Like a duck'
     def quack(self):
-        print('Quaaack!')
+        print(self.sound)
 
     def walk(self):
-        print('Walks like a duck.')
+        print(self.walking)
 
 def main():
     donald = Duck()
