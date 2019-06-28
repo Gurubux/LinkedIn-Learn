@@ -94,7 +94,7 @@ QUIZ
 
 4. What should you consider when appending a DataFrame to itself?
 	Indexes will be duplicated and therefore inconsistent.
-	
+
 ----------------------------------------------------------------------------------------------------------------------	
 ----------------------------------------------------------------------------------------------------------------------
 2. DATA VISUALIZATION BASICS
@@ -105,6 +105,10 @@ FORMAT PLOTS
 CREATE LABELS AND ANNOTATIONS
 CREATE VISUALIZATIONS FROM TIME SERIES DATA
 CONSTRUCT HISTOGRAMS, BOX PLOTS, AND SCATTER PLOTS
+
+
+
+
 
 ----------------------------------------------------------------------------------------------------------------------
 3. BASIC MATH AND STATISTICS
