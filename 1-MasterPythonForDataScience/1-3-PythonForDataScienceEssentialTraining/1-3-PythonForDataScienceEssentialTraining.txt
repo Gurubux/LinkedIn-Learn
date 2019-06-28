@@ -83,6 +83,20 @@ CONCATENATE AND TRANSFORM DATA
 GROUP AND AGGREGATE DATA
 
 ----------------------------------------------------------------------------------------------------------------------
+QUIZ
+1. The series object series_obj has 5 items with the index labels 'row 1' through 'row 5', and the integer indexes 0 through 4 respectively. The command series_obj['row 3'] is equivalent to series_obj[2] .
+
+2. In the dropna() DataFrame method, what will the argument axis=1 cause?
+	drop columns that contain missing values, instead of rows
+
+3. You call the method duplicated() on an object and get a True value for row 8. This means that this row is unique and has no duplicates.
+	FALSE
+
+4. What should you consider when appending a DataFrame to itself?
+	Indexes will be duplicated and therefore inconsistent.
+	
+----------------------------------------------------------------------------------------------------------------------	
+----------------------------------------------------------------------------------------------------------------------
 2. DATA VISUALIZATION BASICS
 ----------------------------------------------------------------------------------------------------------------------
 CREATE STANDARD LINE, BAR, AND PIE PLOTS
