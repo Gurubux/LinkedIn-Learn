@@ -1,0 +1,159 @@
+INTRODUCTION
+WELCOME
+WHAT YOU SHOULD KNOW
+GETTING STARTED WITH JUPYTER
+
+1. DATA MUNGING BASICS
+FILTER AND SELECT DATA
+TREAT MISSING VALUES
+REMOVE DUPLICATES
+CONCATENATE AND TRANSFORM DATA
+GROUP AND AGGREGATE DATA
+
+2. DATA VISUALIZATION BASICS
+CREATE STANDARD LINE, BAR, AND PIE PLOTS
+DEFINE PLOT ELEMENTS
+FORMAT PLOTS
+CREATE LABELS AND ANNOTATIONS
+CREATE VISUALIZATIONS FROM TIME SERIES DATA
+CONSTRUCT HISTOGRAMS, BOX PLOTS, AND SCATTER PLOTS
+
+3. BASIC MATH AND STATISTICS
+USE NUMPY ARITHMETIC
+GENERATE SUMMARY STATISTICS
+SUMMARIZE CATEGORICAL DATA
+PARAMETRIC METHODS
+NON-PARAMETRIC METHODS
+TRANSFORM DATASET DISTRIBUTIONS
+
+4. DIMENSIONALITY REDUCTION
+INTRODUCTION TO MACHINE LEARNING
+EXPLANATORY FACTOR ANALYSIS
+PRINCIPAL COMPONENT ANALYSIS (PCA)
+
+5. OUTLIER ANALYSIS
+EXTREME VALUE ANALYSIS USING UNIVARIATE METHODS
+MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
+A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
+
+6. CLUSTER ANALYSIS
+K-MEANS METHOD
+HIERARCHICAL METHODS
+INSTANCE-BASED LEARNING WITH K-NEAREST NEIGHBOR
+
+7. NETWORK ANALYSIS WITH NETWORKX
+INTRO TO NETWORK ANALYSIS
+WORK WITH GRAPH OBJECTS
+SIMULATE A SOCIAL NETWORK
+GENERATE STATS ON NODES AND INSPECT GRAPHS
+
+8. BASIC ALGORITHMIC LEARNING
+LINEAR REGRESSION MODEL
+LOGISTIC REGRESSION MODEL
+NAÏVE BAYES CLASSIFIERS
+
+9. WEB-BASED DATA VISUALIZATIONS WITH PLOTLY
+CREATE BASIC CHARTS
+CREATE STATISTICAL CHARTS
+CREATE PLOTLY CHOROPLETH MAPS
+CREATE PLOTLY POINT MAPS
+
+10. WEB SCRAPING WITH BEAUTIFUL SOUP
+INTRODUCTION TO BEAUTIFUL SOUP
+EXPLORE NAVIGATABLESTRING OBJECTS
+PARSE DATA
+WEB SCRAPE IN PRACTICE
+
+CONCLUSION
+
+----------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------
+INTRODUCTION
+WELCOME
+WHAT YOU SHOULD KNOW
+GETTING STARTED WITH JUPYTER
+
+----------------------------------------------------------------------------------------------------------------------
+1. DATA MUNGING BASICS
+----------------------------------------------------------------------------------------------------------------------
+FILTER AND SELECT DATA
+TREAT MISSING VALUES
+REMOVE DUPLICATES
+CONCATENATE AND TRANSFORM DATA
+GROUP AND AGGREGATE DATA
+
+----------------------------------------------------------------------------------------------------------------------
+2. DATA VISUALIZATION BASICS
+----------------------------------------------------------------------------------------------------------------------
+CREATE STANDARD LINE, BAR, AND PIE PLOTS
+DEFINE PLOT ELEMENTS
+FORMAT PLOTS
+CREATE LABELS AND ANNOTATIONS
+CREATE VISUALIZATIONS FROM TIME SERIES DATA
+CONSTRUCT HISTOGRAMS, BOX PLOTS, AND SCATTER PLOTS
+
+----------------------------------------------------------------------------------------------------------------------
+3. BASIC MATH AND STATISTICS
+----------------------------------------------------------------------------------------------------------------------
+USE NUMPY ARITHMETIC
+GENERATE SUMMARY STATISTICS
+SUMMARIZE CATEGORICAL DATA
+PARAMETRIC METHODS
+NON-PARAMETRIC METHODS
+TRANSFORM DATASET DISTRIBUTIONS
+
+----------------------------------------------------------------------------------------------------------------------
+4. DIMENSIONALITY REDUCTION
+----------------------------------------------------------------------------------------------------------------------
+INTRODUCTION TO MACHINE LEARNING
+EXPLANATORY FACTOR ANALYSIS
+PRINCIPAL COMPONENT ANALYSIS (PCA)
+
+----------------------------------------------------------------------------------------------------------------------
+5. OUTLIER ANALYSIS
+----------------------------------------------------------------------------------------------------------------------
+EXTREME VALUE ANALYSIS USING UNIVARIATE METHODS
+MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
+A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
+
+----------------------------------------------------------------------------------------------------------------------
+6. CLUSTER ANALYSIS
+----------------------------------------------------------------------------------------------------------------------
+K-MEANS METHOD
+HIERARCHICAL METHODS
+INSTANCE-BASED LEARNING WITH K-NEAREST NEIGHBOR
+
+----------------------------------------------------------------------------------------------------------------------
+7. NETWORK ANALYSIS WITH NETWORKX
+----------------------------------------------------------------------------------------------------------------------
+INTRO TO NETWORK ANALYSIS
+WORK WITH GRAPH OBJECTS
+SIMULATE A SOCIAL NETWORK
+GENERATE STATS ON NODES AND INSPECT GRAPHS
+
+----------------------------------------------------------------------------------------------------------------------
+8. BASIC ALGORITHMIC LEARNING
+----------------------------------------------------------------------------------------------------------------------
+LINEAR REGRESSION MODEL
+LOGISTIC REGRESSION MODEL
+NAÏVE BAYES CLASSIFIERS
+
+----------------------------------------------------------------------------------------------------------------------
+9. WEB-BASED DATA VISUALIZATIONS WITH PLOTLY
+----------------------------------------------------------------------------------------------------------------------
+CREATE BASIC CHARTS
+CREATE STATISTICAL CHARTS
+CREATE PLOTLY CHOROPLETH MAPS
+CREATE PLOTLY POINT MAPS
+
+----------------------------------------------------------------------------------------------------------------------
+10. WEB SCRAPING WITH BEAUTIFUL SOUP
+----------------------------------------------------------------------------------------------------------------------
+INTRODUCTION TO BEAUTIFUL SOUP
+EXPLORE NAVIGATABLESTRING OBJECTS
+PARSE DATA
+WEB SCRAPE IN PRACTICE
+
+----------------------------------------------------------------------------------------------------------------------
+CONCLUSION
+----------------------------------------------------------------------------------------------------------------------
