@@ -1,5 +1,5 @@
 # LinkedIn-Learn
-LinkedIn-Learn
+<strong><a href='https://www.linkedin.com/in/gurubux-gill-04677380/'>Gurubux Gill</a></strong>
 
 # <h3><a href="https://www.linkedin.com/learning/paths/master-python-for-data-science">Master Python for Data Science</a></h3>
 1.	<a href="https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-1-LearningPython/CertificateOfCompletion_Learning%20Python%202.pdf">Learning Python</a> ✔<br>
