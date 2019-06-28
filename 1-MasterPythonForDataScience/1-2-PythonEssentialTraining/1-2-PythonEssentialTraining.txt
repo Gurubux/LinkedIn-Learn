@@ -423,17 +423,83 @@ kitten(**d)
 
 
 RETURN VALUES
-GENERATORS
-DECORATORS
+No difference between functions and procedures, all functions returns values. (None by default)
 
+GENERATORS
+Functions that serves as an iterator.
+It returns a stream of values
+example: range()
+
+DECORATORS
+Funtions that return a wrapper function
+import time
+
+def elapsed_time(f):
+    def wrapper():
+        t1 = time.time()
+        f()
+        t2 = time.time()
+        print(f'Elapsed time: {(t2 - t1) * 1000} ms')
+    return wrapper
+
+
+@elapsed_time
+def big_sum():
+    num_list = []
+    for num in (range(0, 10000)):
+        num_list.append(num)
+    print(f'Big sum: {sum(num_list)}')
+
+def main():
+    big_sum()
+
+if __name__ == '__main__': main()
+"https://www.linkedin.com/learning/python-essential-training-2/decorators"
+
+Decorators are basically a wrapping/decoration around a funtion. So whenever we call that function, it`s decorator function is called instead wherein the call function is passed as the parameter to the decorator function. Uses are like the above function it decorates the time taken around the function call. in the Process the original definition is lost. So the above function will always print the time along with it.
 ----------------------------------------------------------------------------------------------------------------------
 8. STRUCTURED DATA
 ----------------------------------------------------------------------------------------------------------------------
 BASIC DATA STRUCTURES
+List-[], Tuples-(), Dict-{}, Set-{}, 
+
+
 LISTS AND TUPLES
+Cannot apend in tuples-  Immutable
 DICTIONARIES
+animals = { 'kitten': 'meow', 'puppy': 'ruff!', 'lion': 'grrr',
+        'giraffe': 'I am a giraffe!', 'dragon': 'rawr' }
+OR
+animals = dict( kitten= 'meow', puppy= 'ruff!', lion='grrr',
+        giraffe= 'I am a giraffe!', dragon='rawr')
+
+for k,v in animals:
+	print("{k} : {v}")
+>>>
+kitten: meow
+puppy: ruff!
+lion: grrr
+giraffe: I am a giraffe!
+dragon: rawr
+
+
+
 SETS
-LIST COMPREHENSION
+Sets is List "without duplicate unordered elements"
+
+b = set("I`m sorry, Dave. I`m afraid I can`t do that.")
+b
+>>>
+dc`ra efyDtvo.nIhsm,i
+
+LIST/DICT COMPREHENSION
+seq = range(11)
+seq2 = [x * 2 for x in seq]
+seq3 = [x for x in seq if x % 3 != 0]
+seq4 = [(x,x * 2) for x in seq]
+
+seq5 = {x : x * 2 for x in seq}
+
 MIXED STRUCTURES
 
 ----------------------------------------------------------------------------------------------------------------------
@@ -441,30 +507,232 @@ MIXED STRUCTURES
 ----------------------------------------------------------------------------------------------------------------------
 CREATING A CLASS
 CONSTRUCTING AN OBJECT
+def __init__(self, **kwargs):
+        self._type = kwargs['type'] if 'type' in kwargs else 'kitten'
+        self._name = kwargs['name'] if 'name' in kwargs else 'fluffy'
+        self._sound = kwargs['sound'] if 'sound' in kwargs else 'meow'
+
 CLASS METHODS
+Getters and setters
+
+def type(self, t = None):
+        if t: self._type = t
+        return self._type
+
+def name(self, n = None):
+        if n: self._name = n
+        return self._name
+
+def sound(self, s = None):
+        if s: self._sound = s
+        return self._sound
+
+
+
+# toString() i java
+ def __str__(self):
+        return f'The {self.type()} is named "{self.name()}" and says "{self.sound()}".'
+
+
+
 OBJECT DATA
+"https://www.linkedin.com/learning/python-essential-training-2/object-data"
+There are no private variables in Python instead we have a convention to use _ before a variable say _name.
+And it is uggested not to use these variables outside the class. 
+These are Object variables and not class variables.
+If you cahnge the values of these variables using an object then only that object`s variable value wil be updated and won`t reflect on other instance of class.
+
+
 INHERITANCE
+
+super()
+
+
+class Animal:
+    def __init__(self, **kwargs):
+        if 'type' in kwargs: self._type = kwargs['type']
+        if 'name' in kwargs: self._name = kwargs['name']
+        if 'sound' in kwargs: self._sound = kwargs['sound']
+
+    def type(self, t = None):
+        if t: self._type = t
+        try: return self._type
+        except AttributeError: return None
+
+    def name(self, n = None):
+        if n: self._name = n
+        try: return self._name
+        except AttributeError: return None
+
+    def sound(self, s = None):
+        if s: self._sound = s
+        try: return self._sound
+        except AttributeError: return None
+
+class Duck(Animal):
+    def __init__(self, **kwargs):
+        self._type = 'duck'
+        if 'type' in kwargs: del kwargs['type']
+        super().__init__(**kwargs)
+
+class Kitten(Animal):
+    def __init__(self, **kwargs):
+        self._type = 'kitten'
+        if 'type' in kwargs: del kwargs['type']
+        super().__init__(**kwargs)
+
+def print_animal(o):
+    if not isinstance(o, Animal):
+        raise TypeError('print_animal(): requires an Animal')
+    print(f'The {o.type()} is named "{o.name()}" and says "{o.sound()}".')
+
+def main():
+    a0 = Kitten(name = 'fluffy', sound = 'rwar')
+    a1 = Duck(name = 'donald', sound = 'quack')
+    print_animal(a0)
+    print_animal(a1)
+
+
 ITERATOR OBJECTS
 
 ----------------------------------------------------------------------------------------------------------------------
 10. EXCEPTIONS
 ----------------------------------------------------------------------------------------------------------------------
 HANDLING EXCEPTIONS
+try:
+	x= 5/0
+except ValueError:
+	print("I caught VE")
+except:
+	print("unknown Error {sys.exc_info()}")
+else: #If no error
+	print(x)
+
 REPORTING ERRORS
+	if numargs < 1:
+        raise TypeError(f'expected at least 1 argument, got {numargs}')
+    elif numargs == 1:
+        stop = args[0]
+    elif numargs == 2:
+        (start, stop) = args
+    elif numargs == 3:
+        (start, stop, step) = args
+    else: raise TypeError(f'expected at most 3 arguments, got {numargs}')
+
+
+def inclusive_range(*args):
+    numargs = len(args)
+    start = 0
+    step = 1
+    
+    # initialize parameters
+    if numargs < 1:
+        raise TypeError(f'expected at least 1 argument, got {numargs}')
+    elif numargs == 1:
+        stop = args[0]
+    elif numargs == 2:
+        (start, stop) = args
+    elif numargs == 3:
+        (start, stop, step) = args
+    else: raise TypeError(f'expected at most 3 arguments, got {numargs}')
+
+    # generator
+    i = start
+    while i <= stop:
+        yield i
+        i += step
+
+def main():
+    try:
+        for i in inclusive_range(1,4,5,2):
+            print(i, end = ' ', flush = True)
+    except TypeError as e:
+        print(f"Range Error : {e}") #Range Error : expected at most 3 arguments, got 4
+
+
 
 ----------------------------------------------------------------------------------------------------------------------
 11. STRING OBJECTS
 ----------------------------------------------------------------------------------------------------------------------
 OVERVIEW OF STRING OBJECTS
+String are OBJECTS
+They are Immutable
+# Subclassing the String
+# Making the __str__ return Reverse of the string
+class MyString(str)
+	def __str__(self):
+		return self[::-1]
+
 COMMON STRING METHODS
-4M 15S
+upper() lower() capitalize() title() swapcase() casefold()
+
 FORMATTING STRINGS
+
+print('Hello, World.')
+x = "World"
+y = "Morning"
+print("Hello {}".format(x))
+print("Hello {} {}".format(x,y))
+print("Hello {a} {b}".format(a=x,b=y))
+print("Hello {a} {b}  {a}  {a}".format(a=x,b=y))# >>> Hello World Morning  World  World
+print("Hello {0:<20} {1:>20}".format(x,y))
+
+
+
+print("{:,}".format(10000000000)) #10,000,000,000
+print("{:_}".format(10000000000)) #10_000_000_000
+
+
+print("{:f}".format(1231.8345812312)) #default 6  # 1231.834581
+print("{:.3f}".format(1231.8345812312)) # 1231.835
+
+
+print("{:d}".format(14))#14
+print("{:f}".format(14))#14.000000
+print("{:b}".format(14))#1110
+print("{:o}".format(14))#16
+print("{:X}".format(14))#E
+
+using f-string
+print(f"{14:d}")#14
+print(f"{14:f}")#14.000000
+print(f"{14:b}")#1110
+print(f"{14:o}")#16
+print(f"{14:X}")#E
+
+
 SPLITTING AND JOINING
+s = 'This is a long string with a bunch of words in it.'
+print(s.split())
+#['This', 'is', 'a', 'long', 'string', 'with', 'a', 'bunch', 'of', 'words', 'in', 'it.']
+
+print(s.split('a'))
+#['This is ', ' long string with ', ' bunch of words in it.']
+
+#Join takes in list argument and joints the list with the string character on which join is called
+print("_".join(s.split('a')))
+#This is _ long string with _ bunch of words in it.
+
+
 
 ----------------------------------------------------------------------------------------------------------------------
 12. FILE I/O
 ----------------------------------------------------------------------------------------------------------------------
 OPENING FILES
+def main():
+    f = open('lines.txt','r')
+    for line in f:
+        print(line.rstrip())
+
+if __name__ == '__main__': main()
+
+'r' - default
+'w' - writes into file, empties if not. If file doesn`t exists it creates it.
+'a' - Doesn`t empty or create the file
+r+ w+ a+ to add more than 1 rights
+r+b or r+t for binary and text(default) modes 
+
+
 TEXT VS. BINARY MODE
 TEXT FILES
 BINARY FILES
