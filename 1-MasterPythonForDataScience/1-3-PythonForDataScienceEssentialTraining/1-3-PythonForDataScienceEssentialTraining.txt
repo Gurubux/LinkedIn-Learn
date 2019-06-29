@@ -305,7 +305,7 @@ Factor Analysis Assumptions
 4. you have more than 100 observations, and more than five observations per feature. 
 5. It also assumes that you`re sample is homogenous. 
 
-----------------------------------------CODE- START---------------------
+--------------------------------CODE- START-----------------------------
 iris = datasets.load_iris()
 X = iris.data
 variable_names = iris.feature_names
@@ -336,6 +336,7 @@ PCA USE-CASES :
 		image recognition, 
 		speech recognition, or 
 		outlier removal, if you are using PCA for data pre-processing. 
+
 ----------------------------CODE- START------------------------------------------
 iris_pca = PCA().fit_transform(X)
 
@@ -363,11 +364,22 @@ PCA and FACTOR Analysis Usage in MACHINE LEARNING
  1. principal component one is strongly positively correlated with petal length and moderately positively correlated with sepal length and petal width. Component one is slightly negatively correlated with sepal width,  
  2. principal component number two is strongly negatively correlated with sepal length and sepal width, and slightly negatively correlated with petal length and petal width. You may be wondering how you can use these components once you`ve isolated. Well, you can use them as input variables for machine learning algorithms. So in the case of the iris data set, you could use the two components we`ve generated as input for a logistic regression model to predict species labels for new incoming data points. 
 
-
+QUIZ
+1. How much of your data should go to the test set?
+	one-third
+2. The goal of PCA is to keep only the principal components that matter. 70%
+----------------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------
 5. OUTLIER ANALYSIS
 ----------------------------------------------------------------------------------------------------------------------
 EXTREME VALUE ANALYSIS USING UNIVARIATE METHODS
+Types of Outliers
+1. Point Outliers - Univariate Outliers
+2. Contextual Outliers - Location,Temperature
+3. Collective Outliers - These are a collection of observations that are anomalous but appear close to one another because they all have similar anomalous values. - DBSCAN
+			(anomalous - deviating from what is standard, normal, or expected.)
+
+
 MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
 A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
 
