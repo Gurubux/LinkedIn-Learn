@@ -379,6 +379,35 @@ Types of Outliers
 3. Collective Outliers - These are a collection of observations that are anomalous but appear close to one another because they all have similar anomalous values. - DBSCAN
 			(anomalous - deviating from what is standard, normal, or expected.)
 
+Use of Outlier detection( Basically used to uncover anomalies in data)
+	1. equipment failure notification, 
+	2. fraud detection, and 
+	3. cybersecurity event notification
+UNIVARIATE METHODS: 
+	Tukey Boxlplots - You can detect unusually high or low data points in a variable by applying the Tukey methods for outlier detection
+		Boxplot whiskers - IQR Inter Quantile Range
+		"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch05/05_01/Univariate_Boxplot_Tukey.PNG"
+df.boxplot(return_type='dict')
+plt.plot()
+
+def tukey_label(data):
+    IQR = np.quantile(data, 0.75) - np.quantile(data, 0.25)
+    Q1 = np.quantile(data, 0.25)
+    Q3 = np.quantile(data, 0.75)
+    #print(f"{IQR:.2f},{Q1:.2f},{Q3:.2f}")
+    outlier_1 = Q1 - (IQR * 1.5)
+    outlier_2 = Q3 + (IQR * 1.5)
+    return (outlier_1,outlier_2)
+
+Sepal_Width = X[:,1]
+iris_outliers = (Sepal_Width > 4)
+df[iris_outliers]
+
+Sepal_Width = X[:,1]
+iris_outliers = (Sepal_Width < 2.05)
+df[iris_outliers]
+
+
 
 MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
 A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
