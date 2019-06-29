@@ -85,7 +85,7 @@ GROUP AND AGGREGATE DATA
 
 ----------------------------------------------------------------------------------------------------------------------
 QUIZ
-1. The series object series_obj has 5 items with the index labels 'row 1' through 'row 5', and the integer indexes 0 through 4 respectively. The command series_obj['row 3'] is equivalent to series_obj[2] .
+1. The series object series_obj has 5 items with the index labels `row 1` through `row 5`, and the integer indexes 0 through 4 respectively. The command series_obj[`row 3`] is equivalent to series_obj[2] .
 
 2. In the dropna() DataFrame method, what will the argument axis=1 cause?
 	drop columns that contain missing values, instead of rows
@@ -116,7 +116,7 @@ QUIZ
 	mew
 4. The xy parameter is part of the annotate() function.
 	TRUE
-5. The Seaborn equivalent of plot(kind='scatter') is regplot() .
+5. The Seaborn equivalent of plot(kind=`scatter`) is regplot() .
 
 
 ----------------------------------------------------------------------------------------------------------------------
@@ -160,14 +160,14 @@ cars.carb.value_counts()
 cars.describe()
 
 # describe with group by column,the  mean mediean mode, 5,50,75% count min max for each other column.
-gears_group = cars_cat.groupby('gear')
+gears_group = cars_cat.groupby(`gear`)
 gears_group.describe()
 
 Convert int into category
 pd.Series(cars.gear, dtype="category")
 
 categorical data with crosstabs
-pd.crosstab(cars['am'], cars['gear'])
+pd.crosstab(cars[`am`], cars[`gear`])
 
 
 PARAMETRIC METHODS
@@ -180,8 +180,8 @@ PARAMETRIC METHODS
 			import scipy
 			from scipy.stats.stats import pearsonr
 			pearsonr_coefficient, p_value = pearsonr(mpg, hp)
-			print('mpg, hp PearsonR Correlation Coefficient %0.3f' % (pearsonr_coefficient))
-			print(f'mpg, hp p_value {p_value:.7f}')
+			print(`mpg, hp PearsonR Correlation Coefficient %0.3f` % (pearsonr_coefficient))
+			print(f`mpg, hp p_value {p_value:.7f}`)
 			#calculate the Pearson correlation coefficient
 			corr = X.corr()
 			#visualize the Pearson correlation coefficient
@@ -201,15 +201,15 @@ NON-PARAMETRIC METHODS
 			
 			from scipy.stats import spearmanr
 			spearmanr_coefficient, p_value = spearmanr(cyl, vs)
-			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			print(`Spearman Rank Correlation Coefficient %0.3f` % (spearmanr_coefficient))
 			>>> Spearman Rank Correlation Coefficient -0.814  					STRONG Negative Correlation
 
 			spearmanr_coefficient, p_value = spearmanr(cyl, am)
-			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			print(`Spearman Rank Correlation Coefficient %0.3f` % (spearmanr_coefficient))
 			Spearman Rank Correlation Coefficient -0.522    							Negative Correlation
 
 			spearmanr_coefficient, p_value = spearmanr(cyl, gear)
-			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			print(`Spearman Rank Correlation Coefficient %0.3f` % (spearmanr_coefficient))
 			Spearman Rank Correlation Coefficient -0.564   								Negative Correlation
 
 
@@ -225,18 +225,18 @@ NON-PARAMETRIC METHODS
 			from scipy.stats import chi2_contingency
 
 			chi2, p, dof, expected = chi2_contingency(table.values)
-			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			print(`Chi-square Statistic %0.3f p_value %0.3f` % (chi2, p))
 			>>>Chi-square Statistic 8.741 p_value 0.013
 
-			table = pd.crosstab(cars['cyl'], cars['vs'])
+			table = pd.crosstab(cars[`cyl`], cars[`vs`])
 			chi2, p, dof, expected = chi2_contingency(table.values)
-			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			print(`Chi-square Statistic %0.3f p_value %0.3f` % (chi2, p))
 			>>>Chi-square Statistic 21.340 p_value 0.000
 
 
-			table = pd.crosstab(cars['cyl'], cars['gear'])
+			table = pd.crosstab(cars[`cyl`], cars[`gear`])
 			chi2, p, dof, expected = chi2_contingency(table.values)
-			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			print(`Chi-square Statistic %0.3f p_value %0.3f` % (chi2, p))
 			>>>Chi-square Statistic 18.036 p_value 0.001
 
 			"p < 0.05 so Reject the Null Hypothesis and conclude that variables are correlated and not independent"
@@ -284,19 +284,85 @@ plt.plot(standardized_mpg)
 
 
 QUIZ
-1. You have two 2x2 matrices; one has 1's for all values, and the other has 2's for all values. Their NumPy dot multiplication will produce a 2x2 matrix with 4's for all values .
+1. You have two 2x2 matrices; one has 1`s for all values, and the other has 2`s for all values. Their NumPy dot multiplication will produce a 2x2 matrix with 4`s for all values .
 3. Which Pearson correlation requirement will not be satisfied when analyzing the correlation between people`s height and age?
 	The relationship is linear.
 	"Non-linear relationships have an apparent pattern, just not linear. For example, as age increases height increases up to a point then levels off after reaching a maximum height."
-4. In which way is the Spearman's Rank analysis similar to Pearson's?
+4. In which way is the Spearman`s Rank analysis similar to Pearson`s?
 	It produces R-values between -1 and 1
 
 ----------------------------------------------------------------------------------------------------------------------
 4. DIMENSIONALITY REDUCTION
 ----------------------------------------------------------------------------------------------------------------------
 INTRODUCTION TO MACHINE LEARNING
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch04/ML_InThisCourse.PNG"
+
 EXPLANATORY FACTOR ANALYSIS
+Factor Analysis Assumptions 
+1. you`re features are metric,
+2. they are either continuous or ordinal,
+3. you have a correlation coefficient R greater than 0.3,
+4. you have more than 100 observations, and more than five observations per feature. 
+5. It also assumes that you`re sample is homogenous. 
+
+----------------------------------------CODE- START---------------------
+iris = datasets.load_iris()
+X = iris.data
+variable_names = iris.feature_names
+
+factor = FactorAnalysis().fit(X)
+
+pd.DataFrame(factor.components_, columns=variable_names)
+	sepal length	sepal width 	petal length	petal width
+0	0.707227		-0.153147		1.653151		0.701569
+1	0.114676		0.159763		-0.045604		-0.014052
+2	-0.000000		0.000000		0.000000		0.000000
+3	-0.000000		0.000000		0.000000		-0.000000
+--------------------------------CODE - END------------------------------
+	
 PRINCIPAL COMPONENT ANALYSIS (PCA)
+
+Singular Value Decomposition-(SVD) is a linear algebra method that you use to decompose a matrix into three resultant matrices. You do this in order to reduce information redundancy and noise. SVD is most commonly used for principle component analysis.
+
+This is our original data set, it`s called A, and we decompose it into three resultant matrices, U, S and V. 
+	U is the "left  orthogonal matrix", and it holds all of the important non-information-redundant information about the observations in the original data set. 
+	V is the "right orthogonal matrix", and it holds all of the important non-redundant information on features in the original data set. 
+	S, this is the "diagonal matrix", and it contains all of the information about the decomposition processes that were performed during the compression.
+
+PCA USE-CASES :
+	You can use PCA for 
+		fraud detection, 
+		spam detection, 
+		image recognition, 
+		speech recognition, or 
+		outlier removal, if you are using PCA for data pre-processing. 
+----------------------------CODE- START------------------------------------------
+iris_pca = PCA().fit_transform(X)
+
+pca.explained_variance_ratio_ #EXPLAINED VARIANCE RATION
+array([0.92461621, 0.05301557, 0.01718514, 0.00518309])
+"Look at the explained variance ratio. We see that the first component explains 92.4% of the data set`s variation. That means it holds 92.4% of the data`s information in one principal component. Pretty cool, right? And by taking the first two components, we only elude 2.3% of the data set`s information. That`s the junk we want to get rid of anyway, so let`s do that. We will take only the first two components and feel satisfied knowing that they contain 97.7% of the iris data set`s original information. "
+
+pca.explained_variance_ratio_.sum() #CUMMULATIVE VARIANCE RATION
+1.0
+
+comps = pd.DataFrame(pca.components_, columns=variable_names)
+
+	sepal length (cm)	sepal width (cm)	petal length (cm)	petal width (cm)
+0	0.361590				-0.082269			0.856572			0.358844
+1	0.656540				0.729712			-0.175767			-0.074706
+2	-0.580997				0.596418			0.072524			0.549061
+3	0.317255				-0.324094			-0.479719			0.751121
+--------------------------CODE- END--------------------------------------------------
+
+
+PCA and FACTOR Analysis Usage in MACHINE LEARNING
+"YOU MAY BE WONDERING HOW YOU CAN USE FACTORS AND COMPONENTS. WELL, BOTH FACTORS AND COMPONENTS REPRESENT WHAT IS LEFT OF THE DATA SET AFTER INFORMATION REDUNDANCY AND NOISE HAVE BEEN STRIPPED OUT. YOU USE THEM AS INPUT VARIABLES FOR MACHINE LEARNING ALGORITHMS TO GENERATE PREDICTIONS FROM THESE COMPRESSED REPRESENTATIONS OF YOUR DATA."
+
+ The results from this correlation heat map show that, 
+ 1. principal component one is strongly positively correlated with petal length and moderately positively correlated with sepal length and petal width. Component one is slightly negatively correlated with sepal width,  
+ 2. principal component number two is strongly negatively correlated with sepal length and sepal width, and slightly negatively correlated with petal length and petal width. You may be wondering how you can use these components once you`ve isolated. Well, you can use them as input variables for machine learning algorithms. So in the case of the iris data set, you could use the two components we`ve generated as input for a logistic regression model to predict species labels for new incoming data points. 
+
 
 ----------------------------------------------------------------------------------------------------------------------
 5. OUTLIER ANALYSIS
