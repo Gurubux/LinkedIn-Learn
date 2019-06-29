@@ -1,3 +1,4 @@
+https://www.linkedin.com/learning/python-for-data-science-essential-training
 INTRODUCTION
 WELCOME
 WHAT YOU SHOULD KNOW
@@ -107,18 +108,188 @@ CREATE VISUALIZATIONS FROM TIME SERIES DATA
 CONSTRUCT HISTOGRAMS, BOX PLOTS, AND SCATTER PLOTS
 
 
-
+QUIZ
+1. To plot a line chart, use the plot function.
+2. In your plot, you use add_axes([.5, .5, 1, 1]). Where will the axes be placed inside the figure area?
+	top-right corner
+3. Which argument controls the marker edge width?
+	mew
+4. The xy parameter is part of the annotate() function.
+	TRUE
+5. The Seaborn equivalent of plot(kind='scatter') is regplot() .
 
 
 ----------------------------------------------------------------------------------------------------------------------
 3. BASIC MATH AND STATISTICS
 ----------------------------------------------------------------------------------------------------------------------
 USE NUMPY ARITHMETIC
-GENERATE SUMMARY STATISTICS
+Creating arrays
+np.random.seed(25)
+np.random.randn(6) #array([ 0.23,  1.03, -0.84, -0.59, -0.96, -0.22])
+c = 36*np.random.randn(6) #array([ 38.04, -15.11,  82.61, -93.4 , 101.62,  24.51])
+d = np.arange(1,35) #array([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34])
+arthimetic on arrays
+a * 10
+c + a
+c - a
+c * a
+c / a
+Multiplying matrices
+aa*bb
+np.dot(aa,bb)
+
+
+GENERATE SUMMARY STATISTICS-(DESCRIPTIVE)
+decribe a variable`s numeric values
+cars.sum()
+cars.sum(axis=1)
+cars.median()
+cars.mean()
+cars.max()
+mpg.idxmax()
+
+describe variable distribution
+cars.std()
+cars.var()
+cars.gear.value_counts()
+cars.describe()
+
+
 SUMMARIZE CATEGORICAL DATA
+cars.carb.value_counts()
+cars.describe()
+
+# describe with group by column,the  mean mediean mode, 5,50,75% count min max for each other column.
+gears_group = cars_cat.groupby('gear')
+gears_group.describe()
+
+Convert int into category
+pd.Series(cars.gear, dtype="category")
+
+categorical data with crosstabs
+pd.crosstab(cars['am'], cars['gear'])
+
+
 PARAMETRIC METHODS
+-Exploring correlation between variables
+	- parametric methods in pandas and scipy
+		-The Pearson Correlation
+			sb.pairplot(cars)
+			pd.plotting.scatter_matrix(mouse); 
+
+			import scipy
+			from scipy.stats.stats import pearsonr
+			pearsonr_coefficient, p_value = pearsonr(mpg, hp)
+			print('mpg, hp PearsonR Correlation Coefficient %0.3f' % (pearsonr_coefficient))
+			print(f'mpg, hp p_value {p_value:.7f}')
+			#calculate the Pearson correlation coefficient
+			corr = X.corr()
+			#visualize the Pearson correlation coefficient
+			sb.heatmap(corr,xticklabels=corr.columns.values, yticklabels=corr.columns.values)
+
+		Pearson Correlation Assumptions
+		- Data is normally distributed
+		- You have continous, numeric values
+		- Your variables are linearly related
 NON-PARAMETRIC METHODS
+	- Used for Categorical, Non Linearly related, Non Normally distributed variables
+		1. Spearman`s rank  correlation - Ordinale Data types- Numerical variables that can be categorized -->  1 0 -1
+			Spearman`s rank Correlation Assumptions
+				a. Ordinal Variables ( Numeric but may be ranked like a categorical variable)
+				b. Related Non Linearly
+				c. non-normally distributed
+			
+			from scipy.stats import spearmanr
+			spearmanr_coefficient, p_value = spearmanr(cyl, vs)
+			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			>>> Spearman Rank Correlation Coefficient -0.814  					STRONG Negative Correlation
+
+			spearmanr_coefficient, p_value = spearmanr(cyl, am)
+			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			Spearman Rank Correlation Coefficient -0.522    							Negative Correlation
+
+			spearmanr_coefficient, p_value = spearmanr(cyl, gear)
+			print('Spearman Rank Correlation Coefficient %0.3f' % (spearmanr_coefficient))
+			Spearman Rank Correlation Coefficient -0.564   								Negative Correlation
+
+
+
+		2. Chi-Square tables - Test for independence between variables -  Null hypothesis= Variables are independent.
+			p < 0.5 - Reject Null hypothesis and conclude that the variables are correlated
+			p > 0.5 - Accept Null hypothesis and conclude that the variables are "INDEPENDENT"
+			Chi-Square Correlation Assumptions
+				a. Make sure if variables are categorical or Numeric
+				b. If numerical, make sure you have binned them( variable has numeric values 0 - 100, bin them in bins of 10 like 0-10, 11-20, ...91-100 )
+
+			table = pd.crosstab(cyl, am)
+			from scipy.stats import chi2_contingency
+
+			chi2, p, dof, expected = chi2_contingency(table.values)
+			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			>>>Chi-square Statistic 8.741 p_value 0.013
+
+			table = pd.crosstab(cars['cyl'], cars['vs'])
+			chi2, p, dof, expected = chi2_contingency(table.values)
+			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			>>>Chi-square Statistic 21.340 p_value 0.000
+
+
+			table = pd.crosstab(cars['cyl'], cars['gear'])
+			chi2, p, dof, expected = chi2_contingency(table.values)
+			print('Chi-square Statistic %0.3f p_value %0.3f' % (chi2, p))
+			>>>Chi-square Statistic 18.036 p_value 0.001
+
+			"p < 0.05 so Reject the Null Hypothesis and conclude that variables are correlated and not independent"
+
 TRANSFORM DATASET DISTRIBUTIONS
+1. Normalization - 			Value of Observation
+				  -------------------------------------
+					Sum of All Observation in variable
+
+2. Standardization - Rescaling Data so it has a zero mean and unit Variance
+
+- Normalizing and transforming features with MinMaxScalar() and fit_transform()
+import sklearn
+from sklearn import preprocessing
+mpg_matrix = mpg.values.reshape(-1,1)
+		>>>
+		array([21. , 21. , 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,
+		       16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5, 15.5,
+		       15.2, 13.3, 19.2, 27.3, 26. , 30.4, 15.8, 19.7, 15. , 21.4])
+		to 
+		array([[21. ],[21. ],[22.8],[21.4],[18.7],[18.1],[14.3],[24.4],[22.8],[19.2],[17.8],[16.4],[17.3],[15.2],[10.4],[10.4],[14.7],[32.4],[30.4],[33.9],[21.5],[15.5],[15.2],[13.3],[19.2],[27.3],[26. ],[30.4],[15.8],[19.7],[15. ],[21.4]])
+
+scaled = preprocessing.MinMaxScaler()
+scaled_mpg = scaled.fit_transform(mpg_matrix)
+		>>>
+		array([[0.45106383],[0.45106383],[0.52765957],[0.46808511],[0.35319149],[0.32765957],[0.16595745],[0.59574468],[0.52765957],[0.37446809],[0.31489362],[0.25531915],[0.29361702],[0.20425532],[0.        ],[0.        ],[0.18297872],[0.93617021],[0.85106383],[1.        ],[0.47234043],[0.21702128],[0.20425532],[0.12340426],[0.37446809],[0.71914894],[0.66382979],[0.85106383],[0.22978723],[0.39574468],[0.19574468],[0.46808511]])
+plt.plot(scaled_mpg)
+
+# Set Y values Range instead of default 0 to 1
+mpg_matrix = mpg.values.reshape(-1,1)
+scaled = preprocessing.MinMaxScaler(feature_range=(0,10))
+scaled_mpg = scaled.fit_transform(mpg_matrix)
+plt.plot(scaled_mpg)
+
+
+-  Using scale() to scale your features
+from sklearn.preprocessing import scale
+standardized_mpg = scale(mpg, axis=0, with_mean=False, with_std=False) # Y axis is same 
+plt.plot(standardized_mpg) 
+
+standardized_mpg = scale(mpg) # Y axis is changed into - and + values
+plt.plot(standardized_mpg)
+
+
+
+
+QUIZ
+1. You have two 2x2 matrices; one has 1's for all values, and the other has 2's for all values. Their NumPy dot multiplication will produce a 2x2 matrix with 4's for all values .
+3. Which Pearson correlation requirement will not be satisfied when analyzing the correlation between people`s height and age?
+	The relationship is linear.
+	"Non-linear relationships have an apparent pattern, just not linear. For example, as age increases height increases up to a point then levels off after reaching a maximum height."
+4. In which way is the Spearman's Rank analysis similar to Pearson's?
+	It produces R-values between -1 and 1
 
 ----------------------------------------------------------------------------------------------------------------------
 4. DIMENSIONALITY REDUCTION
