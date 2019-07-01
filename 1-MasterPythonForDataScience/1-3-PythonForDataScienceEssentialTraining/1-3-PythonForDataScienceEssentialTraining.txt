@@ -397,7 +397,7 @@ UNIVARIATE METHODS:
 	Tukey Boxlplots - You can detect unusually high or low data points in a variable by applying the Tukey methods for outlier detection
 		Boxplot whiskers - IQR Inter Quantile Range
 		"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch05/05_01/Univariate_Boxplot_Tukey.PNG"
-df.boxplot(return_type='dict')
+df.boxplot(return_type=`dict`)
 plt.plot()
 
 def tukey_label(data):
@@ -422,14 +422,14 @@ df[iris_outliers]
 ----------------------------------------------------------------------------------------------------------------------
 MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
 Box-plot
-df.columns=['Sepal Length','Sepal Width','Petal Length','Petal Width', 'Species']
+df.columns=[`Sepal Length`,`Sepal Width`,`Petal Length`,`Petal Width`, `Species`]
 data = df.iloc[:,0:4].values
 target = df.iloc[:,4].values
 
-sb.boxplot(x='Species', y='Sepal Length', data=df, palette='hls')
+sb.boxplot(x=`Species`, y=`Sepal Length`, data=df, palette=`hls`)
 
 pair-plot
-sb.pairplot(df, hue='Species', palette='hls')
+sb.pairplot(df, hue=`Species`, palette=`hls`)
 
 
 ----------------------------------------------------------------------------------------------------------------------
@@ -437,7 +437,7 @@ A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
 from sklearn.cluster import DBSCAN
 model = DBSCAN(eps=0.8, min_samples=19).fit(data)
 print(model)
->>> DBSCAN(algorithm='auto', eps=0.8, leaf_size=30, metric='euclidean',
+>>> DBSCAN(algorithm=`auto`, eps=0.8, leaf_size=30, metric=`euclidean`,
     metric_params=None, min_samples=19, n_jobs=1, p=None)
 
 outliers_df = pd.DataFrame(data)
@@ -474,9 +474,9 @@ ax = fig.add_axes([.1, .1, 1, 1])
 colors = model.labels_
 
 ax.scatter(data[:,2], data[:,1], c=colors, s=120)#Petal Length , Sepal width
-ax.set_xlabel('Petal Length')
-ax.set_ylabel('Sepal Width')
-plt.title('DBScan for Outlier Detection')
+ax.set_xlabel(`Petal Length`)
+ax.set_ylabel(`Sepal Width`)
+plt.title(`DBScan for Outlier Detection`)
 
 DBSCAN Assumptions:
 Just make sure that the number of outliers you choose is less than 5% of the total number of observations in your dataset.You do that by adjusting your model parameters accordingly. 
@@ -484,7 +484,7 @@ Just make sure that the number of outliers you choose is less than 5% of the tot
 DBSCAN Parameters:
 eps and min_samples. 
 	"Eps" sets the maximum distance between two samples for them to be clustered in the same neighborhood. You want to start with an eps value of zero point one. 
-	As far as "min_samples", this is the minimum number of samples in a neighborhood for a data point to qualify as a core point. Again, here, you want to start with a very low sample size. You adjust your parameters until you've got just less than 5% of your total dataset size, labeled as outliers.
+	As far as "min_samples", this is the minimum number of samples in a neighborhood for a data point to qualify as a core point. Again, here, you want to start with a very low sample size. You adjust your parameters until you`ve got just less than 5% of your total dataset size, labeled as outliers.
 
 For Example: 
 model = DBSCAN(eps=0.8, min_samples=19).fit(data)
@@ -529,15 +529,15 @@ clustering.fit(X)
 y_pred = clustering.labels_
 
 Plotting K-MEANS
-color_theme = np.array(['darkgray', 'lightsalmon', 'powderblue'])
+color_theme = np.array([`darkgray`, `lightsalmon`, `powderblue`])
 
 plt.subplot(1,2,1)
 plt.scatter(x=iris_df.Petal_Length,y=iris_df.Petal_Width, c=color_theme[iris.target], s=50)
-plt.title('Ground Truth Classification')
+plt.title(`Ground Truth Classification`)
 
 plt.subplot(1,2,2)
 plt.scatter(x=iris_df.Petal_Length,y=iris_df.Petal_Width, c=color_theme[clustering.labels_], s=50)
-plt.title('K-Means Classification')
+plt.title(`K-Means Classification`)
 
 Evaluating K-MEANS
 print(classification_report(y, relabel))
@@ -571,13 +571,13 @@ Parameter :
 
 ------------------------CODE START------------------------
 from scipy.cluster.hierarchy import dendrogram, linkage
-Z = linkage(X, 'ward')
+Z = linkage(X, `ward`)
 # Z is the clustering results that have been generated from the Scipy hierarchical clustering algorithm. 
-dendrogram(Z, truncate_mode='lastp', p=12, leaf_rotation=45., leaf_font_size=15., show_contracted=True)
+dendrogram(Z, truncate_mode=`lastp`, p=12, leaf_rotation=45., leaf_font_size=15., show_contracted=True)
 
-plt.title('Truncated Hierarchical Clustering Dendrogram')
-plt.xlabel('Cluster Size')
-plt.ylabel('Distance')
+plt.title(`Truncated Hierarchical Clustering Dendrogram`)
+plt.xlabel(`Cluster Size`)
+plt.ylabel(`Distance`)
 
 
 plt.axhline(y=500) # if max distance = 500 then Clusters = 2
@@ -589,7 +589,7 @@ plt.show()
 # Also, the Target variable AM feature assums two possible outcomes, 0 or 1 so k =2 
 k=2
 
-Hclustering = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage='ward')
+Hclustering = AgglomerativeClustering(n_clusters=k, affinity=`euclidean`, linkage=`ward`)
 Hclustering.fit(X)
 
 sm.accuracy_score(y, Hclustering.labels_)
@@ -605,7 +605,7 @@ sm.accuracy_score(y, Hclustering.labels_)
 
 ----------------------------------------------------------------------------------------------------------------------
 INSTANCE-BASED LEARNING WITH K-NEAREST NEIGHBOR \SUPERVISED
-K-nearest neighbor works by memorizing observations within a labeled Training set to predict classification labels for new, incoming, unlabeled observations. The algorithm makes predictions based on how similar training observations are to the new, incoming observations. The more similar the observation's value, the more likely they will be classified with the same label.
+K-nearest neighbor works by memorizing observations within a labeled Training set to predict classification labels for new, incoming, unlabeled observations. The algorithm makes predictions based on how similar training observations are to the new, incoming observations. The more similar the observation`s value, the more likely they will be classified with the same label.
 
 Use-Cases : 
 	1. stock price prediction, 
@@ -630,9 +630,9 @@ Assumptions :
 clf = neighbors.KNeighborsClassifier()
 clf.fit(X_train, y_train)
 print(clf)
-	>>> KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+	>>> KNeighborsClassifier(algorithm=`auto`, leaf_size=30, metric=`minkowski`,
            metric_params=None, n_jobs=1, n_neighbors=5, p=2,
-           weights='uniform')
+           weights=`uniform`)
 
 #Prediction of KNN
 y_pred = clf.predict(X_test)
@@ -652,15 +652,15 @@ sm.accuracy_score(y_expect, y_pred)
 >>>	0.84375
 
 #Plotting KNN Classification
-color_theme = np.array(['red', 'blue'])
+color_theme = np.array([`red`, `blue`])
 
 plt.subplot(1,2,1)
 plt.scatter(x=X[:,0],y=X[:,1], c=color_theme[y], s=50)
-plt.title('Ground Truth Classification')
+plt.title(`Ground Truth Classification`)
 
 plt.subplot(1,2,2)
 plt.scatter(x=X[:,0],y=X[:,1], c=color_theme[y_], s=50)
-plt.title('K-Nearest Neighbor')
+plt.title(`K-Nearest Neighbor`)
 
 ------------------------CODE END------------------------
 
@@ -688,25 +688,351 @@ Difference Network and Graph
 		The actually data "visualization" schematic that depicts the network data. 
 "Nodes" are vertices around which the graph is formed and 
 "Edges" are the lines that connect them.
-Directed "graph", also known as a digraph, is a graph where there is a direction assigned to each edge that connects the nodes. 
-Directed "edge" is an edge feature that has been a assigned direction between those nodes.
+"Directed graph", also known as a digraph, is a graph where there is a direction assigned to each edge that connects the nodes. 
+"Directed edge" is an edge feature that has been a assigned direction between those nodes.
+"Undirected graphs" - graphs where all the edges are bidirectional
+"Undirected edge" is just an edge that flows both ways between nodes.
+"Graph size" is the number of edges in a graph. 
+"Graph order" is the number of vertices in a graph
+"Degree" refers to the number of edges connected to a vertex. It`s a measure of connectedness. 
+
+Graph Generators
+One important applications of graph generators, is for generating synthetic variations of a particular graph, so that you can use those synthetic graphs to test and validate how well your graph assessment algorithm performs.
+Basically, use graph assessment algorithms to extract a meaningful insight from network data. The structure of your underlying data and your analytical objectives would determine which type of graph assessment algorithm is appropriate, but as for the graph generators, there are only six types. 
+
+Types of Graph Generators
+	1. Graph drawing algorithms, ✔
+	2. Network analysis algorithms, 
+	3. Algorithmic routing for graphs, 
+	4. Graph search algorithms, ✔ 
+	5. Subgraph algorithms.
+
+
+
 ----------------------------------------------------------------------------------------------------------------------
 WORK WITH GRAPH OBJECTS
+
+
+------------------------CODE START------------------------
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch07/07_02/07_02.ipynb"
+G = nx.Graph()
+nx.draw(G)
+
+G.add_node(1)
+nx.draw(G)
+
+G.add_nodes_from([2,3,4,5,6,8,9,12,15,16])
+nx.draw(G)
+
+G.add_edges_from([(2,4),(2,6),(2,8),(2,12),(2,16),(3,6),(3,9), (3,12),(3,15),(4,8),(4,12),(4,16),(6,12),(8,16)])
+nx.draw(G)
+
+#Different shapes of same graph Spring, Circular etc/=.
+#The basics about drawing graph objects
+nx.draw_circular(G)
+nx.draw_spring(G)
+
+#Labeling and coloring your graph plots
+nx.draw_circular(G, node_color=`bisque`, with_labels=True)
+
+#Remove a node
+G.remove_node(1)
+nx.draw_circular(G, node_color=`bisque`, with_labels=True)
+
+#Identifying graph properties / stats / info
+sum_stats = nx.info(G)
+print(sum_stats)
+>>>
+		Name: 
+		Type: Graph
+		Number of nodes: 10
+		Number of edges: 14
+		Average degree:   2.8000
+		 "Average degree sugggests that on average 2.8 nodes are connected to each node."
+
+print(nx.degree(G))
+>>> [(2, 5), (3, 4), (4, 4), (5, 0), (6, 3), (8, 3), (9, 1), (12, 4), (15, 1), (16, 3)]
+ "This sugggests that the node 2 is connected to 5 nodes, node 3 is connected to 4 ...  and node 16 is connected to 3 nodes. Summing them all you get 28 and total number of nodes is 10. Therefore avg degree is 28/10 = 2.8"
+
+#Using graph generators to generated grapgh automatically unlike the above manual method - complete_graph
+G = nx.complete_graph(25) # 25 = no of nodes
+nx.draw(G, node_color=`bisque`, with_labels=True)
+
+# gnc_graph - To Draw Direccted Random Grapgh
+G = nx.gnc_graph(7, seed=25)
+nx.draw(G, node_color=`bisque`, with_labels=True)
+
+# ego_graph - a sub-graph generator.
+"Social networks are an excellent real life example of the ego network. "
+ego_G = nx.ego_graph(G, 3, radius=5)
+nx.draw(G, node_color=`bisque`, with_labels=True)
+" So this is a similar structure as you would find with a social network, and you`ll notice here how it`s directional. So in this case, if this was a Twitter network you would say that the person at node five is following the person at node four and at node zero. "
+------------------------CODE END------------------------
+
+Visualization types
+Normal, 	Cricular, 			Spring, 	     Spectral,
+draw(G), draw_circular(G), draw_spring(G) , draw_spectral(G) 
 ----------------------------------------------------------------------------------------------------------------------
 SIMULATE A SOCIAL NETWORK
+To simulate a social network in three easy steps. 
+	1: to generate a graph object and edgelist,  (gn_graph, generate_edgelist)
+	2: assign attributes to graph nodes, 
+	3: visualize the network. 
+------------------------CODE START------------------------
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch07/07_03/07_03.ipynb"
+#1: to generate a graph object and edgelist, 
+DG = nx.gn_graph(7, seed=25)
+for line in nx.generate_edgelist(DG, data=False): print(line)
+>>> 	1 0
+		2 0
+		3 2
+		4 3
+		5 0
+		6 4
+
+#2: assign attributes to graph nodes
+DG.node[0][`name`] = `Alice`  #{`name`: `Alice`}
+DG.node[1][`name`] = `Bob`
+DG.node[2][`name`] = `Claire`
+DG.node[3][`name`] = `Dennis`
+DG.node[4][`name`] = `Esther`
+DG.node[5][`name`] = `Frank`
+DG.node[6][`name`] = `George`
+
+DG.add_nodes_from([(0,{`age`:25}),(1,{`age`:31}),(2,{`age`:18}),(3,{`age`:47}),(4,{`age`:22}),
+                   (5,{`age`:23}),(6,{`age`:50})])
+>>>{`name`: `Alice`, `age`: 25}
+
+DG.node[0][`gender`] = `f`
+DG.node[1][`gender`] = `m`
+DG.node[2][`gender`] = `f`
+DG.node[3][`gender`] = `m`
+DG.node[4][`gender`] = `f`
+DG.node[5][`gender`] = `m`
+DG.node[6][`gender`] = `m`
+
+#3: visualize the network. 
+nx.draw_circular(DG, node_color=`bisque`, with_labels=True)
+
+labeldict = {0: `Alice`,1:`Bob`,2:`Claire`,3:`Dennis`,4:`Esther`,5:`Frank`,6:`George`}
+nx.draw_circular(DG, labels=labeldict, node_color=`bisque`, with_labels=True)
+
+
+G = DG.to_undirected()
+nx.draw_spectral(G, labels=labeldict, node_color=`bisque`, with_labels=True)
+------------------------CODE END------------------------
+
+
 ----------------------------------------------------------------------------------------------------------------------
 GENERATE STATS ON NODES AND INSPECT GRAPHS
+Metrics that network analysis experts use to make quick sense of who`s who in a social media network.
+
+Degree 		: Describes a node`s connectedness. 
+Successors 	: A successor node is a node that could serve as a backup and potentially a replacement for an influential node in a network. The function of a successor node is to preserve the flow of influence throughout a network, in the case where an important node is removed.
+Neighbors 	: Refers to adjacent nodes in a network. 
+in-degree	: Refers to a theory that if a person or profile has a lot of inbound connections, then they`re considered prestigious because many different people and profiles want to connect with them. 
+out-degree	: This term refers to when a person or profile has a lot of outgoing connections. These people are sometimes also considered influential because they have a large network, across which they can engage and interact with their many outbound connections. 
 ----------------------------------------------------------------------------------------------------------------------
+
+
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch07/07_04/07_04.ipynb"
+
+
+QUIZ:
+1. A graph has 4 nodes and 5 lines that connect them. This graph therefore has a size of 5 and an order of 4 .
+2. What function would you use to generate a graph that represents a social network?
+	ego_graph()
+3. In a social network, a certain node has the most connections. Therefore, this node is influential or prestigious .
+
+
+
+
 
 ************************************************************************************************************
 8. BASIC ALGORITHMIC LEARNING
 ************************************************************************************************************
 LINEAR REGRESSION MODEL
+Linear regression is a simple machine learning method that you can use to predict an observation`s value based on the relationship between the target variable and independent, linearily related numeric predictive features. 
+FOR EXAMPLE, imagine you have a dataset that describes key characteristics of a "SET OF HOMES". Like land acreage, number of stories, building area and sales price. Based on these features, and the relationship with the sales price of these homes, you could build a multi variate linear model that predicts the price a house can be sold for based on it`s features. 
+Linear regression is a statistical machine learning method, and there are two different versions, there`s simple linear regression, where you have one predictor and one predictant. And multiple linear regression, that`s where you have multiple predictors and one predictant.
+Use-Cases :
+	1. sales forecasting, 
+	2. resource consumption forecasting, 
+	3. supply cost forecasting,
+	4. telecom services lifecycle forecasting. 
+
+Assumptions :
+ 	1. All variables are continuous numeric variables and not categorical ones,
+ 	2. Your data is free of missing values and outliers.
+ 	3. There`s a linear relationship between predictors and predictant, 
+ 	4. "ALL PREDICTORS ARE INDEPENDENT OF ONE ANOTHER,"
+ 	5. Your residuals are normally distributed. 
+
+In Our example 1. and 2. are satisfied
+For 3. Linear relationship between target-(Roll) and predictor - (year, h-grad , unem, inc) is as follows
+			    roll    
+		year  0.900934  
+		roll  1.000000  
+		unem  0.391344  
+		hgrad 0.890294  
+		inc   0.949876  
+ 	So, year is not a continous variable rather a rank or index
+ 	hgrad and inc has strong correlation with roll.
+ 	unem has relatively low correlation
+
+Although, 4. suggests to check inter-correlation since predictors should be independent. 
+			     unem     hgrad       inc
+		unem   1.000000  0.177376  0.282310
+		hgrad  0.177376  1.000000  0.820089
+		inc    0.282310  0.820089  1.000000
+	So hgrad and inc are no independent and thus cannot be used together to predict roll
+	Instead, unem and higrad are strong independent, thus we can use them as predictors.
+Also can be checked using regplot()
+	sns.regplot(x='inc', y='hgrad', data=enroll, scatter=True)
+	sns.regplot(x='unem', y='hgrad', data=enroll, scatter=True)
+	sns.regplot(x='unem', y='inc', data=enroll, scatter=True)
+
+#predictors = unem and higrad
+print(LinReg.score(X,y))  
+>>> 84.88%
+
+#predictors = unem and inc
+print(LinReg.score(X,y))  
+>>> 91.87%
+
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch08/08_01/08_01.ipynb"
+
 ----------------------------------------------------------------------------------------------------------------------
 LOGISTIC REGRESSION MODEL
+Logistic regression is a simple machine learning method that you can use to predict an observation`s category based on the relationship between the target feature and independent categorical predictive features in the data set. 
+
+For example, imagine you`re a marketing data scientist for a major telecom service provider. You`ve got a customer data set that describes each customer with variables like age, income, average call duration, interaction history with customer support, leftover minutes per month and customer status. Customer status is a variable that describes whether a customer is active or has canceled services. Based on the predictive features in this data set, in their relationship with a customer status variable, you could build a logistic regression model that predicts whether a customer is likely to cancel services in the near future. This is called a customer churn model. "CUSTOMER CHURN MODEL"
+
+Linear vs Logistic
+Logistic regression differs from linear regression in that, with logistic regression, you`re predicting categories for ordinal variables, in linear progression you`re predicting values for numeric continuous variables. 
+
+Use-Cases 	:
+	1. purchase propensity versus ad spend analysis, 
+	2. customer churn prediction, 
+	3. employee attrition modeling 
+	4. hazardous event prediction. 
+
+Assumptions :
+	Logistic regression has a lot less assumptions than linear regression, but there are some. 
+	1. data is free of missing values. 
+	2. the predictant variable is binary, in other words it only accepts two values, or it could be ordinal, a categorical variable with ordered values. 
+	3. All predictors are independent of each other. 
+	4. There are at least 50 observations per predictor variable to ensure reliable results.
+
+
+#Checking for independence between features
+#spearmanr because drat carb are ordinal datas, i.e. numerical but can be converted to categorical
+spearmanr_coefficient, p_value =  spearmanr(drat, carb)
+print("Spearman Rank Correlation Coefficient %0.3f" % (spearmanr_coefficient)) 
+>>>-0.125 #So No Relation
+
+sb.regplot(x='drat', y='carb', data=cars, scatter=True)
+#regplot() And we can see that these are categorical values. Neither of these variables take on an infinite number of positions, they only take on set positions.
+
+# Checking for missing values
+cars.isnull().sum()
+
+# Checking that your target is binary or ordinal
+print(cars.am.value_counts())
+sb.countplot(x='am', data=cars, palette='hls')
+
+cars.info()
 ----------------------------------------------------------------------------------------------------------------------
 NAÏVE BAYES CLASSIFIERS
 ----------------------------------------------------------------------------------------------------------------------
+Naive Bayes classification is a machine learning method that you can use to predict the likelihood that an event will occur given evidence that`s supported in a dataset. 
+For the demo in this segment, we`re going to build a Naive Bayes classifier from our large dataset of emails called spam base. Some of the records in the dataset are marked as spam and all of the other records are marked as not spam. The predictive features in this dataset serve as our evidence. Using them, we can build a "SPAM FILTERING SYSTEM" with a Naive Bayes model and successfully predict which incoming emails are spam and which are not. 
+Naive Bayes is a machine learning method that you can use to predict the likelihood that an event will occur given evidence that`s present in your data. This is also called CONDITIONAL PROBABILITY in the world of statistics.
+Types of Naive Bayes models. 
+	1. Multinomial, 
+	2. Bernoulli, and 
+	3. Gaussian. 
+
+Multinomial is good for when your features are categorical or continuous and describe discrete frequency counts. In other words, word counts or something like that. 
+
+Bernoulli is good for making predictions from binary features. 
+
+Gaussian approach is good for making predictions from normally distributed features.
+
+Use-Cases 	: 
+	1. spam detection, 
+	2. customer classification, 
+	3. credit risk prediction,
+	4. health risk prediction. 
+
+Assumptions  :
+	1. Predictors are independent of one another 
+	2. Predictors also has an a priori assumption. 
+		This assumption is that the past condition still hold true, meaning that when we make predictions from historical values, we`ll get incorrect results if present circumstances change. I just want to point out that all regression models including the linear regression model and logistic regression we just covered, they all maintain a priori assumption.
+
+
+
+\ACCURACY  	= 	tp 	+  tn / (Total) 
+accuracy_score()
+
+------------------------CODE START------------------------
+
+from sklearn.naive_bayes import BernoulliNB
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+
+
+1.
+BernNB = BernoulliNB(binarize=True)
+BernNB.fit(X_train, y_train)
+print(BernNB)
+
+y_expect = y_test
+y_pred = BernNB.predict(X_test)
+print( accuracy_score(y_expect, y_pred))
+>>>BernoulliNB(alpha=1.0, binarize=True, class_prior=None, fit_prior=True)
+	0.8558262014483212
+
+
+2. 
+MultiNB = MultinomialNB()
+
+MultiNB.fit(X_train, y_train)
+print(MultiNB)
+
+y_pred = MultiNB.predict(X_test)
+print( accuracy_score(y_expect, y_pred))
+>>>MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+	0.8736010533245556
+
+
+3. 
+GausNB = GaussianNB()
+GausNB.fit(X_train, y_train)
+print(GausNB)
+
+y_pred = GausNB.predict(X_test)
+print( accuracy_score(y_expect, y_pred))
+>>>GaussianNB(priors=None)
+	0.8130348913759052
+
+
+4. BernNB = BernoulliNB(binarize=0.1)
+BernNB.fit(X_train, y_train)
+print(BernNB)
+
+y_expect = y_test
+y_pred = BernNB.predict(X_test)
+print( accuracy_score(y_expect, y_pred))
+>>> BernoulliNB(alpha=1.0, binarize=0.1, class_prior=None, fit_prior=True)
+	0.8953258722843976
+
+------------------------CODE END------------------------
+
+QUIZ
+1. Before running a linear regression, you should confirm that there are no missing values in the data.
+2. Data that has binary features is best predicted using the "Bernoulli" Naïve Bayes model.
+
 
 ************************************************************************************************************
 9. WEB-BASED DATA VISUALIZATIONS WITH PLOTLY
