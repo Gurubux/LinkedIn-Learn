@@ -99,15 +99,96 @@ response = requests.get('https://api.github.com/repos/bsullins/data/contents/Mon
 response_json = json.loads(response.text)
 csv_val = base64.b64decode(resp_json['content'])
 csv_val
+
+
+
+QUIZ
+What python module can you use to print a formatted JSON string?
+pprint
+
+What method should you use to convert a CSV file into a Dict?
+DictReader
+
+What Big Data platform commonly works with Parquet Files?
+Impala
+
+What encoding method does GitHub use in their data api?
+base64
+
 ************************************************************************************************************
 2. EXPLORING DATA
 ************************************************************************************************************
 
 READ DATA WITH PANDAS
+df = pd.read_csv('data/MonthlySales.csv')
+
+import json
+from pandas.io.json import json_normalize
+
+with open('data/monthlySalesbyCategoryMultiple.json') as json_data:
+    d = json.load(json_data)
+df = json_normalize(d['contents'], 'monthlySales', ['category', 'region'])
+
+
+#reading parquet into panda dataframe
+import pyarrow.parquet as pq
+table = pq.read_table('data/MonthlyProductSales.parquet')
+table.to_pandas()
+
+
+# you need to install html5lib
+# pip install html5lib
+# reading data from a html site
+df = pd.read_html('https://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations')
+
+# get part that has the states and abbreviations
+df_usa = df[0]
+
+# remove unnecessary rows and columns
+final_df = df_usa.drop(df_usa.index[range(0,11)]).drop(df_usa.columns[range(10,15)], axis=1)
+
+# rename columns
+final_df.rename(columns={0: 'Region Name', 1: 'Region Status', 2: 'ISO', 3: 'ANSI_Letter', 4: 'ANSI_Code'
+                         , 5: 'USPS', 6: 'USCG', 7: 'GPO', 8: 'AP', 9: 'Other Abbreviations'}, inplace=True)
+
 INSPECT DATAFRAMES WITH PANDAS
+
+# show summary stats of the sales column
+df.describe()
+
+df.info()
+
+
 AGGREGATE DATA WITH PANDAS
+
+df.groupby(df['Month of Order Date'].str[:4]).describe().reset_index().rename(columns={'Month of Order Date': 'Year of Order'})
+df_export = df.groupby([df['Month of Order Date'].str[:4], 'Product Name']).sum().reset_index()
+df_export.rename(columns={'Month of Order Date': 'Year of Order'})
+# overall product sales totals
+df.groupby('Product Name').sum().reset_index()
+
+
 EXPORT DATA WITH PANDAS
 
+# export to csv, check csv when finished
+df_export.to_csv('data/output/YearlyProductSalesTotals.csv', header=True, index=False, encoding='utf-8')
+
+# export to json, check json when finished
+df_export.to_json('data/output/YearlyProductSalesTotals.json', orient='records')
+
+# export to excel, check excel file when finished
+df_export.to_excel('data/output/YearlyProductSalesTotals.xlsx', header=True, index=False)
+
+
+QUIZ:
+What Pandas construct is similar to a database table?
+DataFrame
+
+What Pandas function shows summary stats for a given DataFrame?
+describe
+
+What Pandas function combines similar values for aggregation?
+groupby
 
 ************************************************************************************************************
 3. VISUALIZING DATA
@@ -116,4 +197,15 @@ EXPORT DATA WITH PANDAS
 BASIC CHARTS IN GGPLOT
 SMALL MULTIPLES WITH GGPLOT
 STYLING PLOTS IN GGPLOT
+View more at http://colorbrewer2.org/
 FINISH YOUR PLOTS
+
+QUIZ :
+1. This ggplot method creates simple charts using minimal inputs:
+	qplot
+
+2. If you can to create a small multiples chart, what ggplot method should you use?
+	facet_wrap
+
+3. What color library provides built-in pallettes for styling your plots in ggplot?
+	Color Brewer
