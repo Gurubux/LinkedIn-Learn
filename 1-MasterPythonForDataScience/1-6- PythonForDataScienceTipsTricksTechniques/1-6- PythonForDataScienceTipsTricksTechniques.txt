@@ -1,0 +1,119 @@
+PYTHON FOR DATA SCIENCE TIPS, TRICKS, & TECHNIQUES
+1. INGESTING DATA
+WORK WITH JSON DATA
+WORK WITH CSV FILES
+WORK WITH PARQUET FILES
+READ DATA FROM GITHUB API
+
+2. EXPLORING DATA
+READ DATA WITH PANDAS
+INSPECT DATAFRAMES WITH PANDAS
+AGGREGATE DATA WITH PANDAS
+EXPORT DATA WITH PANDAS
+
+3. VISUALIZING DATA
+BASIC CHARTS IN GGPLOT
+SMALL MULTIPLES WITH GGPLOT
+STYLING PLOTS IN GGPLOT
+FINISH YOUR PLOTS
+
+
+
+
+************************************************************************************************************
+1. INGESTING DATA
+************************************************************************************************************
+
+WORK WITH JSON DATA
+import json
+# load json file from /data folder
+with open('data/monthlySalesbyCategoryMultiple.json') as json_data:
+    d = json.load(json_data)
+
+# see what the dictionary looks like
+from pprint import pprint as pp
+pp(d)
+
+# print(keys at the top level
+print(d.keys())
+
+# print the keys and values at the first level
+for key, value in d.items():
+    print( key + ': ', pp(value))
+>>>
+category:  Furniture
+region:  West
+monthlySales:  [{'month': 20130101, 'sales': 38}, {'month': 20130201, 'sales': 35}, {'month': 20130301, 'sales': 41}, {'month': 20130401, 'sales': 55}, {'month': 20130501, 'sales': 58}, {'month': 20130601, 'sales': 66}, {'month': 20130701, 'sales': 74}, {'month': 20130801, 'sales': 78}, {'month': 20130901, 'sales': 38}, {'month': 20131001, 'sales': 30}, {'month': 20131101, 'sales': 26}, {'month': 20131201, 'sales': 29}]
+category:  Technology
+region:  West
+monthlySales:  [{'month': 20130101, 'sales': 54}, {'month': 20130201, 'sales': 66}, {'month': 20130301, 'sales': 77}, {'month': 20130401, 'sales': 70}, {'month': 20130501, 'sales': 60}, {'month': 20130601, 'sales': 63}, {'month': 20130701, 'sales': 55}, {'month': 20130801, 'sales': 47}, {'month': 20130901, 'sales': 55}, {'month': 20131001, 'sales': 30}, {'month': 20131101, 'sales': 22}, {'month': 20131201, 'sales': 77}]
+
+# print the keys and values at the third level
+for a in d['contents']:
+    for b in a['monthlySales']:
+        for key, value in b.items():
+            print( key + ": ", value)
+month:  20130101
+sales:  38
+month:  20130201
+sales:  35
+month:  20130301
+sales:  41
+month:  20130401
+sales:  55
+......
+
+
+WORK WITH CSV FILES
+import csv
+
+with open('data/MonthlySales.csv', 'r') as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        MonthlySales.append(row)
+
+
+WORK WITH PARQUET FILES
+import pyarrow.parquet as pq
+table = pq.read_table('data/MonthlyProductSales.parquet')
+table_dict = dict(table.to_pydict())
+table_dict
+
+READ DATA FROM GITHUB API
+import requests
+response = requests.get('https://api.github.com/repos/bsullins/data/contents/monthlySalesbyCategoryMultiple.json')
+
+
+import json
+import base64
+encoded = 'YmFzZTY0IGVuY29kZWQgc3RyaW5n'
+data = base64.b64decode(encoded)
+data
+
+
+resp_json = json.loads(response.text)
+base64.b64decode(resp_json['content'])
+
+
+response = requests.get('https://api.github.com/repos/bsullins/data/contents/MonthlySales.csv')
+response_json = json.loads(response.text)
+csv_val = base64.b64decode(resp_json['content'])
+csv_val
+************************************************************************************************************
+2. EXPLORING DATA
+************************************************************************************************************
+
+READ DATA WITH PANDAS
+INSPECT DATAFRAMES WITH PANDAS
+AGGREGATE DATA WITH PANDAS
+EXPORT DATA WITH PANDAS
+
+
+************************************************************************************************************
+3. VISUALIZING DATA
+************************************************************************************************************
+
+BASIC CHARTS IN GGPLOT
+SMALL MULTIPLES WITH GGPLOT
+STYLING PLOTS IN GGPLOT
+FINISH YOUR PLOTS

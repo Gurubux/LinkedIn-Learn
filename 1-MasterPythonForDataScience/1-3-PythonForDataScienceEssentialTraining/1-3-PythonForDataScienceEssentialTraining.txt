@@ -1044,20 +1044,261 @@ CREATE STATISTICAL CHARTS
 CREATE PLOTLY CHOROPLETH MAPS
 ----------------------------------------------------------------------------------------------------------------------
 CREATE PLOTLY POINT MAPS
+fig = dict(data=data, layout=layout)
+
+py.iplot(fig, filename='d3-choropleth-map')
 ----------------------------------------------------------------------------------------------------------------------
 
+QUIZ
+1. In a Jupyter notebook, can Plotly charts be created directly from Pandas DataFrames?
+	Yes, by installing the Cufflinks library and calling the iplot() method from the DataFrame object.
+2. For the iplot() method to plot three histograms stacked vertically, specify the parameter(s)
+	kind='histogram'
+	subplots=True
+	shape=(3,1)
+3. When building a choropleth data object for Plotly, which dictionary parameter specifies the country to map?
+	locationmode
 ************************************************************************************************************
 10. WEB SCRAPING WITH BEAUTIFUL SOUP
 ************************************************************************************************************
+"https://github.com/Gurubux/Data-Lit/blob/4ec3099d08941d8b9b71361cbcdff2a65093af5e/1-DataCollection/1.4_Cleaning_Data/Webscraping_MoviePostersFromImdb.ipynb"
+- Objects in BeautifulSoup, and how to work with them. 
+- How to work with parse data, scrape a web page, and save your results. 
+
 INTRODUCTION TO BEAUTIFUL SOUP
+Web-Scraping Use Cases :
+	1. Links from Existing blog to a New blog`s resource page.
+	2. Ecommerce store automation, 
+	3. Hydrological analysis, 
+	4. Emergency resource allocation, 
+	5. Oil and gas production intel.
+
+Objects in BeautifulSoup 4:
+	1. BeautifulSoup object,
+	2. Tag object, 
+	3. NavigatableString object, 
+	4. Comment object.
+
+------------------------CODE START------------------------
+from bs4 import BeautifulSoup
+
+#The BeautifulSoup object
+soup = BeautifulSoup(html_doc, 'html.parser') #html_doc = string object with <html> code
+<html><head><title>Best Books</title></head>
+<body>
+<p class="title"><b>DATA SCIENCE FOR DUMMIES</b></p>
+<p class="description">Jobs in data science abound, but few people have the data science skills needed to fill these increasingly important roles in organizations. Data Science For Dummies is the pe
+<br/><br/>
+Edition 1 of this book:
+        <br/>
+<ul>
+<li>Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis</li>
+<li>Details different data visualization techniques that can be used to showcase and summarize your data</li>
+<li>Explains both supervised and unsupervised machine learning, including regression, model validation, and clustering techniques</li>
+<li>Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark</li>
+</ul>
+<br/><br/>
+What to do next:
+<br/>
+<a class="preview" href="http://www.data-mania.com/blog/books-by-lillian-pierson/" id="link 1">See a preview of the book</a>,
+<a class="preview" href="http://www.data-mania.com/blog/data-science-for-dummies-answers-what-is-data-science/" id="link 2">get the free pdf download,</a> and then
+<a class="preview" href="http://bit.ly/Data-Science-For-Dummies" id="link 3">buy the book!</a>
+</p>
+<p class="description">...</p>
+</body></html>
+
+print(soup.prettify()[0:350])
+<html>
+ <head>
+  <title>
+   Best Books
+  </title>
+ </head>
+ <body>
+  <p class="title">
+   <b>
+    DATA SCIENCE FOR DUMMIES
+   </b>
+  </p>
+  <p class="description">
+   Jobs in data science abound, but few people have the data science skills needed to fill these increasingly important roles in organizations. Data Science For Dummies is the pe
+   <br/
+
+#Tag objects
+#Working with names
+soup = BeautifulSoup('<b body="description"">Product Description</b>', 'html')
+tag=soup.b
+type(tag)
+>>>bs4.element.Tag
+
+tag
+>>><b body="description">Product Description</b>
+
+tag.name
+'b'
+
+tag.name = 'bestbooks'
+tag
+<bestbooks body="description">Product Description</bestbooks>
+
+tag.name
+'bestbooks'
+
+#Working with attributes
+tag['body']
+>>>'description'
+tag.attrs
+>>>  {'body': 'description'}
+tag['id'] = 3
+tag.attrs
+>>> {'body': 'description', 'id': 3}
+tag
+>>>
+<bestbooks body="description" id="3">Product Description</bestbooks>
+del tag['body']
+del tag['id']
+tag
+>>>
+<bestbooks>Product Description</bestbooks>
+tag.attrs
+
+
+#Using tags to navigate a tree
+soup.head
+soup.title
+soup.body.b
+soup.body
+soup.ul
+soup.a
+
+
+------------------------CODE END------------------------
+
 ----------------------------------------------------------------------------------------------------------------------
 EXPLORE NAVIGATABLESTRING OBJECTS
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch10/10_02/10_02.ipynb"
 ----------------------------------------------------------------------------------------------------------------------
 PARSE DATA
+text_only = soup.get_text()
+print(text_only)
+>>>
+Best Books
+
+DATA SCIENCE FOR DUMMIES
+Jobs in data science abound, but few people have the data science skills needed to fill these increasingly important roles in organizations. Data Science For Dummies is the pe
+
+Edition 1 of this book:
+        
+
+Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis
+Details different data visualization techniques that can be used to showcase and summarize your data
+Explains both supervised and unsupervised machine learning, including regression, model validation, and clustering techniques
+Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark
+
+
+What to do next:
+
+See a preview of the book,
+get the free pdf download, and then
+buy the book!
+...
+
+Retrieving tags by filtering with name arguments
+soup.find_all("li")
+1
+soup.find_all("li")
+[<li>Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis</li>,
+ <li>Details different data visualization techniques that can be used to showcase and summarize your data</li>,
+ <li>Explains both supervised and unsupervised machine learning, including regression, model validation, and clustering techniques</li>,
+ <li>Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark</li>]
+Retrieving tags by filtering with keyword arguments
+1
+soup.find_all(id="link 3")
+[<a class="preview" href="http://bit.ly/Data-Science-For-Dummies" id="link 3">buy the book!</a>]
+Retrieving tags by filtering with string arguments
+1
+soup.find_all('ul')
+[<ul>\n<li>Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis</li>\n<li>Details different data visualization techniques that can be used to showcase and summarize your data</li>\n<li>Explains both supervised and unsupervised machine learning, including regression, model validation, and clustering techniques</li>\n<li>Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark</li>\n</ul>]
+Retrieving tags by filtering with list objects
+1
+soup.find_all(['ul', 'b'])
+[<b>DATA SCIENCE FOR DUMMIES</b>,
+ <ul>\n<li>Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis</li>\n<li>Details different data visualization techniques that can be used to showcase and summarize your data</li>\n<li>Explains both supervised and unsupervised machine learning, including regression, model validation, and clustering techniques</li>\n<li>Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark</li>\n</ul>]
+Retrieving tags by filtering with regular expressions
+1
+l = re.compile('l')
+2
+for tag in soup.find_all(l): print(tag.name)
+html
+title
+ul
+li
+li
+li
+li
+Retrieving tags by filtering with a Boolean value
+1
+for tag in soup.find_all(True): print(tag.name)
+html
+head
+title
+body
+p
+b
+p
+br
+br
+br
+ul
+li
+li
+li
+li
+br
+br
+br
+a
+a
+a
+p
+Retrieving weblinks by filtering with string objects
+1
+for link in soup.find_all('a'): print(link.get('href'))
+http://www.data-mania.com/blog/books-by-lillian-pierson/
+http://www.data-mania.com/blog/data-science-for-dummies-answers-what-is-data-science/
+http://bit.ly/Data-Science-For-Dummies
+Retrieving strings by filtering with regular expressions
+1
+soup.find_all(string=re.compile("data"))
+[u'Jobs in data science abound, but few people have the data science skills needed to fill these increasingly important roles in organizations. Data Science For Dummies is the pe\n',
+ u'Provides a background in data science fundamentals before moving on to working with relational databases and unstructured data and preparing your data for analysis',
+ u'Details different data visualization techniques that can be used to showcase and summarize your data',
+ u'Includes coverage of big data processing tools like MapReduce, Hadoop, Storm, and Spark']
+
 ----------------------------------------------------------------------------------------------------------------------
 WEB SCRAPE IN PRACTICE
 ----------------------------------------------------------------------------------------------------------------------
+Scraping a webpage and saving your results
+r = urllib.request.urlopen('https://analytics.usa.gov').read()
+soup = BeautifulSoup(r, "lxml")
+type(soup)
 
+print( soup.prettify()[:100])
+
+for link in soup.find_all('a'): print(link.get('href'))
+
+
+for link in soup.findAll('a', attrs={'href': re.compile("^http")}): print( link)
+
+
+
+file = open('parsed_data.txt', 'w')
+for link in soup.findAll('a', attrs={'href': re.compile("^http")}):
+    soup_link = str(link)
+    print( soup_link)
+    file.write(soup_link)
+file.flush()
+file.close()
 ************************************************************************************************************
 CONCLUSION
 ************************************************************************************************************
