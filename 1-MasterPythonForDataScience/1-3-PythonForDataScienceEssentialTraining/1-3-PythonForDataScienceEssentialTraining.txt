@@ -67,23 +67,23 @@ WEB SCRAPE IN PRACTICE
 
 CONCLUSION
 
-----------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
+************************************************************************************************************
 INTRODUCTION
 WELCOME
 WHAT YOU SHOULD KNOW
 GETTING STARTED WITH JUPYTER
 
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 1. DATA MUNGING BASICS
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 FILTER AND SELECT DATA
 TREAT MISSING VALUES
 REMOVE DUPLICATES
 CONCATENATE AND TRANSFORM DATA
 GROUP AND AGGREGATE DATA
 
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 QUIZ
 1. The series object series_obj has 5 items with the index labels `row 1` through `row 5`, and the integer indexes 0 through 4 respectively. The command series_obj[`row 3`] is equivalent to series_obj[2] .
 
@@ -96,10 +96,10 @@ QUIZ
 4. What should you consider when appending a DataFrame to itself?
 	Indexes will be duplicated and therefore inconsistent.
 
-----------------------------------------------------------------------------------------------------------------------	
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************	
+************************************************************************************************************
 2. DATA VISUALIZATION BASICS
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 CREATE STANDARD LINE, BAR, AND PIE PLOTS
 DEFINE PLOT ELEMENTS
 FORMAT PLOTS
@@ -119,8 +119,9 @@ QUIZ
 5. The Seaborn equivalent of plot(kind=`scatter`) is regplot() .
 
 
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 3. BASIC MATH AND STATISTICS
+************************************************************************************************************
 ----------------------------------------------------------------------------------------------------------------------
 USE NUMPY ARITHMETIC
 Creating arrays
@@ -138,7 +139,7 @@ Multiplying matrices
 aa*bb
 np.dot(aa,bb)
 
-
+----------------------------------------------------------------------------------------------------------------------
 GENERATE SUMMARY STATISTICS-(DESCRIPTIVE)
 decribe a variable`s numeric values
 cars.sum()
@@ -155,6 +156,7 @@ cars.gear.value_counts()
 cars.describe()
 
 
+----------------------------------------------------------------------------------------------------------------------
 SUMMARIZE CATEGORICAL DATA
 cars.carb.value_counts()
 cars.describe()
@@ -170,6 +172,7 @@ categorical data with crosstabs
 pd.crosstab(cars[`am`], cars[`gear`])
 
 
+----------------------------------------------------------------------------------------------------------------------
 PARAMETRIC METHODS
 -Exploring correlation between variables
 	- parametric methods in pandas and scipy
@@ -191,6 +194,7 @@ PARAMETRIC METHODS
 		- Data is normally distributed
 		- You have continous, numeric values
 		- Your variables are linearly related
+----------------------------------------------------------------------------------------------------------------------
 NON-PARAMETRIC METHODS
 	- Used for Categorical, Non Linearly related, Non Normally distributed variables
 		1. Spearman`s rank  correlation - Ordinale Data types- Numerical variables that can be categorized -->  1 0 -1
@@ -241,6 +245,7 @@ NON-PARAMETRIC METHODS
 
 			"p < 0.05 so Reject the Null Hypothesis and conclude that variables are correlated and not independent"
 
+----------------------------------------------------------------------------------------------------------------------
 TRANSFORM DATASET DISTRIBUTIONS
 1. Normalization - 			Value of Observation
 				  -------------------------------------
@@ -283,6 +288,7 @@ plt.plot(standardized_mpg)
 
 
 
+----------------------------------------------------------------------------------------------------------------------
 QUIZ
 1. You have two 2x2 matrices; one has 1`s for all values, and the other has 2`s for all values. Their NumPy dot multiplication will produce a 2x2 matrix with 4`s for all values .
 3. Which Pearson correlation requirement will not be satisfied when analyzing the correlation between people`s height and age?
@@ -291,12 +297,13 @@ QUIZ
 4. In which way is the Spearman`s Rank analysis similar to Pearson`s?
 	It produces R-values between -1 and 1
 
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 4. DIMENSIONALITY REDUCTION
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 INTRODUCTION TO MACHINE LEARNING
 "https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch04/ML_InThisCourse.PNG"
 
+----------------------------------------------------------------------------------------------------------------------
 EXPLANATORY FACTOR ANALYSIS
 Factor Analysis Assumptions 
 1. you`re features are metric,
@@ -319,7 +326,8 @@ pd.DataFrame(factor.components_, columns=variable_names)
 2	-0.000000		0.000000		0.000000		0.000000
 3	-0.000000		0.000000		0.000000		-0.000000
 --------------------------------CODE - END------------------------------
-	
+
+----------------------------------------------------------------------------------------------------------------------	
 PRINCIPAL COMPONENT ANALYSIS (PCA)
 
 Singular Value Decomposition-(SVD) is a linear algebra method that you use to decompose a matrix into three resultant matrices. You do this in order to reduce information redundancy and noise. SVD is most commonly used for principle component analysis.
@@ -364,14 +372,15 @@ PCA and FACTOR Analysis Usage in MACHINE LEARNING
  1. principal component one is strongly positively correlated with petal length and moderately positively correlated with sepal length and petal width. Component one is slightly negatively correlated with sepal width,  
  2. principal component number two is strongly negatively correlated with sepal length and sepal width, and slightly negatively correlated with petal length and petal width. You may be wondering how you can use these components once you`ve isolated. Well, you can use them as input variables for machine learning algorithms. So in the case of the iris data set, you could use the two components we`ve generated as input for a logistic regression model to predict species labels for new incoming data points. 
 
+----------------------------------------------------------------------------------------------------------------------
 QUIZ
 1. How much of your data should go to the test set?
 	one-third
 2. The goal of PCA is to keep only the principal components that matter. 70%
-----------------------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
+************************************************************************************************************
 5. OUTLIER ANALYSIS
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 EXTREME VALUE ANALYSIS USING UNIVARIATE METHODS
 Types of Outliers
 1. Point Outliers - Univariate Outliers
@@ -383,6 +392,7 @@ Use of Outlier detection( Basically used to uncover anomalies in data)
 	1. equipment failure notification, 
 	2. fraud detection, and 
 	3. cybersecurity event notification
+----------------------------------------------------------------------------------------------------------------------
 UNIVARIATE METHODS: 
 	Tukey Boxlplots - You can detect unusually high or low data points in a variable by applying the Tukey methods for outlier detection
 		Boxplot whiskers - IQR Inter Quantile Range
@@ -409,6 +419,7 @@ df[iris_outliers]
 "https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch05/05_01/05_01.ipynb"
 
 
+----------------------------------------------------------------------------------------------------------------------
 MULTIVARIATE ANALYSIS FOR OUTLIER DETECTION
 Box-plot
 df.columns=['Sepal Length','Sepal Width','Petal Length','Petal Width', 'Species']
@@ -421,6 +432,7 @@ pair-plot
 sb.pairplot(df, hue='Species', palette='hls')
 
 
+----------------------------------------------------------------------------------------------------------------------
 A LINEAR PROJECTION METHOD FOR MULTIVARIATE DATA
 from sklearn.cluster import DBSCAN
 model = DBSCAN(eps=0.8, min_samples=19).fit(data)
@@ -481,6 +493,7 @@ model = DBSCAN(eps=1, min_samples=30).fit(data)
 Produces 6 Outliers which is less that 5%(i.e 7.5) of total sample size i.e 150
 
 
+----------------------------------------------------------------------------------------------------------------------
 QUIZ
 1. Using Tukey outlier labeling, the lower quartile ends at 3.6 and the upper quartile starts at 4.8. Which of the following is not an outlier?
 6.5
@@ -490,10 +503,26 @@ QUIZ
     #print(f"{IQR:.2f},{Q1:.2f},{Q3:.2f}")
     outlier_1 = Q1 - (IQR * 1.5) = 3.6 - (1.2*1.5) = 1.8  # lesser that 1.8 is a outlier
     outlier_2 = Q3 + (IQR * 1.5)  = 4.8 + (1.2*1.5) = 6.6‬ # Greater that 6.6‬ is a outlier
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 6. CLUSTER ANALYSIS
-----------------------------------------------------------------------------------------------------------------------
-K-MEANS METHOD
+************************************************************************************************************
+K-MEANS METHOD - \UNSUPERVISED
+Used to predict Subgroups from withiin a dataset.
+Predictions are based on : 
+	1. Number of cluster centers that are present,T
+	2. The nearest mean values between observations.(Measured using euclidean distance between observations)
+Use-Cases : 
+	1. Market price and cost modeling, 
+	2. Customer segmentation, 
+	3. Hedge fund classification, 
+	4. Insurance claim fraud detection.
+Assumptions : 
+	1. the first thing is you always need to "scale your variables" before clustering your data,  - scale(iris.data) 
+	2. you need to look at a scatter plot or a data table to estimate the "number of cluster centers" to set for the k parameter in the model. n_clusters=3
+Evaluation : 
+	classification_report(y, relabel)
+
+------------------------CODE START------------------------
 from sklearn.cluster import KMeans
 clustering = KMeans(n_clusters=3, random_state=5)
 clustering.fit(X)
@@ -512,42 +541,197 @@ plt.title('K-Means Classification')
 
 Evaluating K-MEANS
 print(classification_report(y, relabel))
-
-
-HIERARCHICAL METHODS
-INSTANCE-BASED LEARNING WITH K-NEAREST NEIGHBOR
+------------------------CODE END------------------------
 
 ----------------------------------------------------------------------------------------------------------------------
+HIERARCHICAL METHODS - \UNSUPERVISED
+Hierarchical clustering is an unsupervised machine learning method that you can use to predict subgroups based on 
+	1. the "Distance" between data points and their nearest neighbors.
+	2. Each data point is "linked" to its neighbor that is most nearby according to the distance metric that you choose.
+(Hierarchical clustering predicts subgroups within data by finding the distance between each data point and its nearest neighbor and also linking up the most nearby neighbors.)
+DENDROGRAM
+	You can find the number of subgroups(like number or cluster centers in K-Means) that are appropriate for a hierarchical clustering model by looking at a dendrogram. 
+	A dendrogram is a tree graph that`s useful for visually displaying taxonomies, lineages, and relatedness. 
+	"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch06/06_02/Hierarchical_Clustering_Dendogram.PNG"
+Use-Cases : 
+	1. hospital resource management, 
+	2. business process management, 
+	3. customer segmentation analysis, 
+	4. social network analysis. 
+Assumptions : 
+	1. Number of Centroids - ( Using dendrogram)
+	2. Maximum distance between points = 150 for example.
+Dendrogram Use example: 
+	Imagine that you only want a maximum distance between a point and its nearest neighbor. You want that maximum distance to be 150. You would plot out your dendrogram, and then you would set a line where y=150. Then along that line, you look at each point where your dendrogram intersects the y=150 line, so you have one, two, three, four, five. If you wanted to have a maximum distance of 150 between each point and its nearest neighbor, you would have five cluster centers. You could also set the maximum distance between points to be 500, an in that case you would have two cluster centers.
+	"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-3-PythonForDataScienceEssentialTraining/Ex_Files_Python_Data_Science_EssT/Exercise%20Files/Ch06/06_02/Hierarchical_Clustering_Dendogram_Example.PNG"
+Parameter : 
+	1. Distance Metrics  : Distance metrics can be set as either Euclidean, Manhattan, or Cosine
+	2. Linkage 			 : The linkage parameters are Ward, Complete, and Average. 
+	(Use trial and error )
+
+------------------------CODE START------------------------
+from scipy.cluster.hierarchy import dendrogram, linkage
+Z = linkage(X, 'ward')
+# Z is the clustering results that have been generated from the Scipy hierarchical clustering algorithm. 
+dendrogram(Z, truncate_mode='lastp', p=12, leaf_rotation=45., leaf_font_size=15., show_contracted=True)
+
+plt.title('Truncated Hierarchical Clustering Dendrogram')
+plt.xlabel('Cluster Size')
+plt.ylabel('Distance')
+
+
+plt.axhline(y=500) # if max distance = 500 then Clusters = 2
+plt.axhline(y=150) # if max distance = 150 then Clusters = 5
+plt.show()
+
+
+#  With 500 set as our maximum distance between nearest neighbors, based on the dendrogram, we have two clusters. 
+# Also, the Target variable AM feature assums two possible outcomes, 0 or 1 so k =2 
+k=2
+
+Hclustering = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage='ward')
+Hclustering.fit(X)
+
+sm.accuracy_score(y, Hclustering.labels_)
+>>>0.78125
+
+					@NOTE - "Ward" can only work with "euclidean" distances. 
+					Results of 
+						ecludiean and Ward, average,Complete
+						manhattan and 		average,Complete
+						cosine    and 		average,Complete
+
+------------------------CODE END------------------------
+
+----------------------------------------------------------------------------------------------------------------------
+INSTANCE-BASED LEARNING WITH K-NEAREST NEIGHBOR \SUPERVISED
+K-nearest neighbor works by memorizing observations within a labeled Training set to predict classification labels for new, incoming, unlabeled observations. The algorithm makes predictions based on how similar training observations are to the new, incoming observations. The more similar the observation's value, the more likely they will be classified with the same label.
+
+Use-Cases : 
+	1. stock price prediction, 
+	2. recommendation systems, 
+	3. predictive trip planning, 
+	4. credit risk analysis. 
+
+Assumptions : 
+	1. the data set has little noise, 
+	2. it`s labeled, 
+	3. it contains only relevant features, 
+	4. the data set has distinguishable sub groups.
+	5. Small or medium sized Data sets
+
+**NOTE**
+	Takes too Long to classify for large datasets so avoid for that case.
+
+
+
+------------------------CODE START------------------------
+#Modelling of KNN
+clf = neighbors.KNeighborsClassifier()
+clf.fit(X_train, y_train)
+print(clf)
+	>>> KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+           metric_params=None, n_jobs=1, n_neighbors=5, p=2,
+           weights='uniform')
+
+#Prediction of KNN
+y_pred = clf.predict(X_test)
+
+#Evaluation of KNN
+metrics.classification_report(y_test, y_pred)
+>>>
+	             precision    recall  f1-score   support
+
+          0       0.71      1.00      0.83         5
+          1       1.00      0.67      0.80         6
+
+avg / total       0.87      0.82      0.82        11
+
+
+sm.accuracy_score(y_expect, y_pred)
+>>>	0.84375
+
+#Plotting KNN Classification
+color_theme = np.array(['red', 'blue'])
+
+plt.subplot(1,2,1)
+plt.scatter(x=X[:,0],y=X[:,1], c=color_theme[y], s=50)
+plt.title('Ground Truth Classification')
+
+plt.subplot(1,2,2)
+plt.scatter(x=X[:,0],y=X[:,1], c=color_theme[y_], s=50)
+plt.title('K-Nearest Neighbor')
+
+------------------------CODE END------------------------
+
+
+QUIZ
+1. The classification_report() function can be used to evaluate the accuracy of the K-means clustering analysis.
+2. FALSE  - The k-NN model is especially useful for very large datasets. (Takes too long for Large datasets, so avoid.)
+
+
+
+************************************************************************************************************
 7. NETWORK ANALYSIS WITH NETWORKX
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 INTRO TO NETWORK ANALYSIS
+Uses of Network Analysis
+	1. Social Media Marketing Strategy
+	2. Infrastructure system design, 
+	3. Financial risk management, 
+	4. Public health management.
+
+Difference Network and Graph
+	Network 
+		A body of connected data that is evaluated during graph analysis 
+	Graph 
+		The actually data "visualization" schematic that depicts the network data. 
+"Nodes" are vertices around which the graph is formed and 
+"Edges" are the lines that connect them.
+Directed "graph", also known as a digraph, is a graph where there is a direction assigned to each edge that connects the nodes. 
+Directed "edge" is an edge feature that has been a assigned direction between those nodes.
+----------------------------------------------------------------------------------------------------------------------
 WORK WITH GRAPH OBJECTS
+----------------------------------------------------------------------------------------------------------------------
 SIMULATE A SOCIAL NETWORK
+----------------------------------------------------------------------------------------------------------------------
 GENERATE STATS ON NODES AND INSPECT GRAPHS
-
 ----------------------------------------------------------------------------------------------------------------------
+
+************************************************************************************************************
 8. BASIC ALGORITHMIC LEARNING
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 LINEAR REGRESSION MODEL
+----------------------------------------------------------------------------------------------------------------------
 LOGISTIC REGRESSION MODEL
+----------------------------------------------------------------------------------------------------------------------
 NAÏVE BAYES CLASSIFIERS
-
 ----------------------------------------------------------------------------------------------------------------------
+
+************************************************************************************************************
 9. WEB-BASED DATA VISUALIZATIONS WITH PLOTLY
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 CREATE BASIC CHARTS
+----------------------------------------------------------------------------------------------------------------------
 CREATE STATISTICAL CHARTS
+----------------------------------------------------------------------------------------------------------------------
 CREATE PLOTLY CHOROPLETH MAPS
+----------------------------------------------------------------------------------------------------------------------
 CREATE PLOTLY POINT MAPS
-
 ----------------------------------------------------------------------------------------------------------------------
+
+************************************************************************************************************
 10. WEB SCRAPING WITH BEAUTIFUL SOUP
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 INTRODUCTION TO BEAUTIFUL SOUP
+----------------------------------------------------------------------------------------------------------------------
 EXPLORE NAVIGATABLESTRING OBJECTS
+----------------------------------------------------------------------------------------------------------------------
 PARSE DATA
+----------------------------------------------------------------------------------------------------------------------
 WEB SCRAPE IN PRACTICE
+----------------------------------------------------------------------------------------------------------------------
 
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
 CONCLUSION
-----------------------------------------------------------------------------------------------------------------------
+************************************************************************************************************
