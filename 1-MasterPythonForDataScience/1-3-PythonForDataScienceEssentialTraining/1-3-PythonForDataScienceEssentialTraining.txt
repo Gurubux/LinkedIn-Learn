@@ -1299,6 +1299,18 @@ for link in soup.findAll('a', attrs={'href': re.compile("^http")}):
     file.write(soup_link)
 file.flush()
 file.close()
+
+
+
+
+QUIZ
+1. What will you get when calling tag.attrs on the following tag? 
+ <a href='map.html' id='link'>Open Map</a>
+		{'href' : 'map.html', 'id' : 'link'}
+
+2. For the tag <b>Cancel</b> tag.string.parent simply returns the tag itself.
+3. Calling the find_all() method on a BeautifulSoup object with a Boolean False as the parameter will retrieve no tags at all .
+4. FALSE  : When scraping the web, it is always more useful to print the results inside the Jupyter notebook rather than saving them to a text file.
 ************************************************************************************************************
 CONCLUSION
 ************************************************************************************************************
