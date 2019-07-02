@@ -1,0 +1,661 @@
+Data Science Foundations: Python Scientific Stack
+
+1. SCIENTIFIC PYTHON OVERVIEW
+RAMP UP WITH SCIENTIFIC PYTHON
+
+2. THE JUPYTER NOTEBOOK
+START THE NOTEBOOK SERVER
+USE CODE CELLS
+EXTENSIONS TO PYTHON LANGUAGE
+UNDERSTAND MARKDOWN CELLS
+EDIT NOTEBOOKS
+
+3. NUMPY BASICS
+OVERVIEW: NUMPY
+NUMPY ARRAYS
+SLICING
+LEARN BOOLEAN INDEXING
+UNDERSTAND BROADCASTING
+UNDERSTAND ARRAY OPERATIONS
+UNDERSTAND UFUNCS
+
+4. PANDAS
+PANDAS OVERVIEW
+LOAD CSV FILES
+PARSE TIME
+ACCESS ROWS AND COLUMNS
+USE PURE PYTHON PACKAGES
+CALCULATE SPEED
+DISPLAY A SPEED BOX PLOT
+
+5. CONDA
+INTRODUCTION TO PYTHON PACKAGES
+MANAGE ENVIRONMENTS
+
+6. FOLIUM AND GEO
+CREATE AN INITIAL MAP
+DRAW A TRACK ON THE MAP
+USE GEO DATA WITH SHAPELY
+GENERATE A REPORT
+
+7. NY TAXI DATA
+EXAMINE DATA
+LOAD DATA FROM CSV FILES
+WORK WITH CATEGORICAL DATA
+WORK WITH DATA: HOURLY TRIP RIDES
+WORK WITH DATA: RIDES PER HOUR
+WORK WITH DATA: WEATHER DATA
+
+8. SCIKIT-LEARN
+INTRODUCTION: SCIKIT-LEARN
+LEARN REGRESSION ON BOSTON DATASET
+UNDERSTAND TRAIN/TEST SPLITS
+PREPROCESS DATA
+COMPOSE PIPELINES
+SAVE AND LOAD MODELS
+
+9. PLOTTING
+OVERVIEW: MATPLOTLIB
+USE STYLES
+CUSTOMIZE PANDAS OUTPUT
+USE MATPLOTLIB
+TIPS AND TRICKS
+UNDERSTAND BOKEH
+
+10. OTHER PACKAGES
+OTHER PACKAGES OVERVIEW
+GO FASTER WITH NUMBA AND CYTHON
+UNDERSTAND DEEP LEARNING
+WORK WITH IMAGE PROCESSING
+UNDERSTAND NLP: NLTK
+UNDERSTAND NLP: SPACY
+BIGGER DATA WITH HDF5 AND DASK
+
+11. DEVELOPMENT PROCESS
+OVERVIEW
+UNDERSTAND SOURCE CONTROL
+LEARN CODE REVIEW
+TESTING OVERVIEW
+TESTING EXAMPLE
+
+
+************************************************************************************************************
+1. SCIENTIFIC PYTHON OVERVIEW
+************************************************************************************************************
+RAMP UP WITH SCIENTIFIC PYTHON
+QUIZ
+You`ll need to combine knowledge from several areas to be a successful data scientist.
+************************************************************************************************************
+2. THE JUPYTER NOTEBOOK
+************************************************************************************************************
+START THE NOTEBOOK SERVER
+USE CODE CELLS
+#to open help
+import numpy as np
+np.sin? 
+
+
+EXTENSIONS TO PYTHON LANGUAGE
+UNDERSTAND MARKDOWN CELLS
+EDIT NOTEBOOKS
+QUIZ
+1. Juypter notebook works only with Python 3.
+	FALSE
+2.To get help and view code of the "np.all" function you should type _____.
+	np.all??
+3. Jupyter markdown supports writing mathematical equations.
+	TRUE
+4. You should re-run your notebook after editing it.
+	TRUE
+5. Re-running a notebook is done from the "Kernel" menu.
+************************************************************************************************************
+3. NUMPY BASICS
+************************************************************************************************************
+OVERVIEW: NUMPY
+NUMPY ARRAYS
+%time v1 * v2
+SLICING
+arr 
+>>>
+	array([	[ 0,  1,  2,  3],
+       		[ 4,  5,  6,  7],
+       		[ 8,  9, 10, 11]])
+
+arr[1:, 2:] = 7
+>>>
+	array([	[0, 1, 2, 3],
+       		[4, 5, 7, 7],
+       		[8, 9, 7, 7]])
+
+LEARN BOOLEAN INDEXING
+mat
+>>>
+	array([[ 0.31079447,  0.05347007,  0.09986896,  0.2370745 ,  0.33473532],
+       [ 0.27073276,  0.19052631,  0.21485234,  0.50080994,  0.34622393],
+       [ 0.13446765,  0.33696747,  0.15499298,  0.32084496,  0.07951255],
+       [ 0.09780785,  0.278865  ,  0.22899648,  0.01462275,  0.27576318],
+       [ 0.0396188 ,  0.03573314,  0.13120272,  0.4373082 ,  0.29550376]])
+
+np.abs(mat - mat.mean()) > 1.5*mat.std()
+>>>
+	array([[False, False, False, False, False],
+       [False, False, False,  True, False],
+       [False, False, False, False, False],
+       [False, False, False, False, False],
+       [False, False, False,  True, False]], dtype=bool)
+
+mat[np.abs(mat - mat.mean()) > 1.5*mat.std()]
+>>> array([ 0.9413238 ,  0.87782206])
+	
+
+UNDERSTAND BROADCASTING
+UNDERSTAND ARRAY OPERATIONS
+UNDERSTAND UFUNCS
+QUIZ
+1. Numpy integers are just like Python`s integers. - FALSE
+2. To get the shape of any array, what should you use? - .shape attribute
+3. To get the second column of array "arr" you should write _____. - arr[:,1] 
+4. What sign would you use to negate a boolean index? ~
+5. Broadcasting nevers fails. - FALSE
+6. To find out if an array has at least one true value use the __ method. - any()
+7. np.vercorize will convert a regular Python function to a ufunc. - TRUE
+
+************************************************************************************************************
+4. PANDAS
+************************************************************************************************************
+PANDAS OVERVIEW
+LOAD CSV FILES
+PARSE TIME
+df = pd.read_csv(fname, parse_dates=['time'])
+ACCESS ROWS AND COLUMNS
+import pytz
+ts = df.index[0]
+ts.tz_localize(pytz.UTC)
+>>> Timestamp('2015-08-20 03:48:07.235000+0000', tz='UTC')
+
+ts.tz_localize(pytz.UTC).tz_convert(pytz.timezone('Asia/Jerusalem'))
+>>> Timestamp('2015-08-20 06:48:07.235000+0300', tz='Asia/Jerusalem')
+USE PURE PYTHON PACKAGES
+import geo
+import sys
+sys.path
+
+??geo
+
+from geo import circle_dist
+lat1, lng1 = df.iloc[0].lat, df.iloc[0].lng
+lat2, lng2 = df.iloc[1].lat, df.iloc[1].lng
+
+circle_dist(lat1, lng1, lat2, lng2)
+>>>0.007693931535344109
+
+
+
+CALCULATE SPEED
+s.shift() # Shift Down
+s.shift(-1) # Shift up
+DISPLAY A SPEED BOX PLOT
+import matplotlib.pyplot as plt
+plt.rcParams['figure.figsize'] = (20,6)
+plt.style.use('seaborn-whitegrid')
+
+QUIZ
+1. Pandas is well suited for real world messy data.
+2. You always have to tell Pandas what the columns are in a CSV file. - FALSE 
+3. Pandas knows how to parse many time formats.
+4. We can access the fifth row in DataFrame "df" by writing df.iloc[4] .
+5. Placing a package in one of the directories in sys.path makes it possible to import it.
+6. Subtracting two Timestamp objects will result in a Timedelta object .
+7. bmx` is a valid matplotlib style. - FALSE 
+
+
+
+************************************************************************************************************
+5. CONDA
+************************************************************************************************************
+INTRODUCTION TO PYTHON PACKAGES
+
+
+
+MANAGE ENVIRONMENTS
+QUIZ
+1. It`d best practice to use the "conda" package manager when installing scientific packages.
+
+2. You should use an environment per project.
+
+
+************************************************************************************************************
+6. FOLIUM AND GEO
+************************************************************************************************************
+CREATE AN INITIAL MAP
+import folium
+m = folium.Map(location=[df['lng'].mean(), df['lat'].mean()], zoom_start=15)
+m
+
+
+DRAW A TRACK ON THE MAP
+m = folium.Map(location=[df['lng'].mean(), df['lat'].mean()], zoom_start=15)
+mdf = df.resample('T').mean()
+
+def add_marker(row):
+    marker = folium.CircleMarker([row['lng'], row['lat']], radius=5, color='red', popup=row.name.strftime('%H:%M'))
+    marker.add_to(m)
+
+mdf.apply(add_marker, axis=1)
+m
+
+USE GEO DATA WITH SHAPELY
+GENERATE A REPORT
+QUIZ
+1. There`s a good default for initial zoom level. - FALSE
+2. To add the marker call "mark" to a map, call "m" write. mark.add_to(m)
+3. Shapely is available from the default channel.
+4. You can use boolean indexing to select rows.
+5. Shapely supports only rectangles. - FALSE
+6. Saving a notebook as HTML is done via the "file" menu
+
+************************************************************************************************************
+7. NY TAXI DATA
+************************************************************************************************************
+EXAMINE DATA
+with bz2.open(fname, 'rt') as fp:
+    for lnum, line in enumerate(fp):
+        print(line[:-1])
+        if lnum > 4:
+            break
+
+
+LOAD DATA FROM CSV FILES
+df = pd.read_csv(fname, usecols=np.arange(21), parse_dates=['lpep_pickup_datetime', 'Lpep_dropoff_datetime'])
+
+
+WORK WITH CATEGORICAL DATA
+df['VendorID'].unique()
+df['Vendor'] = df['VendorID'].apply({1: 'Creative', 2: 'VeriFone'}.get)
+
+df['Vendor'] = df['VendorID'].apply({1: 'Creative', 2: 'VeriFone'}.get).astype('category')
+
+len(df[df['Vendor'] == 'VeriFone'])
+>>> 77946
+
+WORK WITH DATA: HOURLY TRIP RIDES
+df['lpep_pickup_datetime'].head().dt.round('H')
+keys = df['lpep_pickup_datetime'].dt.round('H')
+df.groupby(keys)
+
+df.groupby(keys).count().head()
+
+df.groupby(keys).count()['Vendor'].plot()
+
+df.groupby(keys).count()['Vendor'].loc['2015-03-10'].plot.bar(rot=45)
+
+WORK WITH DATA: RIDES PER HOUR
+df['hour'] = df['lpep_pickup_datetime'].dt.hour
+df['day'] = df['lpep_pickup_datetime'].dt.date
+df[['hour', 'day']].head()
+	hour	day
+0	15	2015-03-04
+1	17	2015-03-22
+2	22	2015-03-25
+3	13	2015-03-16
+4	18	2015-03-19
+
+df.groupby(['Vendor', 'day', 'hour']).count().head()
+
+ddf = df.groupby(['Vendor', 'day', 'hour'], as_index=False).count()
+ddf.head()
+
+hdf = ddf.groupby(['Vendor', 'hour'], as_index=False).median()
+hdf.head()
+
+vdf = hdf.pivot(columns='Vendor', index='hour', values='Extra')
+vdf.plot.bar(rot=45)
+
+WORK WITH DATA: WEATHER DATA
+import sqlite3
+conn = sqlite3.connect('weather.db')
+
+wdf = pd.read_sql('SELECT * FROM weather', conn)
+wdf.columns
+
+wdf = pd.read_sql('SELECT * FROM weather', conn, parse_dates=['DATE'], index_col='DATE')
+wdf.dtypes
+
+from scipy.constants import convert_temperature
+wdf['tempF'] = convert_temperature(wdf['TMAX']/10, 'C', 'F')
+wdf.head()
+
+
+QUIZ
+1. To open a file compressed with bzip2 compression you should use the "bz2" module.
+2. You should always check your data after loading it.
+3. Using categorical data will generally save you memory.
+4. To access time attributes, such as hour, you should use the ".dt" accessor.
+5. You can use groupby only on one column. - FALSE
+6. To read from an SQL database, what does Pandas need?
+	SQL query and connection
+
+
+************************************************************************************************************
+8. SCIKIT-LEARN
+************************************************************************************************************
+INTRODUCTION: SCIKIT-LEARN
+LEARN REGRESSION ON BOSTON DATASET
+from sklearn.datasets import load_boston
+boston = load_boston()
+boston.keys()
+>>> dict_keys(['data', 'target', 'feature_names', 'DESCR'])
+
+type(boston['data'])
+boston['feature_names']
+
+from sklearn.ensemble import RandomForestRegressor
+clf = RandomForestRegressor()
+clf.fit(boston['data'], boston['target'])
+>>>
+	RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=1,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+
+clf.score(boston['data'], boston['target'])
+>>> 0.9759
+
+dir(clf)
+
+clf.n_features_
+>>>13
+
+row = boston['data'][17]
+row.shape
+>>> (13,)
+
+row.reshape(-1, 13)
+array([[  0.7842,   0.    ,   8.14  ,   0.    ,   0.538 ,   5.99  ,
+         81.7   ,   4.2579,   4.    , 307.    ,  21.    , 386.75  ,
+         14.67  ]])
+
+clf.predict(row.reshape(-1, 13))
+array([17.89])
+
+boston['target'][17]
+17.5
+
+UNDERSTAND TRAIN/TEST SPLITS
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(boston['data'], boston['target'], test_size=0.3)
+clf = RandomForestRegressor()
+clf.fit(X_train, y_train)
+clf.score(X_test, y_test)
+>>> 0.90390
+
+
+PREPROCESS DATA
+df = pd.DataFrame(boston['data'], columns=boston['feature_names'])
+df.max(axis=0)
+
+from sklearn.svm import SVR
+
+clf = SVR()
+clf.fit(X_train, y_train)
+clf.score(X_test, y_test)
+>>> -0.00373
+
+
+from sklearn import preprocessing
+Xs = preprocessing.scale(boston['data'])
+
+df = pd.DataFrame(Xs, columns=boston['feature_names'])
+df.max(axis=0)
+
+Xs_train, Xs_test, ys_train, ys_test = train_test_split(Xs, boston['target'], test_size=0.3)
+
+clf = SVR()
+clf.fit(Xs_train, ys_train)
+clf.score(Xs_test, ys_test)
+>>> 0.6210
+
+from sklearn.decomposition import PCA
+pca = PCA(n_components=5)
+pca.fit(boston['data'])
+>>>PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+  svd_solver='auto', tol=0.0, whiten=False)
+
+Xp = pca.transform(boston['data'])
+Xp.shape
+>>>(506, 5)
+
+clf = RandomForestRegressor()
+Xp_train, Xp_test, yp_train, yp_test = train_test_split(Xp, boston['target'], test_size=0.3)
+clf.fit(Xp_train, yp_train)
+clf.score(Xp_test, yp_test)
+>>> 0.5148
+
+
+
+COMPOSE PIPELINES
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+
+pipe = Pipeline([
+    ('scale', StandardScaler()),
+    ('pca', PCA(n_components=5)),
+    ('svr', SVR()),
+])
+
+pipe.fit(X_train, y_train)
+pipe.score(X_test, y_test)
+>>> 0.62551
+
+
+pipe.steps
+>>> [('scale', StandardScaler(copy=True, with_mean=True, with_std=True)),
+ ('pca',
+  PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+    svd_solver='auto', tol=0.0, whiten=False)),
+ ('svr',
+  SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+    kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False))]
+
+
+ pipe.get_params()
+{'pca': PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+   svd_solver='auto', tol=0.0, whiten=False),
+ 'pca__copy': True,
+ 'pca__iterated_power': 'auto',
+ 'pca__n_components': 5,
+ 'pca__random_state': None,
+ 'pca__svd_solver': 'auto',
+ 'pca__tol': 0.0,
+ 'pca__whiten': False,
+ 'scale': StandardScaler(copy=True, with_mean=True, with_std=True),
+ 'scale__copy': True,
+ 'scale__with_mean': True,
+ 'scale__with_std': True,
+ 'steps': [('scale', StandardScaler(copy=True, with_mean=True, with_std=True)),
+  ('pca',
+   PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+     svd_solver='auto', tol=0.0, whiten=False)),
+  ('svr',
+   SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+     kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False))],
+ 'svr': SVR(C=1.0, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+   kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False),
+ 'svr__C': 1.0,
+ 'svr__cache_size': 200,
+ 'svr__coef0': 0.0,
+ 'svr__degree': 3,
+ 'svr__epsilon': 0.1,
+ 'svr__gamma': 'auto',
+ 'svr__kernel': 'rbf',
+ 'svr__max_iter': -1,
+ 'svr__shrinking': True,
+ 'svr__tol': 0.001,
+ 'svr__verbose': False}
+
+
+ pipe.set_params(svr__C=0.9)
+>>> Pipeline(steps=[('scale', StandardScaler(copy=True, with_mean=True, with_std=True)), 
+	('pca', 
+		PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+  svd_solver='auto', tol=0.0, whiten=False)), 
+	('svr', 
+		SVR(C=0.9, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+  kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False))])
+
+
+SAVE AND LOAD MODELS
+import pickle
+with open('model.pickle', 'wb') as out:
+    pickle.dump(pipe, out)
+with open('model.pickle', 'rb') as fp:
+    pipe1 = pickle.load(fp)
+
+pipe1.steps
+>>>
+	[('scale', StandardScaler(copy=True, with_mean=True, with_std=True)),
+ ('pca',
+  PCA(copy=True, iterated_power='auto', n_components=5, random_state=None,
+    svd_solver='auto', tol=0.0, whiten=False)),
+ ('svr',
+  SVR(C=0.9, cache_size=200, coef0=0.0, degree=3, epsilon=0.1, gamma='auto',
+    kernel='rbf', max_iter=-1, shrinking=True, tol=0.001, verbose=False))]
+
+
+QUIZ
+1. scikit-learn contains only machine learning algorithms. - FALSE
+2. To train a classifier/regressor, what method should you call? 
+	fit
+3. We split data to train, and we test to avoid overfitting .
+4. Some models are sensitive to the range of feature values.
+5. You can change the parameters of a step in a pipeline using the "set_params" method. - pipe.set_params(svr__C=0.9)
+6. You can save a pipeline using the pickle module.
+
+
+************************************************************************************************************
+9. PLOTTING
+************************************************************************************************************
+OVERVIEW: MATPLOTLIB
+
+
+
+USE STYLES
+import matplotlib.pyplot as plt
+plt.style.available
+['bmh',
+ 'classic',
+ 'dark_background',
+ 'fivethirtyeight',
+ 'ggplot',
+ 'grayscale',
+ 'seaborn-bright',
+ 'seaborn-colorblind',
+ 'seaborn-dark-palette',
+ 'seaborn-dark',
+ 'seaborn-darkgrid',
+ 'seaborn-deep',
+ 'seaborn-muted',
+ 'seaborn-notebook',
+ 'seaborn-paper',
+ 'seaborn-pastel',
+ 'seaborn-poster',
+ 'seaborn-talk',
+ 'seaborn-ticks',
+ 'seaborn-white',
+ 'seaborn-whitegrid',
+ 'seaborn']
+xs = np.linspace(-6, 6, 100)
+ys = np.sinc(xs)
+df = pd.DataFrame({'x': xs, 'sinc': ys})
+plt.style.use('seaborn-whitegrid')
+df.plot.line(x='x', y='sinc')
+
+plt.style.use('fivethirtyeight')
+df.plot.line(x='x', y='sinc')
+
+
+
+
+
+
+
+
+
+CUSTOMIZE PANDAS OUTPUT
+USE MATPLOTLIB
+plt.subplot(2, 1, 1)
+plt.plot(xs, np.sin(xs), label='sin')
+plt.legend()
+plt.subplot(2, 1, 2)
+plt.fill(xs, -xs**2, label=r'${-x}^2$')
+plt.legend()
+
+
+TIPS AND TRICKS
+%matplotlib notebook
+
+import pandas as pd
+df = pd.read_csv('lnkd.csv', parse_dates=['Date'], index_col='Date')
+df[['Close', 'Volume']].plot(subplots=True)
+
+
+
+from ipywidgets import interact
+import numpy as np
+@interact(limit=6)
+def plot_sin(limit):
+    xs = np.linspace(-limit, limit, 100)
+    plt.plot(xs, np.sin(xs), label='sin(x) [{} - {}]'.format(-limit, limit))
+    plt.show()
+
+
+
+UNDERSTAND BOKEH
+QUIZ
+
+1. A good place to find charts examples is the gallery section in matplotlibs site.
+2. You can switch styles in the middle of a notebook.
+3. What keyword argument should you use to apply a style to a subset of columns? 
+	subset
+	hdf.style.applymap(odd_green, subset=['ZN', 'RAD'])
+4. To use LaTex in labels you need to surround the equation with a " $ "sign.
+5. What method yields x value limits?
+	get_xlim
+6. bokeh works only in the browser.
+
+************************************************************************************************************
+10. OTHER PACKAGES
+************************************************************************************************************
+OTHER PACKAGES OVERVIEW
+GO FASTER WITH NUMBA AND CYTHON
+UNDERSTAND DEEP LEARNING
+WORK WITH IMAGE PROCESSING
+UNDERSTAND NLP: NLTK
+UNDERSTAND NLP: SPACY
+BIGGER DATA WITH HDF5 AND DASK
+QUIZ
+1. What is a good way to check package health?
+	view its stats on github
+2. An easy way to check For performance Is With "%timeit magic" .
+
+3. What does the keras "predict" method return?
+	"probability for each output value"
+4.	OpenCV uses the "BGR" format with images.
+5. Splitting sentences into words is a simple process. - FALSE
+6. dask DataFrame is 100% compatible with Pandas DataFrame. - FALSE
+
+************************************************************************************************************
+11. DEVELOPMENT PROCESS
+************************************************************************************************************
+OVERVIEW
+UNDERSTAND SOURCE CONTROL
+LEARN CODE REVIEW
+TESTING OVERVIEW
+TESTING EXAMPLE
+QUIZ
+1. We need process to help teams work better.
+2. To get other team member`s changes, what gits command should you use?
+	pull
+3. Comments in code review should be technical.
