@@ -1,0 +1,463 @@
+Python: Data Analysis
+
+1. INSTALLATION AND SETUP
+INSTALLING THE ANACONDA PYTHON DISTRIBUTION
+WRITING AND RUNNING PYTHON IN THE IPYTHON NOTEBOOK
+
+2. REFRESHER: DATA CONTAINERS IN PYTHON
+PYTHON CONTAINERS OVERVIEW
+USING PYTHON LISTS AND THE SLICING SYNTAX
+USING PYTHON DICTIONARIES
+COMPREHENSIONS
+
+3. WORD ANAGRAMS IN PYTHON
+WORD ANAGRAM OVERVIEW
+LOADING THE DICTIONARY
+FINDING ANAGRAMS
+CHALLENGE
+SOLUTION
+
+4. INTRODUCTION TO NUMPY
+NUMPY OVERVIEW
+CREATING NUMPY ARRAYS
+DOING MATH WITH ARRAYS
+INDEXING AND SLICING
+RECORDS AND DATES
+
+5. WEATHER DATA WITH NUMPY
+WEATHER DATA OVERVIEW
+DOWNLOADING AND PARSING DATA FILES
+TEMPERATURE ANALYSIS
+INTEGRATING MISSING DATA
+SMOOTHING DATA
+COMPUTING DAILY RECORDS
+CHALLENGE
+SOLUTION
+
+6. INTRODUCTION TO PANDAS
+PANDAS OVERVIEW
+SERIES IN PANDAS
+DATAFRAMES IN PANDAS
+USING MULTILEVEL INDICES
+AGGREGATION
+
+7. BABY NAMES WITH PANDAS
+BABY NAME OVERVIEW
+LOADING DATASETS
+NAME POPULARITY
+A YEARLY TOP TEN
+NAME FADS
+CHALLENGE
+SOLUTION
+
+
+************************************************************************************************************
+1. INSTALLATION AND SETUP
+************************************************************************************************************
+INSTALLING THE ANACONDA PYTHON DISTRIBUTION
+WRITING AND RUNNING PYTHON IN THE IPYTHON NOTEBOOK
+
+************************************************************************************************************
+2. REFRESHER: DATA CONTAINERS IN PYTHON
+************************************************************************************************************
+PYTHON CONTAINERS OVERVIEW
+
+USING PYTHON LISTS AND THE SLICING SYNTAX
+mix_it_up = [1,[2,3],'alpha']
+>>> [1, [2, 3], 'alpha']
+
+nephews.append('April Duck')
+
+nephews.extend(['May Duck','June Duck'])
+
+ducks.insert(0,'Scrooge McDuck')
+
+del ducks[0]
+
+ducks.remove('Donald Duck')
+
+ducks.sort()
+
+squares[-3:-1]
+
+squares[0::2]
+
+for value in squares:
+    print("Element",value)
+
+for index, value in enumerate(squares):
+    print("Element",index,"->",value)
+
+USING PYTHON DICTIONARIES
+
+capitals = {'United States': 'Washington, DC','France': 'Paris','Italy': 'Rome'}
+
+'Germany' in capitals
+>>> False
+'Italy' in capitals
+>>> True 
+
+morecapitals = {'Germany': 'Berlin','United Kingdom': 'London'}
+capitals.update(morecapitals)
+{'United States': 'Washington, DC',
+ 'France': 'Paris',
+ 'Italy': 'Rome',
+ 'Spain': 'Madrid',
+ 'Germany': 'Berlin',
+ 'United Kingdom': 'London'}
+
+del capitals['United States']
+
+for key in capitals:
+    print(key,capitals[key])
+
+for key in capitals.keys():
+    print(key)
+
+for value in capitals.values():
+    print(value)
+
+for key,value in capitals.items():
+    print(key,value)
+
+
+
+COMPREHENSIONS
+
+squares = []
+
+for i in range(10):
+    squares.append(i**2)
+
+squares
+
+
+squares = [i**2 for i in range(10)]
+
+squares3 = [i**2 for i in range(30) if i % 3 == 0]
+
+squares3_dict = {i: i**2 for i in range(30) if i % 3 == 0}
+{0: 0,
+ 3: 9,
+ 6: 36,
+ 9: 81,
+ 12: 144,
+ 15: 225,
+ 18: 324,
+ 21: 441,
+ 24: 576,
+ 27: 729}
+
+
+capitals = {'United States': 'Washington, DC','France': 'Paris','Italy': 'Rome'}
+capitals_bycapital = {capitals[key]: key for key in capitals}
+>>>{'Washington, DC': 'United States', 'Paris': 'France', 'Rome': 'Italy'}
+
+
+sum([i**2 for i in range(10)])
+285
+
+sum(i**2 for i in range(10))
+285
+
+QUIZ
+In the IPython Notebook application, programs can contain code, output, and comments .
+1. Select the code that would generate the following dict:
+	{0:0, 3:9, 6:36}
+2. Dicts are denoted by square brackets {}, while lists are denoted by curly brackets []
+3. Select the correct output given this program:
+	list = [5,8,7,2,1], list[1:3]=[4,3], list.sort(), print(list)
+	[1,2,3,4,5]
+4. Lists and dictionaries are examples of Python containers.
+
+
+************************************************************************************************************
+3. WORD ANAGRAMS IN PYTHON
+************************************************************************************************************
+WORD ANAGRAM OVERVIEW
+1. how to load an English dictionary into Python,
+2. create a Python dict of anagrams. 
+3. Find a number of anagrams of each length.
+
+
+LOADING THE DICTIONARY
+#Remove \n from end
+'Aaron\n'.strip()
+
+wordclean = [word.strip().lower() for word in wordlist]
+['A\n',
+ 'a\n',
+ 'aa\n',
+ 'aal\n',
+ 'aalii\n',
+ 'aam\n'] 
+ TO 
+ ['a',
+ 'a',
+ 'aa',
+ 'aal',
+ 'aalii',
+ 'aam']
+
+#get unique words using set
+wordunique = list(set(wordclean)).sort()
+['a',
+ 'aa',
+ 'aal',
+ 'aalii',
+ 'aam']
+
+wordclean = [word.strip().lower() for word in open('words','r')]
+#ALl in one line
+wordclean = sorted(list(set([word.strip().lower() for word in open('words','r')])))
+
+FINDING ANAGRAMS
+sorted('lives') == sorted('elvis')
+True
+
+sorted('love') == sorted('hate')
+False
+
+def signature(word):
+    return ''.join(sorted(word))
+
+signature('lives')
+'eilsv'
+
+'/'.join(['a','b','c'])
+
+def anagram(word):
+    return [w for w in wordclean if signature(w) == signature(word)]
+
+anagram('dictionary')
+['dictionary', 'indicatory']
+
+
+%timeit anagram('dictionary')
+loops, best of 3: 1.22 s per loop
+
+import collections
+words_bysig = collections.defaultdict(list)
+for word in wordclean:
+    words_bysig[signature(word)].append(word)
+
+
+def anagram_fast(word):
+    return words_bysig[signature(word)]
+
+
+anagram_fast('dictionary')
+>>>['dictionary', 'indicatory']
+
+anagrams_all = {word: anagram_fast(word) for word in wordclean if len(anagram_fast(word)) > 1}
+len(anagrams_all)
+>>>32890
+
+%timeit anagrams_all = {word: anagram_fast(word) for word in wordclean if len(anagram_fast(word)) > 1}
+375 ms ± 20.3 ms per loop (mean ± std. dev. of 7 runs, 1 loop each)
+
+
+CHALLENGE
+for length,words in words_bylength.items():
+    anagrams_bylength[length] = sum(len(anagram_fast(word)) - 1 for word in words if len(anagram_fast(word)) > 1)/2
+anagrams_bylength[22]
+>>>
+{'cholecystoduodenostomy': ['cholecystoduodenostomy',
+  'duodenocholecystostomy'],
+ 'duodenocholecystostomy': ['cholecystoduodenostomy',
+  'duodenocholecystostomy'],
+ 'hydropneumopericardium': ['hydropneumopericardium',
+  'pneumohydropericardium'],
+ 'pneumohydropericardium': ['hydropneumopericardium',
+  'pneumohydropericardium']}
+
+SOLUTION
+QUIZ
+1. Comprehensions are powerful Python tools because they increase computational efficiency, reducing code run times.
+2. In Python, lists can have duplicates of objects, while sets cannot have duplicates of objects.
+3. Lists and dicts are both containers for multiple values. Lists can keep values in order, while dicts do not keep values in order. Dicts associate keys with values, while lists contain only values.
+
+************************************************************************************************************
+4. INTRODUCTION TO NUMPY
+************************************************************************************************************
+NUMPY OVERVIEW	
+CREATING NUMPY ARRAYS
+a = np.array([1,2,3,4,5])
+a.dtype
+>>> dtype('int32')
+
+a = np.array([1,2,3,4,5],dtype=np.float64)
+
+a.ndim, a.shape, a.size
+>>> (1, (5,), 5)
+
+b = np.array([[1,2,3,4,5],[6,7,8,9,10]],dtype=np.float64)
+b.ndim, b.shape, b.size
+>>> (2, (2, 5), 10)
+
+np.zeros((3,3),'d')
+>>> array([[0., 0., 0.],
+       [0., 0., 0.],
+       [0., 0., 0.]])
+np.empty((4,4),'d')
+
+
+np.linspace(0,10,5)
+>>> array([ 0. ,  2.5,  5. ,  7.5, 10. ])
+
+np.arange(0,10,2)
+>>> array([0, 2, 4, 6, 8])
+
+np.random.standard_normal((2,4))
+
+
+a = np.random.standard_normal((2,3))
+b = np.random.standard_normal((2,3))
+
+np.vstack([a,b])
+>>>	array([[-0.83459128,  0.14799015, -0.17299896],
+       [ 2.55782224, -1.69153081, -0.59328351],
+       [ 0.84069415, -1.97157335, -0.99411006],
+       [-0.85335203, -0.21607757, -0.68733606]])
+
+np.hstack([a,b])
+>>>	array([[-0.83459128,  0.14799015, -0.17299896,  0.84069415, -1.97157335,
+        -0.99411006],
+       [ 2.55782224, -1.69153081, -0.59328351, -0.85335203, -0.21607757,
+        -0.68733606]])
+
+a.transpose()
+array([[-0.83459128,  2.55782224],
+       [ 0.14799015, -1.69153081],
+       [-0.17299896, -0.59328351]])
+
+
+SAVE AND LOAD NUMPY
+np.save('example.npy',a)
+
+a1 = np.load('example.npy')
+>>>	array([[-0.83459128,  0.14799015, -0.17299896],
+       [ 2.55782224, -1.69153081, -0.59328351]])
+
+
+
+
+
+
+
+
+
+
+DOING MATH WITH ARRAYS
+x = np.linspace(0,10,40)
+sinx = np.sin(x)
+cosx = np.cos(x)
+np.dot(sinx,cosx)
+np.outer(sinx,cosx)
+v = np.linspace(0,10,5)
+v + 1
+
+vv = np.outer(v,v)
+vv + v
+
+vv + v[:,np.newaxis]
+
+INDEXING AND SLICING
+vv[vv > 0.5] = vv[vv > 0.5] * 2
+
+
+RECORDS AND DATES
+Although the very idea of a Numpy Array is a homogeneous container of a single well-defined type it is also possible to create Numpy Arrays with mixed types. Such a Record Array is a hybrid of a list and a dictionary. A list because we can access the rows using a numerical index. And a dictionary since we access the columns by their names by full strings. Creating such an array requires a very specialized index. 
+
+reca = np.array([(1,(2.0,3.0),'hey'),(2,(3.5,4.0),'n')],
+                dtype=[('x',np.int32),('y',np.float64,2),('z',np.str,4)])
+>>>	array([(1, [2.0, 3.0], 'hey'), (2, [3.5, 4.0], 'n')], 
+      dtype=[('x', '<i4'), ('y', '<f8', (2,)), ('z', '<U4')])
+
+reca[0]
+>>> (1, [2.0, 3.0], 'hey')
+
+reca['x']
+array([1, 2])
+
+
+Basically  dtype=[('x',np.int32),('y',np.float64,2),('z',np.str,4)] is a column row description, wherein 
+	'x' 	, 'y'		, 'z' 		are column names, 
+	np.int32, np.float64, np.str 	are Column data types
+			,  2		,  4		are Column size 
+
+
+reca[0]['x']
+>>> 1
+
+
+
+np.datetime64('2015')
+np.datetime64('2015-01')
+np.datetime64('2015-02-03 12:00:00')
+np.datetime64('2015-02-03 12:00:00+0700')
+np.datetime64('2015-01-01') < np.datetime64('2015-04-03') # True
+np.datetime64('2015-04-03') - np.datetime64('2015-01-01') # numpy.timedelta64(92,'D')
+np.datetime64('2015-01-01') + np.timedelta64(5,'D') # numpy.datetime64('2015-01-06')
+np.datetime64('2015-01-01') + np.timedelta64(5,'h') # numpy.datetime64('2014-12-31T21:00-0800','h')
+np.datetime64('2015-01-01').astype(float) # 16436.0
+np.datetime64('1970-01-01').astype(float) # 0.0 -  Start Date
+r = np.arange(np.datetime64('2016-02-01'),np.datetime64('2016-03-01'))
+>>> 	array(['2016-02-01', '2016-02-02', '2016-02-03', '2016-02-04',
+       '2016-02-05', '2016-02-06', '2016-02-07', '2016-02-08',
+       '2016-02-09', '2016-02-10', '2016-02-11', '2016-02-12',
+       '2016-02-13', '2016-02-14', '2016-02-15', '2016-02-16',
+       '2016-02-17', '2016-02-18', '2016-02-19', '2016-02-20',
+       '2016-02-21', '2016-02-22', '2016-02-23', '2016-02-24',
+       '2016-02-25', '2016-02-26', '2016-02-27', '2016-02-28', '2016-02-29'], dtype='datetime64[D]')
+
+
+
+
+
+QUIZ
+1. In a two-dimensional array named v, the indexing v[0,1] refers to the element in the first column and the second row.
+	False
+2. Given the NumPy array v = array([1,2,3]), select the correct array for the following command:  v + 1
+	array([2, 3, 4])
+3. Select the correct array for the following command: numpy.arange(0, 15, 3)
+	array([0, 3, 6, 9, 12])
+4. How are NumPy arrays different from Python containers?
+	- NumPy arrays can only contain values of the same type, whereas Python lists can contain values of different types.
+
+	- NumPy arrays use contiguous blocks of memory with one address, while Python lists are arrays of addresses to Python objects.
+
+	- Computations on large lists of numbers are more efficient with NumPy arrays than with Python containers.
+
+************************************************************************************************************
+5. WEATHER DATA WITH NUMPY
+************************************************************************************************************
+WEATHER DATA OVERVIEW
+DOWNLOADING AND PARSING DATA FILES
+TEMPERATURE ANALYSIS
+INTEGRATING MISSING DATA
+SMOOTHING DATA
+COMPUTING DAILY RECORDS
+CHALLENGE
+SOLUTION
+QUIZ
+************************************************************************************************************
+6. INTRODUCTION TO PANDAS
+************************************************************************************************************
+PANDAS OVERVIEW
+SERIES IN PANDAS
+DATAFRAMES IN PANDAS
+USING MULTILEVEL INDICES
+AGGREGATION
+QUIZ
+************************************************************************************************************
+7. BABY NAMES WITH PANDAS
+************************************************************************************************************
+BABY NAME OVERVIEW
+LOADING DATASETS
+NAME POPULARITY
+A YEARLY TOP TEN
+NAME FADS
+CHALLENGE
+SOLUTION
+QUIZ
