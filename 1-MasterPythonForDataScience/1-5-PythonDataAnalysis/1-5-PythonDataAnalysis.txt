@@ -434,13 +434,34 @@ QUIZ
 ************************************************************************************************************
 WEATHER DATA OVERVIEW
 DOWNLOADING AND PARSING DATA FILES
+urllib.request.urlretrieve('ftp://ftp.ncdc.noaa.gov/pub/data/ghcn/daily/ghcnd-stations.txt','stations.txt')
+open('stations.txt','r').readlines()[:10]
+
+
+
+
+
+
+
 TEMPERATURE ANALYSIS
 INTEGRATING MISSING DATA
 SMOOTHING DATA
 COMPUTING DAILY RECORDS
 CHALLENGE
 SOLUTION
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-5-PythonDataAnalysis/Ex_Files_Intro_Analysis_Python/Exercise%20Files/Ch5/05_08/05_08_challenge_end.ipynb"
+
 QUIZ
+1. 	What information must be included to use the matplotlib.pyplot.fill.between function to add a shaded polygon to a plot?
+		the array for the horizontal variable
+		an alpha value to specify how transparent the shaded region should be
+		the arrays for the lower and upper boundaries of the vertical variable
+2. 	The numpy.correlate function is used to adjust the number of subplots in the plotting window.
+3.	Given the array v = numpy.array([3,7,numpy.nan]), which contains a missing value, how can you calculate the average of the array?
+		numpy.mean(v[:2])
+4.	Given the list v = [1,2,3,4], select the command that would produce the list sub = [2,4].
+5. 	NumPy is a fundamental package for scientific computing with Python.
+
 ************************************************************************************************************
 6. INTRODUCTION TO PANDAS
 ************************************************************************************************************
@@ -450,14 +471,165 @@ DATAFRAMES IN PANDAS
 USING MULTILEVEL INDICES
 AGGREGATION
 QUIZ
+1. Using a dataset containing salary information for U.S. citizens, how could you use the Pandas package to create a table that includes the average salary of female teachers?
+	data.groupby(['sex', 'teacher']).mean()
+2. Objects in Pandas series can have more than one index.
+3. Which of the following is an appropriate way to use explicit indexing to slice a Pandas series of state average incomes (called v)?
+	v.loc[:'Maine']
+4. Which explicit indices can Pandas arrays use?
+	numerical and non-numerical indices
+
 ************************************************************************************************************
 7. BABY NAMES WITH PANDAS
 ************************************************************************************************************
 BABY NAME OVERVIEW
 LOADING DATASETS
+import zipfile
+zipfile.ZipFile('names.zip').extractall('.')
+names2011 = pd.read_csv('names/yob2011.txt',names=['name','sex','number'])
+
+#Combine Data from different txt files into one datafram
+names_all = []
+
+for year in range(1880,2014+1):
+    names_all.append(pd.read_csv('names/yob{}.txt'.format(year),names=['name','sex','number']))
+    names_all[-1]['year'] = year
+
+allyears = pd.concat(names_all)
+allyears.head()	# Starting from 1880
+allyears.tail() # To 			2015
+		name	sex	number	year
+33039	Zykeem	M	5		2014
+33040	Zymeer	M	5		2014
+33041	Zymiere	M	5		2014
+33042	Zyran	M	5		2014
+33043	Zyrin	M	5		2014
+
+
+
+
+
+
 NAME POPULARITY
+
+
+**************NOTE*************
+allyears_indexed = allyears.set_index(['sex','name','year']).sort_index()
+							number
+sex		name		year	
+F		Aabha		2011	7
+					2012	5
+					2014	9
+		Aabriella	2008	5
+					2014	5
+		Aaden		2009	5
+		Aadhira		2012	6
+					2013	10
+					2014	13
+		Aadhya		2007	10
+					2008	9
+
+...	...	...	...
+
+					2014	7
+		Zytavion	2011	5
+		Zytavious	2002	6
+					2004	6
+					2005	5
+					2006	7
+					2007	6
+					2009	7
+					2010	6
+		Zyvion		2009	5
+		Zyyon		2014	6
+		Zzyzx		2010	5		
+
+
+allyears_indexed.loc['F','Mary']
+
+
+def plotname(sex,name):
+    data = allyears_indexed.loc[sex,name]
+    
+    pp.plot(data.index,data.values)
+
+
+pp.figure(figsize=(12,2.5))
+
+names = ['Michael','John','David','Martin']
+
+for name in names:
+    plotname('M',name)
+
+pp.legend(names)
+
+
+
+allyears_indexed.loc['F'].loc[names].head()
+
+
+				number
+name	year	
+Chiara	1959	9
+		1960	5
+		1962	8
+		1963	8
+		1964	12
+
+
+allyears_indexed.loc['F'].loc[names].unstack(level=0).head()
+
+										number
+name	Chiara	Ciara	Claire	Clara	Clare
+year					
+1880	NaN		NaN		21		1226	15
+1881	NaN		NaN		23		1242	20
+1882	NaN		NaN		30		1490	21
+1883	NaN		NaN		38		1548	22
+1884	NaN		NaN		33		1852	38
+
+allyears_indexed.loc['F'].loc[names].unstack(level=0).fillna(0).head()
+
+										number
+name	Chiara	Ciara	Claire	Clara	Clare
+year					
+1880	0		0		21		1226	15
+1881	0		0		23		1242	20
+1882	0		0		30		1490	21
+1883	0		0		38		1548	22
+1884	0		0		33		1852	38
+
+variants = allyears_indexed.loc['F'].loc[names].unstack(level=0).fillna(0)
+
+pp.figure(figsize=(12,2.5))
+
+pp.stackplot(variants.index,variants.values.T,label=names)
+
+pp.figure(figsize=(12,2.5))
+
+palette = seaborn.color_palette()
+pp.stackplot(variants.index,variants.values.T,colors=palette)
+
+for i,name in enumerate(names):
+    pp.text(1882,5000 + 800*i,name,color=palette[i])
+
+
+
+
+
 A YEARLY TOP TEN
 NAME FADS
 CHALLENGE
 SOLUTION
+"https://github.com/Gurubux/LinkedIn-Learn/blob/master/1-MasterPythonForDataScience/1-5-PythonDataAnalysis/Ex_Files_Intro_Analysis_Python/Exercise%20Files/Ch7/07_07/07_07_challenge_end.ipynb"
 QUIZ
+1.In a Pandas series (named v) of random numbers between 0 and 100, the following code creates a new series with the subset of values in v that are between 25 and 50:  v[(v > 25) & (v > 50)]
+	False
+2. Which of the following is NOT true when stacking and unstacking dataframes using the Pandas package?
+	\After a dataframes has been stacked, it cannot be unstacked.
+3.	You are given an indexed Pandas dataframe of student athlete numbers: 
+ 	data.set_index(['School','Class','Gender'])
+ 	To create a table with the School and Gender indices as rows, and Class as columns, what should you do?
+		\Unstack the dataframe with level = -1.
+4.	Which of the following loads a .csv file with appropriate column headers?
+	data = pandas.read_csv('data.txt', names=['sex','profession','salary'])
