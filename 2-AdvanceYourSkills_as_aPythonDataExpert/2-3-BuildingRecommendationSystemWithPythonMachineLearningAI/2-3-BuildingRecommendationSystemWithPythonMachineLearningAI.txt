@@ -255,6 +255,18 @@ y_pred
 
 ------------------------------------------------------------------------------------------------------------------------------
 MODEL-BASED COLLABORATIVE FILTERING SYSTEMS
+With these systems you build a model from user ratings, and then make recommendations based on that model. 
+SVD - Singular Value Decomposition. 
+Utility matrix is also known as user item matrix.
+	Utility matrix  are sparse
+
+SVD 
+	- Is a linear algebra method that you can use to decompose a utility matrix into three compressed matrices. 
+	- It`s useful For building a model-based recommender because you can use these "compressed matrices" to make recommendations without having to refer back to the complete And entire dataset. 
+	- With SVD, you uncover latent variables. These are inferred variables that are present within And affect the behavior of a dataset. Although these variables are present And influential within a dataset, They`re not directly observable.
+
+Anatomy of SVD = "https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/2-AdvanceYourSkills_as_aPythonDataExpert/2-3-BuildingRecommendationSystemWithPythonMachineLearningAI/SVD_Anatomy.PNG"
+Anatomy of Truncated SVD = "https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/2-AdvanceYourSkills_as_aPythonDataExpert/2-3-BuildingRecommendationSystemWithPythonMachineLearningAI/Truncated_SVD_Anatomy.PNG"
 
 
 SVD Matrix Factorization
@@ -328,12 +340,15 @@ user_id
 X = rating_crosstab.T
 (1664, 943)
 
-
 "TRANSPOSING THE MATRIX"
 SVD = TruncatedSVD(n_components=12, random_state=17)
 
 resultant_matrix = SVD.fit_transform(X)
 (1664, 12)
+
+✔ ----> We want to use the similarities between users, to decide which movies to recommend, so we can use truncated SVD to compress all of the user ratings down to just 12 latent variables. These variables are going to capture most of the information that was stored in the 943 user columns previously. They represent a generalized view of users` tastes and preferences.
+
+
 
 "GENERATING A CORRELATION MATRIX"
 corr_mat = np.corrcoef(resultant_matrix)
@@ -367,7 +382,75 @@ list(movie_names[(corr_star_wars<1.0) & (corr_star_wars > 0.95)])
 
 ------------------------------------------------------------------------------------------------------------------------------
 CONTENT-BASED RECOMMENDER SYSTEMS
+Nearest neighbor algorithm
+	Unsupervised Classifier
+	Also known as memorey-based system
+	   Because it memorizes instances and then recommends an item, or a single instance, based on how quantitatively similar it is to a new incoming instance. 
+	Example : MtCars
+		You get a customer that comes in and tells you that he wants a car that gets 25 miles per gallon and has a 4.7 liter, 425 horsepower engine. You have a dataset that describes all of these specs on the cars in your inventory. So you could use the nearest neighbor algorithm to identify the single best matching car from among all cars in your inventory database. To do this, you`d create a single test point that represents your customer`s desired specifications. When you run the model, it will memorize all of the data points in your inventory. It will then calculate the single data point that is quantitatively most similar to your test point. The car that this data point represents would be the one "YOU`D RECOMMEND TO YOUR CUSTOMER. "
+
+from sklearn.neighbors import NearestNeighbors
+
+cars = pd.read_csv('mtcars.csv')
+cars.columns = ['car_names', 'mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec', 'vs', 'am', 'gear', 'carb']
+cars.head()
+
+t = [15, 300, 160, 3.2]
+
+X = cars.iloc[:,(1, 3, 4, 6)].values # mpg , disp , hp , wt
+
+nbrs = NearestNeighbors(n_neighbors=1).fit(X)
+
+print(nbrs.kneighbors([t]))
+>>> (array([[ 10.77474942]]), array([[22]], dtype=int64))
+
+
 ------------------------------------------------------------------------------------------------------------------------------
 EVALUATING RECOMMENDATION SYSTEMS
+
+
+		  		No of items I Liked and were also recommended
+PRECISION =	------------------------------------------------
+					Total Items Recommended
+		  = Relevance ? How relevant were your recommendations?
+
+		  		No of items I Liked and were also recommended
+RECALL 	  =	------------------------------------------------
+					Total Items I Liked
+
+		  = Completeness ? How Completely did the recommender system predict the items I liked ? 
+
+
+
+bank_full = pd.read_csv('bank_full_w_dummy_vars.csv')
+
+X = bank_full.iloc[:,18:37].values
+y = bank_full.iloc[:,17].values
+
+LogReg = LogisticRegression()
+LogReg.fit(X, y)
+
+y_pred = LogReg.predict(X)
+
+print(classification_report(y, y_pred))
+            precision    recall  f1-score   support
+
+          0       0.90      0.99      0.94     39922
+          1       0.67      0.17      0.27      5289
+
+avg / total      "0.87"    "0.89"     0.86     45211
+
+
+
+So we see we have a precision of 87 here, and what that means is that of all the offers that were made, 87% of them were made to users that liked them. This metric is an indicator of how precise the predictions were. 
+
+When we look over at recall we see that we get an 89. And what that is really saying is of all the products that users liked, 89% of those products were offered to them. So in other words, recall is expressing how complete the predictions were that the model made or model completeness. 
 ------------------------------------------------------------------------------------------------------------------------------
 CHAPTER QUIZ
+1. Classification-based recommenders are NOT able to accept product specification data .
+2. How do user-based collaborative filtering systems make recommendations?
+	by considering user behavior and similarities between each of the users
+3. Content-based systems recommend based on user attributes. - False
+4. How can you determine a recommendation`s relevancy?
+	by looking at the recommendation model's precision
+
