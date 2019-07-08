@@ -452,5 +452,5 @@ CHAPTER QUIZ
 	by considering user behavior and similarities between each of the users
 3. Content-based systems recommend based on user attributes. - False
 4. How can you determine a recommendation`s relevancy?
-	by looking at the recommendation model's precision
+	by looking at the recommendation model`s precision
 

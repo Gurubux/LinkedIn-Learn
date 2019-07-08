@@ -1,0 +1,1165 @@
+NLP with Python for Machine Learning Essential Training
+
+1. NLP BASICS
+WHAT ARE NLP AND NLTK?
+NLTK SETUP AND OVERVIEW
+READING IN TEXT DATA
+EXPLORING THE DATASET
+WHAT ARE REGULAR EXPRESSIONS?
+LEARNING HOW TO USE REGULAR EXPRESSIONS
+REGULAR EXPRESSION REPLACEMENTS
+MACHINE LEARNING PIPELINE
+IMPLEMENTATION: REMOVING PUNCTUATION
+IMPLEMENTATION: TOKENIZATION
+IMPLEMENTATION: REMOVING STOP WORDS
+CHAPTER QUIZ
+
+2. SUPPLEMENTAL DATA CLEANING
+INTRODUCING STEMMING
+USING STEMMING
+INTRODUCING LEMMATIZING
+USING LEMMATIZING
+
+3. VECTORIZING RAW DATA
+INTRODUCING VECTORIZING
+COUNT VECTORIZATION
+N-GRAM VECTORIZING
+INVERSE DOCUMENT FREQUENCY WEIGHTING
+
+4. FEATURE ENGINEERING
+INTRODUCING FEATURE ENGINEERING
+FEATURE CREATION
+FEATURE EVALUATION
+IDENTIFYING FEATURES FOR TRANSFORMATION
+BOX-COX POWER TRANSFORMATION
+CHAPTER QUIZ
+
+5. BUILDING MACHINE LEARNING CLASSIFIERS
+WHAT IS MACHINE LEARNING?
+CROSS-VALIDATION AND EVALUATION METRICS
+INTRODUCING RANDOM FOREST
+BUILDING A RANDOM FOREST MODEL
+RANDOM FOREST WITH HOLDOUT TEST SET
+RANDOM FOREST MODEL WITH GRID SEARCH
+EVALUATE RANDOM FOREST MODEL PERFORMANCE
+INTRODUCING GRADIENT BOOSTING
+GRADIENT-BOOSTING GRID SEARCH
+EVALUATE GRADIENT-BOOSTING MODEL PERFORMANCE
+MODEL SELECTION: DATA PREP
+MODEL SELECTION: RESULTS
+CHAPTER QUIZ
+
+
+
+
+************************************************************************************************************
+1. NLP BASICS
+************************************************************************************************************
+@WHAT ARE NLP AND NLTK?
+Natural language processing is a field concerned with the ability of a computer to understand, analyze, manipulate, and potentially generate human language. By human language, we`re simply referring to any language used for everyday communication. This can be English, Spanish, French, anything like that. Now it`s worth noting that Python doesn`t naturally know what any given word means. All it will see is a string of characters. For instance, it has no idea what "natural" actually means. It sees that it`s seven characters long, but the individual characters don`t mean anything to Python and certainly the collection of those characters together don`t mean anything, either. So we know that, what an N is, what an A is, & we know that together, those seven characters makes up the word natural, and we know what that means. 
+So NLP is the field of getting the computer to understand what naturally actually signifies, and from there we can get into the manipulation or potentially even generation of that human language. You probably experience natural language processing on a daily basis. They may not really even know it. So here are a few examples that you may see on a day to day basis. 
+	1. The first would be a spam filter, so this is just where your email server is determining whether an incoming email is spam or not, based on the content of the body, the subject, and maybe the email domain. 
+	2. The second is auto-complete, where Google is basically predicting what you`re interested in searching for based on what you`ve already entered and what others commonly search for with those same phrases. So if I search for natural language processing, it knows that many other people are interested in learning NLP with Python, or learning it through a course, or looking for jobs related to natural language processing. So it can auto-complete your search for you. 
+	3. The last is auto-correct, where say iPhone is trying to help you correct a misspelling. I liked this example because it shows how auto-correct has actually evolved over time and continues to evolve and learn. So with iOS6, if you`re trying to say, "I`ll be ill tomorrow," It wouldn`t necessarily correct I`ll be I`ll tomorrow until iOS7, where it actually corrects, it auto-completes tomorrow and corrects I`ll into ill. So it`ll correctly send as I`ll be ill tomorrow. 
+
+So that just kind of shows how NLP is still evolving and how even super powerful systems like iOS is still kind of learning what natural language even means. 
+Now NLP is a very broad umbrella that encompasses many topics. A few of those might be 
+	- sentiment analysis, 
+	- topic modeling, 
+	- text classification, 
+	- sentence segmentation or 
+	- part-of-speech tagging. 
+
+	The core component of natural language processing is extracting all the information from a block of text that is relevant to a computer understanding the language. This is task specific, as well. Different information is relevant for a sentiment analysis task than is relevant for a topic modeling task. 
+
+	So that`s a very quick introduction into what natural language processing is. Now let`s start thinking about the tools that we actually need to build these processes. The "natural language toolkit" is the most utilized package for handling natural language processing tasks in Python. Usually called "NLTK" for short, it is a suite of open-source tools originally created in 2001 at the University of Pennsylvania for the purpose of making building NLP processes in Python easier. This package has been expanded through the extensive contributions of open-source users in the years since its original development. NLTK is great because it basically provides a jumpstart to building any NLP process by giving you the basic tools that you can then chain together to accomplish your goal rather than having to build all those tools from scratch. A lot of tools are packaged into NLTK, and in the next section we`ll dive into downloading the package and exploring some of those tools.
+
+@NLTK SETUP AND OVERVIEW
+import nltk
+nltk.download()
+	#NLTK Downloader box pops up
+True
+
+dir(nltk)
+
+#What can you do with NLTK?
+from nltk.corpus import stopwords
+stopwords.words('english')[0:500:25]
+>>> ['i', 'herself', 'been', 'with', 'here', 'very', 'doesn', 'won']
+
+
+
+@READING IN TEXT DATA
+Reading in text data & why do we need to clean the text?
+
+Read in semi-structured text data
+rawData = open("SMSSpamCollection.tsv").read()
+>>>
+"ham\tI've been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.\nspam\tFree entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's\nham\tNah I don't think he goes to usf, he lives around here though\nham\tEven my brother is not like to speak with me. They treat me like aid"
+
+parsedData = rawData.replace('\t', '\n').split('\n')
+>>>
+['ham',
+ "I've been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.",
+ 'spam',
+ "Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's",
+ 'ham']
+
+labelList = parsedData[0::2]
+textList = parsedData[1::2]
+>>>
+labelList - ['ham', 'spam', 'ham', 'ham', 'ham']
+textList - ["I've been searching for the right words to thank you for this breather. I promise i wont take your help for granted and will fulfil my promise. You have been wonderful and a blessing at all times.", "Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&C's apply 08452810075over18's", "Nah I don't think he goes to usf, he lives around here though", 'Even my brother is not like to speak with me. They treat me like aids patent.', 'I HAVE A DATE ON SUNDAY WITH WILL!!']
+
+
+fullCorpus = pd.DataFrame({
+    'label': labelList[:-1],
+    'body_list': textList
+})
+>>>
+	body_list											label
+0	I`ve been searching for the right words to tha...	ham
+1	Free entry in 2 a wkly comp to win FA Cup fina...	spam
+2	Nah I don`t think he goes to usf, he lives aro...	ham
+3	Even my brother is not like to speak with me. ...	ham
+4	I HAVE A DATE ON SUNDAY WITH WILL!!	ham
+
+
+\OR
+
+
+dataset = pd.read_csv("SMSSpamCollection.tsv", sep="\t", header=None)
+>>>
+	0		1
+0	ham		I`ve been searching for the right words to tha...
+1	spam	Free entry in 2 a wkly comp to win FA Cup fina...
+2	ham		Nah I don`t think he goes to usf, he lives aro...
+3	ham		Even my brother is not like to speak with me. ...
+4	ham		I HAVE A DATE ON SUNDAY WITH WILL!!
+
+
+
+@EXPLORING THE DATASET
+Read in text data
+
+import pandas as pd
+fullCorpus = pd.read_csv('SMSSpamCollection.tsv', sep='\t', header=None)
+fullCorpus.columns = ['label', 'body_text']
+>>>
+	label	body_text
+0	ham		I`ve been searching for the right words to tha...
+1	spam	Free entry in 2 a wkly comp to win FA Cup fina...
+2	ham		Nah I don`t think he goes to usf, he lives aro...
+3	ham		Even my brother is not like to speak with me. ...
+4	ham		I HAVE A DATE ON SUNDAY WITH WILL!!
+
+fullCorpus.shape
+	(5568, 2)
+
+fullCorpus['label'].value_counts()
+	ham     4822
+	spam     746
+	Name: label, dtype: int64
+
+fullCorpus['label'].isnull().sum()
+fullCorpus['body_text'].isnull().sum()
+	0
+	0
+
+
+@WHAT ARE REGULAR EXPRESSIONS?
+
+'nlp' 			search for nlp string
+'[k-q]'			search all words between k and q, of any length
+'[k-q]+'		search all words between k and q, of more than 1 character length
+'[0-9]+'		search all numbers, of more than 1 length
+'[k-q][0-9]+'	search for sequences of characters between 'j' & 'q', OR numbers between 0 & 9.   "nlp2017" will return full string "nlp 2017" with a space in between them 			, then that would return them as two separate sequences.
+
+'\W' or '\w' = words
+'\S' or '\s' = whitespaces
+
+'\s'			searches for 1 single space in the string
+'\s+'			searches for multiple space in the string
+'\S+'			searches for Non multiple space in the string
+
+'\w+'			searches for word characters ( '-' , '/', '>')
+'\W+'			searches for non-word characters ( '-' , '/', '>')
+
+(Uppercase S looks for words, lowercase s looks for spaces)
+(Uppercase W looks for words, lowercase w looks for spaces and special Characters)
+
+[a-z]+
+[A-Z]+
+[A-Z]+[0-9]+
+
+
+Uses :
+	1. Identifying whitespaces between words
+	2. Identifying/creating delimiters or end-of-line escape characters
+	3. Removing puntuations or numbers for the text
+	4. Cleaning HTML text from the text
+	5. Identifying some textual patterns you`re interested In. 
+
+Uses-cases : 
+	1. Confirming passwords meet criteria
+	2. Search URL for substring
+	3. Searching for files on your computer or Github
+	4. Document scraping
+
+
+
+@LEARNING HOW TO USE REGULAR EXPRESSIONS - split(), findall(), sub()
+import re
+
+re_test = 'This is a made up string to test 2 different regex methods'
+re_test_messy = 'This      is a made up     string to test 2    different regex methods'
+re_test_messy1 = 'This-is-a-made/up.string*to>>>>test----2""""""different~regex-methods'
+
+
+Splitting a sentence into a list of words
+re.split('\s', re_test)
+>>>
+	['This',
+ 	'is',
+ 	'a',
+ 	'made',
+ 	'up',
+ 	'string',
+ 	'to',
+ 	'test',
+ 	'2',
+ 	'different',
+ 	'regex',
+ 	'methods']
+
+re.split('\s', re_test_messy)
+>>>
+	['This',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 'is',
+ 	 'a',
+ 	 'made',
+ 	 'up',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 'string',
+ 	 'to',
+ 	 'test',
+ 	 '2',
+ 	 '',
+ 	 '',
+ 	 '',
+ 	 'different',
+ 	 'regex',
+ 	 'methods']
+re.split('\s+', re_test_messy)
+>>>
+	['This',
+ 	 'is',
+ 	 'a',
+ 	 'made',
+ 	 'up',
+ 	 'string',
+ 	 'to',
+ 	 'test',
+ 	 '2',
+ 	 'different',
+ 	 'regex',
+ 	 'methods']
+
+re.split('\s+', re_test_messy1)
+>>>
+	['This-is-a-made/up.string*to>>>>test----2""""""different~regex-methods']
+
+re.split('\W+', re_test_messy1)
+>>>
+	['This',
+ 	 'is',
+ 	 'a',
+ 	 'made',
+ 	 'up',
+ 	 'string',
+ 	 'to',
+ 	 'test',
+ 	 '2',
+ 	 'different',
+ 	 'regex',
+ 	 'methods']
+
+re.findall('\S+', re_test)
+re.findall('\S+', re_test_messy)
+['This',
+ 'is',
+ 'a',
+ 'made',
+ 'up',
+ 'string',
+ 'to',
+ 'test',
+ '2',
+ 'different',
+ 'regex',
+ 'methods']
+
+re.findall('\S+', re_test_messy1)
+['This-is-a-made/up.string*to>>>>test----2""""""different~regex-methods']
+
+re.findall('\w+', re_test_messy1)
+['This',
+ 'is',
+ 'a',
+ 'made',
+ 'up',
+ 'string',
+ 'to',
+ 'test',
+ '2',
+ 'different',
+ 'regex',
+ 'methods']
+
+@REGULAR EXPRESSION REPLACEMENTS
+Replacing a specific string
+pep8_test = 'I try to follow PEP8 guidelines'
+pep7_test = 'I try to follow PEP7 guidelines'
+peep8_test = 'I try to follow PEEP8 guidelines'
+
+re.findall('[a-z]+', pep8_test)
+['try', 'to', 'follow', 'guidelines']
+
+re.findall('[A-Z]+', pep8_test)
+['I', 'PEP']
+
+re.findall('[A-Z]+[0-9]+', peep8_test)
+['PEEP8']
+
+re.sub('[A-Z]+[0-9]+', 'PEP8 Python Styleguide', peep8_test)
+'I try to follow PEP8 Python Styleguide guidelines'
+
+
+
+Other examples of regex methods
+re.search()
+re.match()
+re.fullmatch()
+re.finditer()
+re.escape()
+
+
+
+
+@MACHINE LEARNING PIPELINE
+				Raw test 	- ('I am Groot')
+				   ↓
+			  	Tokenize 	- ('I', 'am','Groot')
+				   ↓
+			   Clean Text 	- StopWords Removal - ('Groot')
+				   ↓
+				Vectorize 	- ( 1 1 0 0 1 0 0 1 01 1 0 0 )
+				   ↓
+				ML Algo 	- Fit/Train
+				   ↓
+			 Predict/Filter
+				   
+
+SMSSpamCollection.tsv
+	label	body_text
+0	ham		I`ve been searching for the right words to thank you for this breather. I promise i wont take yo...
+1	spam	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive ...
+2	ham		Nah I don`t think he goes to usf, he lives around here though
+3	ham		Even my brother is not like to speak with me. They treat me like aids patent.
+4	ham		I HAVE A DATE ON SUNDAY WITH WILL!!
+
+TO
+SMSSpamCollection_cleaned.tsv
+	label	body_text																						\body_text_nostop
+0	ham		I`ve been searching for the right words to thank you for this breather...	['ive', 'searching', 'right', 'words', 'thank', 'breather', '...
+1	spam	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. ...		['free', 'entry', '2', 'wkly', 'comp', 'win', 'fa', 'cup', 'final', 'tkts', '21st',																						 'may', '2005...'
+2	ham		Nah I don`t think he goes to usf, he lives around here though				['nah', 'dont', 'think', 'goes', 'usf', 'lives', 'around', 'though']
+3	ham		Even my brother is not like to speak with me.They treat me like aids patent.['even', 'brother', 'like', 'speak', 'treat', 'like', 'aids', 'patent']
+4	ham		I HAVE A DATE ON SUNDAY WITH WILL!!											['date', 'sunday']
+
+
+
+
+@IMPLEMENTATION_REMOVING PUNCTUATION - string.punctuation
+import string
+string.punctuation
+>>> '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+
+
+def remove_punct(text):
+    text_nopunct = "".join([char for char in text if char not in string.punctuation])
+    return text_nopunct
+
+data['body_text_clean'] = data['body_text'].apply(lambda x: remove_punct(x))
+>>>
+	label	body_text																	 \body_text_clean
+0	ham		I`ve been searching for the right words to thank you for this breather  ...	 Ive been searching for the right words to thank you for this breather...
+1	spam	Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. 	...	 Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005 ..
+2	ham		Nah I don`t think he goes to usf, he lives around here though				 Nah I dont think he goes to usf he lives around here though
+3	ham		Even my brother is not like to speak with me. They treat me like aids patent.Even my brother is not like to speak with me They treat me like aids patent
+4	ham		I HAVE A DATE ON SUNDAY WITH WILL!!											 I HAVE A DATE ON SUNDAY WITH WILL
+
+
+@IMPLEMENTATION_TOKENIZATION - x.lower() and re.split()
+
+import re
+def tokenize(text):
+    tokens = re.split('\W+', text)
+    return tokens
+
+data['body_text_tokenized'] = data['body_text_clean'].apply(lambda x: tokenize(x.lower()))
+>>>
+Ive been searching for the right words to thank you for this breather TO [ive, been, searching, for, the, right, words, to, thank, you, for, this, breather, i, promise, ...
+
+
+@IMPLEMENTATION_REMOVING STOP WORDS - nltk.corpus.stopwords.words('english')
+import nltk
+stopword = nltk.corpus.stopwords.words('english')
+len(stopword) # 179
+
+def remove_stopwords(tokenized_list):
+    text = [word for word in tokenized_list if word not in stopword]
+    return text
+
+data['body_text_nostop'] = data['body_text_tokenized'].apply(lambda x: remove_stopwords(x))
+[ive, been, searching, For, the, right, words, to, thank, you, For, this, breather, i, promise]  TO [ive, searching, right, words, thank, breather, promise, wont]
+
+print(len(data['body_text_tokenized'][0]))
+print(len(data['body_text_nostop'][0]))
+>>>37
+>>>16
+
+
+
+
+
+@CHAPTER QUIZ
+1. In the machine learning pipeline, "vectorizing" is about converting to numeric form.
+2. What is the result of the following call:  re.findall('[A-Z]+', "I like this test")
+	['I']
+3. What is the length of the list returned by the following split call: re.split('\s',"This is an interesting te+st")
+	5
+4. When using pd.read_csv(), how can you tell it that you are using tabs As separators and there are no headers?
+	sep="\t", header=None
+
+
+
+************************************************************************************************************
+2. SUPPLEMENTAL DATA CLEANING
+************************************************************************************************************
+@INTRODUCING STEMMING - Less accurate but fast
+Stemming is the process of reducing inflected or derived words to their word stem or root. 
+More simply put, the process of stemming means often crudely chopping off the end of a word, to leave only the base. 
+So this means taking words with various suffixes and condensing them under the same root word. 
+
+stemming or stemmed 				to 		stem
+electricity and electrical			to 		electric 
+berries and berry 					to 		berri - ( With an i)
+connection, connected, connective   to 		connect
+meaning, meanness					to 		mean
+run, running, runner				to 		run and runner
+Uses : 
+	It reduces the corpus of words the model is exposed to, so it`s just grow, instead of grew, grow, and growing
+	It explicitly correlates words with similar meaning
+
+Types of Stemmer: 
+	1. Porter Stemmer ✔
+	2. Snowball Stemmer
+	3. Lancaster Stemmer
+	4. Regex-Based Stemmer.
+
+
+
+@USING STEMMING - nltk.PorterStemmer() ps.stem(word)
+
+import nltk
+ps = nltk.PorterStemmer()
+print(ps.stem('grows'))
+print(ps.stem('growing'))
+print(ps.stem('grow'))
+grow
+grow
+grow
+print(ps.stem('run'))
+print(ps.stem('running'))
+print(ps.stem('runner'))
+run
+run
+runner
+---------------------------- REPEATED CODE BLOCK START------------------------------------------
+1. "READ IN RAW TEXT"
+import pandas as pd
+import re
+import string
+pd.set_option('display.max_colwidth', 100)
+stopwords = nltk.corpus.stopwords.words('english')
+data = pd.read_csv("SMSSpamCollection.tsv", sep='\t')
+data.columns = ['label', 'body_text']
+
+2. "TOKENIZE - CLEAN UP TEXT"
+def clean_text(text):
+    text = "".join([word for word in text if word not in string.punctuation])
+    tokens = re.split('\W+', text)
+    text = [word for word in tokens if word not in stopwords]
+    return text
+data['body_text_nostop'] = data['body_text'].apply(lambda x: clean_text(x.lower()))
+---------------------------- REPEATED CODE BLOCK END------------------------------------------
+
+def stemming(tokenized_text):
+    text = [ps.stem(word) for word in tokenized_text]
+    return text
+
+data['body_text_stemmed'] = data['body_text_nostop'].apply(lambda x: stemming(x))
+>>>
+[free, entry, 2, wkly, comp, win, fa, cup, final, tkts, 21st, may, 2005, text]  	TO 		[free, entri, 2, wkli, comp, win, fa, cup, final, tkt, 21st, may, 2005, text]
+
+
+
+
+@INTRODUCING LEMMATIZING - Accurate but slow
+The formal definition is that it`s the process of grouping together the inflected forms of a word so they can be analyzed as a single term, identified by the word`s lemma. The lemma is the canonical form of a set of words. For instance, "type", "typed", and "typing" would all be forms of the same lemma. 
+More simply put, lemmatizing is using vocabulary analysis of words to remove inflectional endings and return the dictionary form of a word.
+	
+Stemming and Lemmatizing
+	In practical terms, there`s an accuracy and speed trade-off that you`re making when you opt for one over the other. 
+
+The goal of both is 
+	to condense derived words down into their base form, 
+	to reduce the corpus of words that the model`s exposed to, and 
+	to explicitly correlate words with similar meaning. 
+
+The difference is that 
+	stemming takes a more crude approach by just chopping off the ending of a word using heuristics, without any understanding of the context in which a word is used. Because of that, stemming may or may not return an actual word in the dictionary. And it`s usually" less accurate", but the benefit is that it`s "faster "because the rules are quite simple.
+	Lemmatizing leverages more informed analysis to create groups of words with similar meaning based on the context around the word, part of speech, and other factors. Lemmatizers will "ALWAYS RETURN A DICTIONARY WORD". And because of the additional context it`s considered, this is typically "more accurate". But the downside is that it may be more "computationally expensive". 
+
+
+
+
+
+
+
+
+@USING LEMMATIZING
+
+print(ps.stem('meanness'))
+print(ps.stem('meaning'))
+mean
+mean
+
+print(wn.lemmatize('meanness'))
+print(wn.lemmatize('meaning'))
+meanness
+meaning
+
+First, stemming uses the algorithmic approach so it`s only concerned with the string that it`s given, and it will essentially chop off the suffix. Lemmatizing is a little bit more complex in that it searches the corpus to find related words and condense it down to the core concept. The problem is that if this word isn`t in the corpus, then it will just return the original word, so that`s what`s happening here. 
+With that said, not condensing it in this case is probably better than incorrectly stemming it using the Porter stemmer.
+
+
+
+print(ps.stem('goose'))
+print(ps.stem('geese'))
+goos
+gees
+print(wn.lemmatize('goose'))
+print(wn.lemmatize('geese'))
+goose
+goose
+
+
+
+
+---------------------------- REPEATED CODE BLOCK START------------------------------------------
+read_csv()
+clean_text()
+#stemming()
+---------------------------- REPEATED CODE BLOCK END------------------------------------------
+
+def lemmatizing(tokenized_text):
+    text = [wn.lemmatize(word) for word in tokenized_text]
+    return text
+
+data['body_text_lemmatized'] = data['body_text_nostop'].apply(lambda x: lemmatizing(x))
+>>>
+[free, entry, 2, wkly, comp, win, fa, cup, final, tkts, 21st, may, 2005, text]		 To 	[free, entry, 2, wkly, comp, win, fa, cup, final, tkts, 21st, may, 2005, text]
+
+
+
+************************************************************************************************************
+3. VECTORIZING RAW DATA
+************************************************************************************************************
+@INTRODUCING VECTORIZING
+VECTORIZING : 
+	The process that we use to 'convert text' to a form that Python and a machine learning model can understand is called vectorizing.
+	This is defined as the 'process of encoding text as integers to create FEATURE VECTORS.'
+FEATURE VECTORS : 
+	A feature vector is an n-dimensional vector of numerical features that represent some object. 
+
+\So in our context, that means we`ll be taking an individual text message and converting it to a numeric vector that represents that text message.
+
+body_text   					call 	claim 	free 	txt    label
+Free entry in...				0		0		1		1		Spam
+Nah i dont want..				0		0		0		0		ham
+Call him Now !					1		1		2		0		ham
+Greate job brother				0		4		0		5		ham
+
+Uses : 
+
+
+
+def clean_text(text):
+    text = "".join([word.lower() for word in text if word not in string.punctuation])
+    tokens = re.split('\W+', text)
+    text = [ps.stem(word) for word in tokens if word not in stopwords]
+    return text
+
+
+
+@COUNT VECTORIZATION - CountVectorizer()
+from sklearn.feature_extraction.text import CountVectorizer
+
+data_sample = data[0:20]
+count_vect = CountVectorizer(analyzer=clean_text)
+X_counts = count_vect.fit_transform(data_sample['body_text'])
+print(X_counts.shape)
+print(count_vect.get_feature_names())
+(20, 192)
+
+
+@N_GRAM VECTORIZING
+N_GRAM
+	Creates a document-term matrix where counts still occupy the cell but instead of the columns representing single terms, they represent "all combinations of adjacent words" of "length n" in your text.
+
+"NLP is an interesting topic"
+
+n	Name	Tokens
+2	bigram	["nlp is", "is an", "an interesting", "interesting topic"]
+3	trigram	["nlp is an", "is an interesting", "an interesting topic"]
+4	four-gram	["nlp is an interesting", "is an interesting topic"]
+
+
+
+from sklearn.feature_extraction.text import CountVectorizer
+
+data_sample = data[0:20]
+ngram_vect = CountVectorizer(ngram_range=(2,2))
+X_counts_N_GRAM = ngram_vect.fit_transform(data_sample['cleaned_text'])
+print(X_counts_N_GRAM.shape)
+print(ngram_vect.get_feature_names())
+(20, 198)
+
+
+@INVERSE DOCUMENT FREQUENCY WEIGHTING
+TF-IDF
+Creates a document-term matrix where the columns represent single unique terms (unigrams) but the cell represents a weighting meant to represent how important a word is to a document.
+
+	wᵢ,ⱼ = 	tfᵢ,ⱼ	X  log (N / dfᵢ)
+
+	where,
+		tfᵢ,ⱼ = number of times i occurs in j divided by total number of terms in j document
+		dfᵢ	  = Number of documents containg i term
+		N 	  = Total number of documents
+
+\"THE RARER THE WORD IS THE HIGHER Wᵢ,ⱼ IS GOING TO BE"
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+data_sample = data[0:20]
+tfidf_vect = TfidfVectorizer(analyzer=clean_text)
+X_tfidf = tfidf_vect.fit_transform(data_sample['body_text'])
+print(X_tfidf.shape)
+print(tfidf_vect.get_feature_names())
+(20, 192)
+
+
+
+"VECTORIZERS OUTPUT SPARSE MATRICES"
+X_counts_df = pd.DataFrame(X_counts.toarray())
+X_counts_df.columns = count_vect_sample.get_feature_names()
+
+
+X_counts_df = pd.DataFrame(X_counts_N_GRAM.toarray())
+X_counts_df.columns = ngram_vect_sample.get_feature_names()
+
+
+X_tfidf_df = pd.DataFrame(X_tfidf.toarray())
+X_tfidf_df.columns = tfidf_vect_sample.get_feature_names()
+
+************************************************************************************************************
+4. FEATURE ENGINEERING
+************************************************************************************************************
+@INTRODUCING FEATURE ENGINEERING
+Feature engineering is the process of creating new features and/or transforming existing features to get the most out of your data.
+
+So up to this point, we`ve just been talking about what we`re given without really imagining what "other features we might be able to extract from this data" that would be helpful to predict spam or ham. 
+The absence of this step could mean we`re potentially leaving some significant value on the table. So the model will now see the words in the text as represented by the vectorization, but nothing else. 
+What else could we extract from that text that would be helpful for the model to decipher spam from ham? 
+	For instance, maybe we could include the length of the text field. - Maybe spam tends to be a little bit longer than real text messages. 
+	Or 
+	maybe we could include what percent of the characters in the text message are punctuation.- Maybe real text messages underuse punctuation. 
+	Or 
+	maybe what percent of characters are capitalized are indicative of whether it`s spam or not. 
+
+So given these new features, or really any other already existing features, maybe you need to apply some sort of transformation to your data to make it more well-behaved. One broad popular type of transformations are called "POWER TRANSFORMATIONS. "
+
+Transformations :
+POWER TRANSFORMATIONS.
+	Squared, or squared root
+	Skewed data - Apply Log transformation - ( this will make it normalized)
+STANDARDIZING DATA
+	All data being in same scale 
+
+@FEATURE CREATION
+
+
+	label 	body_text											body_len	punct%
+0	spam	Free entry in 2 a wkly comp to win FA Cup fina...	128			4.7
+1	ham		Nah I don`t think he goes to usf, he lives aro...	49			4.1
+2	ham		Even my brother is not like to speak with me. ...	62			3.2
+3	ham		I HAVE A DATE ON SUNDAY WITH WILL!!					28			7.1
+4	ham		As per your request `Melle Melle (Oru Minnamin...)	135			4.4
+
+
+
+@FEATURE EVALUATION
+bins = np.linspace(0, 200, 40)
+
+pyplot.hist(data[data['label']=='spam']['body_len'], bins, alpha=0.5, normed=True, label='spam')
+pyplot.hist(data[data['label']=='ham']['body_len'], bins, alpha=0.5, normed=True, label='ham')
+pyplot.legend(loc='upper left')
+pyplot.show()
+
+bins = np.linspace(0, 50, 40)
+
+pyplot.hist(data[data['label']=='spam']['punct%'], bins, alpha=0.5, normed=True, label='spam')
+pyplot.hist(data[data['label']=='ham']['punct%'], bins, alpha=0.5, normed=True, label='ham')
+pyplot.legend(loc='upper right')
+pyplot.show()
+
+
+@IDENTIFYING FEATURES FOR TRANSFORMATION
+Process
+	- Determine what range of exponents to test
+	- Apply each transformation to each value of your chosen feature
+	- Use some criteria to determine which of the transformations yield the best distribution
+	
+
+@BOX_COX POWER TRANSFORMATION
+A transformation is a process that alters each data point in a certain column in a systematic way that makes it cleaner for a model to use. 
+
+
+
+
+
+for i in [1,2,3,4,5]:
+    pyplot.hist((data['punct%'])**(1/i),bins=40)
+    pyplot.title(f"Transformation: 1/{i}")
+    pyplot.show()
+
+
+
+
+
+@CHAPTER QUIZ
+1.	What result will you obtain from the histogram when you test "Create feature for text message length"?
+	spam messages tend to be longer than non-spam messages
+	"When you evaluate this feature you will find by the histogram that spam messages are longer in length."
+2.When creating a Lambda expression, you need to count the characters and ignore white spaces. What expression that helps you accomplish the task.
+	len(x) - x.count(" ")
+3.	What feature can be used by a model to decipher spam from ham.
+		length of the text
+		percentage of characters that are capitalized
+		percentage of characters that are punctuations
+************************************************************************************************************
+5. BUILDING MACHINE LEARNING CLASSIFIERS
+************************************************************************************************************
+@WHAT IS MACHINE LEARNING?
+@CROSS_VALIDATION AND EVALUATION METRICS
+Accuracy 	= Predicted Correctly 		  / Total No Of Observation
+Precision 	= Predicted Correctly as Spam /  Predicted as Spam
+Recall		= Predicted Correctly as Spam /  Total Spam observation
+
+
+@INTRODUCING RANDOM FOREST
+RANDOM FOREST : 
+	A part of "Ensemble Learning Algorithms"
+	Ensemble Learning is a technique that creates multiple models and then combines them to produce better results than any of the single models individually. The idea behind ensemble learning is that you can combine a lot of weak models to create a single strong model. The basic idea is that this leverages the aggregate opinion of many over the isolated opinion of one. This method has a very strong theoretical motivation.
+
+	Random forest is an ensemble learning method that constructs a collection of decision trees and then aggregates the predictions of each tree to determine the final prediction. 
+		Let`s just say that the random forest has one hundred decision trees in it. Then each of the hundred decision trees are built independently of one another, and each will output a prediction of either spam or ham. So let`s say 60 of those decision trees vote spam and 40 vote ham. Then the final prediction of the random forest model will be spam. So it`s really just a "simple voting method for the trees."
+
+	Benefits:
+		1. It can be used for classification or regression, so that means a categorical response or a continuous response. 
+		2. It easily handles outliers, missing values, skewed data, the data doesn`t even have to be on the same scale. 
+		3. It accepts various types of inputs as well, may it be ordinal or continuous data. 
+		4. It`s also less likely to overfit than some of the other machine learning models. 
+		5. It generates a FEATURE IMPORTANCE SCORE for each feature. 
+
+
+---------------------------READ,TOKENIZE,CLEAN,VECTORIZE,FEATURE ENGINEERING-----------------------------
+import nltk
+import pandas as pd
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+import string
+
+stopwords = nltk.corpus.stopwords.words('english')
+ps = nltk.PorterStemmer()
+
+data = pd.read_csv("SMSSpamCollection.tsv", sep='\t')
+data.columns = ['label', 'body_text']
+
+def count_punct(text):
+    count = sum([1 for char in text if char in string.punctuation])
+    return round(count/(len(text) - text.count(" ")), 3)*100
+
+data['body_len'] = data['body_text'].apply(lambda x: len(x) - x.count(" "))
+data['punct%'] = data['body_text'].apply(lambda x: count_punct(x))
+
+def clean_text(text):
+    text = "".join([word.lower() for word in text if word not in string.punctuation])
+    tokens = re.split('\W+', text)
+    text = [ps.stem(word) for word in tokens if word not in stopwords]
+    return text
+
+tfidf_vect = TfidfVectorizer(analyzer=clean_text)
+X_tfidf = tfidf_vect.fit_transform(data['body_text'])
+
+X_features = pd.concat([data['body_len'], data['punct%'], pd.DataFrame(X_tfidf.toarray())], axis=1)
+X_features.head()
+---------------------------READ,TOKENIZE,CLEAN,VECTORIZE,FEATURE ENGINEERING-----------------------------
+>>>
+
+	body_len	punct%	0	 1	 2	 3	 4	 5	 6	 7	...	8094	8095	8096	8097	8098	8099	8100	8101	8102	8103
+0	128			4.7		0.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0	...	0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0
+1	49			4.1		0.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0	...	0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0
+2	62			3.2		0.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0	...	0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0
+3	28			7.1		0.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0	...	0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0
+4	135			4.4		0.0	0.0	0.0	0.0	0.0	0.0	0.0	0.0	...	0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0		0.0
+5 rows × 8106 columns
+
+
+
+@BUILDING A RANDOM FOREST MODEL
+
+from sklearn.ensemble import RandomForestClassifier
+
+# Explore RandomForestClassifier through Cross-Validation
+from sklearn.model_selection import KFold, cross_val_score
+
+rf = RandomForestClassifier(n_jobs=-1)
+k_fold = KFold(n_splits=5)
+cross_val_score(rf, X_features, data['label'], cv=k_fold, scoring='accuracy', n_jobs=-1)
+array([ 0.96947935,  0.97486535,  0.97124888,  0.95507637,  0.96855346])
+
+
+@RANDOM FOREST WITH HOLDOUT TEST SET
+
+from sklearn.metrics import precision_recall_fscore_support as score
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X_features, data['label'], test_size=0.2)
+
+from sklearn.ensemble import RandomForestClassifier
+
+rf = RandomForestClassifier(n_estimators=50, max_depth=20, n_jobs=-1)
+rf_model = rf.fit(X_train, y_train)
+
+# FEATURE IMPORTANCE SCORE
+sorted(zip(rf_model.feature_importances_, X_train.columns), reverse=True)[0:10]
+[(0.071067778644078275, 'body_len'),
+ (0.040562335897847433, 7350),
+ (0.035736155950968088, 3134),
+ (0.025830800898315055, 2031),
+ (0.020706891454006282, 1881),
+ (0.020667459644832679, 5724),
+ (0.020246234600271286, 4796),
+ (0.016709671666146234, 5988),
+ (0.016333631268556359, 1803),
+ (0.015520152981795897, 2171)]
+
+# Predict
+y_pred = rf_model.predict(X_test)
+
+# Evaluation 
+precision, recall, fscore, support = score(y_test, y_pred, pos_label='spam', average='binary')
+round(precision, 3)
+round(recall, 3)
+round((y_pred==y_test).sum() / len(y_pred),3)
+>>> Precision: 1.0 / Recall: 0.552 / Accuracy: 0.934
+
+
+@RANDOM FOREST MODEL WITH GRID SEARCH
+Grid-search: Exhaustively search all parameter combinations in a given grid to determine the best model.
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import precision_recall_fscore_support as score
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X_features, data['label'], test_size=0.2)
+
+def train_RF(n_est, depth):
+    rf = RandomForestClassifier(n_estimators=n_est, max_depth=depth, n_jobs=-1)
+    rf_model = rf.fit(X_train, y_train)
+    y_pred = rf_model.predict(X_test)
+    precision, recall, fscore, support = score(y_test, y_pred, pos_label='spam', average='binary')
+    print('Est: {} / Depth: {} ---- Precision: {} / Recall: {} / Accuracy: {}'.format(n_est, depth, round(precision, 3), round(recall, 3),round((y_pred==y_test).sum() / len(y_pred), 3)))
+
+for n_est in [10, 50, 100]:
+    for depth in [10, 20, 30, None]:
+        train_RF(n_est, depth)
+
+Est: 10 / Depth: 10 ---- Precision: 1.0 / Recall: 0.216 / Accuracy: 0.892
+Est: 10 / Depth: 20 ---- Precision: 0.975 / Recall: 0.516 / Accuracy: 0.932
+Est: 10 / Depth: 30 ---- Precision: 1.0 / Recall: 0.647 / Accuracy: 0.952
+Est: 10 / Depth: None ---- Precision: 0.984 / Recall: 0.784 / Accuracy: 0.969
+Est: 50 / Depth: 10 ---- Precision: 1.0 / Recall: 0.235 / Accuracy: 0.895
+Est: 50 / Depth: 20 ---- Precision: 1.0 / Recall: 0.562 / Accuracy: 0.94
+Est: 50 / Depth: 30 ---- Precision: 1.0 / Recall: 0.667 / Accuracy: 0.954
+Est: 50 / Depth: None ---- Precision: 0.985 / Recall: 0.843 / Accuracy: 0.977
+Est: 100 / Depth: 10 ---- Precision: 1.0 / Recall: 0.242 / Accuracy: 0.896
+Est: 100 / Depth: 20 ---- Precision: 1.0 / Recall: 0.601 / Accuracy: 0.945
+Est: 100 / Depth: 30 ---- Precision: 0.981 / Recall: 0.686 / Accuracy: 0.955
+Est: 100 / Depth: None ---- Precision: 1.0 / Recall: 0.83 / Accuracy: 0.977
+
+
+
+@EVALUATE RANDOM FOREST MODEL PERFORMANCE
+Grid-search: Exhaustively search all parameter combinations in a given grid to determine the best model.
+
+Cross-validation: Divide a dataset into k subsets and repeat the holdout method k times where a different subset is used as the holdout set in each iteration.
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
+
+rf = RandomForestClassifier()
+param = {'n_estimators': [10, 150, 300], 'max_depth': [30, 60, 90, None]}
+
+gs = GridSearchCV(rf, param, cv=5, n_jobs=-1)
+gs_fit = gs.fit(X_tfidf_feat, data['label']) # Or Use gs.fit(X_count_feat, data['label']) 
+pd.DataFrame(gs_fit.cv_results_).sort_values('mean_test_score', ascending=False)[0:5]
+
+	mean_fit_time	mean_score_time	mean_test_score	mean_train_score	param_max_depth	param_n_estimators	params	rank_test_score	split0_test_score	split0_train_score	...	split2_test_score	split2_train_score	split3_test_score	split3_train_score	split4_test_score	split4_train_score	std_fit_time	std_score_time	std_test_score	std_train_score
+6	2.112777	0.080829	0.974852	0.997665	90	10	{'max_depth': 90, 'n_estimators': 10}	1	0.977578	0.997529	...	0.971249	0.998653	0.972147	0.998653	0.972147	0.997306	0.053747	0.019431	0.003859	0.000927
+10	17.175037	0.201542	0.974133	1.000000	None	150	{'max_depth': None, 'n_estimators': 150}	2	0.976682	1.000000	...	0.973046	1.000000	0.970350	1.000000	0.973944	1.000000	0.248159	0.027157	0.002379	0.000000
+11	26.942062	0.213621	0.973056	1.000000	None	300	{'max_depth': None, 'n_estimators': 300}	3	0.976682	1.000000	...	0.972147	1.000000	0.966757	1.000000	0.973046	1.000000	0.509623	0.015578	0.003647	0.000000
+8	31.748990	0.352917	0.972157	0.998922	90	300	{'max_depth': 90, 'n_estimators': 300}	4	0.977578	0.999102	...	0.973046	0.999102	0.968553	0.998877	0.969452	0.999102	0.119802	0.035242	0.003179	0.000262
+
+@INTRODUCING GRADIENT BOOSTING
+
+So gradient boosting is also an ensemble method, just like random forest. Just a quick review, the ensemble method is a technique that created multiple models and then 
+combines them to produce better results than any of the single models individually. 
+Gradient boosting is an ensemble method that takes an iterative approach to combining weak learners to create a strong learner by focusing on the mistakes of prior 
+iterations. 
+
+Gradient boosting uses decision trees as well, but they`re incredibly basic, like a decision stump. 
+And then it evaluates what it gets right and what it gets wrong on that first tree, and then with the next iteration it places a heavier weight on those observations that
+it got wrong and it does this over and over and over again focusing on the examples it doesn`t quite understand yet until it has minimized the error as much as possible.
+So this is an incredibly powerful technique but you might be thinking, how is this really different than random forest? 
+They are the same in that they`re both ensemble methods based on decision trees, but there`s a lot of differences as well. 
+
+Difference from RF
+	1. For instance, they`re different in that gradient boosting uses a method called "boosting" while random forest used  a method called "bagging". 
+		Both of these methods include sampling for each different tree that is built. 
+			The five second version of the difference between boosting and bagging is that 
+				bagging samples randomly, while 
+				boosting samples with an increased weight on the ones that it got wrong previously. 
+	
+	2. Speed : 
+	Because all the trees in a random forest are built without any consideration for any of the other trees, this is incredibly easy to parallelize, which means that it 
+	can train really quickly. So if you have 100 trees, you could train them all at the same time. 
+		Whereas gradient boosting is iterative in that it relies on the results of the tree before it in order to apply a higher  weight to the ones that the previous tree 
+	got incorrect. So boosting can`t be parallelized and so it takes much longer to train. As you get into massive training sets, this becomes a serious consideration. 
+
+	3 : Another difference is that the final predictions for random forest are typically an unweighted average or an unweighted voting, while boosting uses a weighted 
+	voting. Now that`s outside the scope of this course but it`s useful to know. 
+
+	4: And then lastly, random forest	  is easier to tune, faster to train and harder to overfit, while 
+						gradient boosting is harder to tune, slower to train, and easier to overfit. 
+
+	So with that, why would you go with gradient boosting? Well, the trade off is that gradient boosting is typically more powerful and better-performing if tuned properly.
+
+
+	GB benefits? 
+		1. Well, it`s one of the most powerful machine learning classifiers out there. 
+		2. It also accepts various types of inputs just like random forest so it makes it very flexible. 
+		3. It can also be used for classification or regression, and the outputs feature importances which can be super useful. 
+
+	Drawbacks? 
+		1. It takes longer to train because it can`t be parallelized, i
+		2. It`s more likely to overfit because it obsesses over those ones that it got wrong, and 
+		3. It can get lost pursuing those outliers that don`t really represent the overall population. 
+		4. It`s harder to tune because there are more parameters. 
+
+That`s a very, very brief introduction into gradient boosting. This is one of my favorite algorithms. It`s incredibly powerful if it`s harnessed correctly. 
+So let`s dive in and test it out.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@GRADIENT_BOOSTING GRID SEARCH
+from sklearn.ensemble import GradientBoostingClassifier
+
+from sklearn.metrics import precision_recall_fscore_support as score
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X_features, data['label'], test_size=0.2)
+
+
+def train_GB(est, max_depth, lr):
+    gb = GradientBoostingClassifier(n_estimators=est, max_depth=max_depth, learning_rate=lr)
+    gb_model = gb.fit(X_train, y_train)
+    y_pred = gb_model.predict(X_test)
+    
+    precision, recall, fscore, train_support = score(y_test, y_pred, pos_label='spam', average='binary')
+    print('Est: {} / Depth: {} / LR: {} ---- Precision: {} / Recall: {} / Accuracy: {}'.format(est, max_depth, lr, round(precision, 3), round(recall, 3), round((y_pred==y_test).sum()/len(y_pred), 3)))
+
+for n_est in [50, 100, 150]:
+    for max_depth in [3, 7, 11, 15]:
+        for lr in [0.01, 0.1, 1]:
+            train_GB(n_est, max_depth, lr)
+
+Est: 50 / Depth: 3 / LR: 0.01 ---- Precision: 0.0 / Recall: 0.0 / Accuracy: 0.868
+Est: 50 / Depth: 3 / LR: 0.1 ---- Precision: 1.0 / Recall: 0.687 / Accuracy: 0.959
+Est: 50 / Depth: 3 / LR: 1 ---- Precision: 0.88 / Recall: 0.796 / Accuracy: 0.959
+Est: 50 / Depth: 7 / LR: 0.01 ---- Precision: 0.0 / Recall: 0.0 / Accuracy: 0.868
+Est: 50 / Depth: 7 / LR: 0.1 ---- Precision: 0.968 / Recall: 0.83 / Accuracy: 0.974
+Est: 50 / Depth: 7 / LR: 1 ---- Precision: 0.917 / Recall: 0.823 / Accuracy: 0.967
+Est: 50 / Depth: 11 / LR: 0.01 ---- Precision: 1.0 / Recall: 0.027 / Accuracy: 0.872
+Est: 50 / Depth: 11 / LR: 0.1 ---- Precision: 0.962 / Recall: 0.871 / Accuracy: 0.978
+Est: 50 / Depth: 11 / LR: 1 ---- Precision: 0.926 / Recall: 0.85 / Accuracy: 0.971
+Est: 50 / Depth: 15 / LR: 0.01 ---- Precision: 0.0 / Recall: 0.0 / Accuracy: 0.868
+Est: 50 / Depth: 15 / LR: 0.1 ---- Precision: 0.977 / Recall: 0.857 / Accuracy: 0.978
+Est: 50 / Depth: 15 / LR: 1 ---- Precision: 0.919 / Recall: 0.85 / Accuracy: 0.97
+Est: 100 / Depth: 3 / LR: 0.01 ---- Precision: 0.987 / Recall: 0.51 / Accuracy: 0.934
+Est: 100 / Depth: 3 / LR: 0.1 ---- Precision: 0.991 / Recall: 0.776 / Accuracy: 0.969
+Est: 100 / Depth: 3 / LR: 1 ---- Precision: 0.901 / Recall: 0.803 / Accuracy: 0.962
+Est: 100 / Depth: 7 / LR: 0.01 ---- Precision: 0.989 / Recall: 0.612 / Accuracy: 0.948
+Est: 100 / Depth: 7 / LR: 0.1 ---- Precision: 0.985 / Recall: 0.871 / Accuracy: 0.981
+Est: 100 / Depth: 7 / LR: 1 ---- Precision: 0.922 / Recall: 0.81 / Accuracy: 0.966
+Est: 100 / Depth: 11 / LR: 0.01 ---- Precision: 0.991 / Recall: 0.741 / Accuracy: 0.965
+Est: 100 / Depth: 11 / LR: 0.1 ---- Precision: 0.984 / Recall: 0.864 / Accuracy: 0.98
+Est: 100 / Depth: 11 / LR: 1 ---- Precision: 0.912 / Recall: 0.844 / Accuracy: 0.969
+Est: 100 / Depth: 15 / LR: 0.01 ---- Precision: 0.992 / Recall: 0.796 / Accuracy: 0.972
+Est: 100 / Depth: 15 / LR: 0.1 ---- Precision: 0.977 / Recall: 0.871 / Accuracy: 0.98
+Est: 100 / Depth: 15 / LR: 1 ---- Precision: 0.932 / Recall: 0.844 / Accuracy: 0.971
+Est: 150 / Depth: 3 / LR: 0.01 ---- Precision: 0.988 / Recall: 0.537 / Accuracy: 0.938
+Est: 150 / Depth: 3 / LR: 0.1 ---- Precision: 0.992 / Recall: 0.81 / Accuracy: 0.974
+Est: 150 / Depth: 3 / LR: 1 ---- Precision: 0.902 / Recall: 0.816 / Accuracy: 0.964
+Est: 150 / Depth: 7 / LR: 0.01 ---- Precision: 0.99 / Recall: 0.687 / Accuracy: 0.958
+Est: 150 / Depth: 7 / LR: 0.1 ---- Precision: 0.977 / Recall: 0.857 / Accuracy: 0.978
+Est: 150 / Depth: 7 / LR: 1 ---- Precision: 0.937 / Recall: 0.81 / Accuracy: 0.968
+Est: 150 / Depth: 11 / LR: 0.01 ---- Precision: 0.983 / Recall: 0.796 / Accuracy: 0.971
+Est: 150 / Depth: 11 / LR: 0.1 ---- Precision: 0.985 / Recall: 0.871 / Accuracy: 0.981
+Est: 150 / Depth: 11 / LR: 1 ---- Precision: 0.904 / Recall: 0.837 / Accuracy: 0.967
+Est: 150 / Depth: 15 / LR: 0.01 ---- Precision: 0.975 / Recall: 0.796 / Accuracy: 0.97
+Est: 150 / Depth: 15 / LR: 0.1 ---- Precision: 0.977 / Recall: 0.864 / Accuracy: 0.979
+Est: 150 / Depth: 15 / LR: 1 ---- Precision: 0.913 / Recall: 0.857 / Accuracy: 0.97
+
+
+@EVALUATE GRADIENT_BOOSTING MODEL PERFORMANCE
+
+gb = GradientBoostingClassifier()
+param = {
+    'n_estimators': [50, 100, 150], 
+    'max_depth': [7, 11, 15],
+    'learning_rate': [0.1]
+}
+
+clf = GridSearchCV(gb, param, cv=5, n_jobs=-1)
+cv_fit = clf.fit(X_count_feat, data['label'])
+pd.DataFrame(cv_fit.cv_results_).sort_values('mean_test_score', ascending=False)[0:5]
+'''
+	mean_fit_time	mean_score_time	mean_test_score	mean_train_score	param_learning_rate	param_max_depth	param_n_estimators	params	rank_test_score	split0_test_score	...	split2_test_score	split2_train_score	split3_test_score	split3_train_score	split4_test_score	split4_train_score	std_fit_time	std_score_time	std_test_score	std_train_score
+5	341.866984	0.335839	0.969463	1.000000	0.1	11	150	{'n_estimators': 150, 'learning_rate': 0.1, 'm...	1	0.965022	...	0.970350	1.0	0.963163	1.0	0.970350	1.000000	3.450213	0.048011	0.005320	0.00000'
+7	335.012637	0.264707	0.969283	1.000000	0.1	15	100	{'n_estimators': 100, 'learning_rate': 0.1, 'm...	2	0.965022	...	0.967655	1.0	0.964960	1.0	0.972147	1.000000	7.205083	0.027251	0.004513	0.00000'
+2	213.266939	0.279388	0.968385	0.999955	0.1	7	150	{'n_estimators': 150, 'learning_rate': 0.1, 'm...	3	0.965919	...	0.968553	1.0	0.960467	1.0	0.966757	0.999775	2.651567	0.022217	0.006508	0.00009'
+8	356.912155	0.183561	0.968385	1.000000	0.1	15	150	{'n_estimators': 150, 'learning_rate': 0.1, 'm...	3	0.962332	...	0.967655	1.0	0.963163	1.0	0.971249	1.000000	45.305546	0.031481	0.005594	0.00000'
+4	241.101819	0.263556	0.968205	1.000000	0.1	11	100	{'n_estimators': 100, 'learning_rate': 0.1, 'm...	5	0.963229	...	0.970350	1.0	0.961366	1.0	0.968553	1.000000	3.736889	0.026132	0.005716	0.00000'}
+5 rows × 23 columns
+'''
+
+
+rf = RandomForestClassifier(n_estimators=150, max_depth=None, n_jobs=-1)
+
+rf_model = rf.fit(X_train_vect, y_train)
+y_pred = rf_model.predict(X_test_vect)
+
+precision, recall, fscore, train_support = score(y_test, y_pred, pos_label='spam', average='binary')
+print('Precision: {} / Recall: {} / Accuracy: {}'.format(round(precision, 3), round(recall, 3), round((y_pred==y_test).sum()/len(y_pred), 3)))
+Precision: 1.0 / Recall: 0.847 / Accuracy: 0.981
+''''''
+
+
+gb = GradientBoostingClassifier(n_estimators=150, max_depth=11)
+
+gb_model = gb.fit(X_train_vect, y_train)
+y_pred = gb_model.predict(X_test_vect)
+
+precision, recall, fscore, train_support = score(y_test, y_pred, pos_label='spam', average='binary')
+print('Precision: {} / Recall: {} / Accuracy: {}'.format(round(precision, 3), round(recall, 3), round((y_pred==y_test).sum()/len(y_pred), 3)))
+Precision: 0.872 / Recall: 0.847 / Accuracy: 0.966
+
+@MODEL SELECTION_ DATA PREP
+@MODEL SELECTION_ RESULTS
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.metrics import precision_recall_fscore_support as score
+import time
+
+rf = RandomForestClassifier(n_estimators=150, max_depth=None, n_jobs=-1)
+
+start = time.time()
+rf_model = rf.fit(X_train_vect, y_train)
+end = time.time()
+fit_time = (end - start)
+
+start = time.time()
+y_pred = rf_model.predict(X_test_vect)
+end = time.time()
+pred_time = (end - start)
+
+precision, recall, fscore, train_support = score(y_test, y_pred, pos_label='spam', average='binary')
+print('Fit time: {} / Predict time: {} ---- Precision: {} / Recall: {} / Accuracy: {}'.format(
+    round(fit_time, 3), round(pred_time, 3), round(precision, 3), round(recall, 3), round((y_pred==y_test).sum()/len(y_pred), 3)))
+>>> Fit time: 1.782 / Predict time: 0.213 ---- Precision: 1.0 / Recall: 0.81 / Accuracy: 0.975
+
+
+gb = GradientBoostingClassifier(n_estimators=150, max_depth=11)
+
+start = time.time()
+gb_model = gb.fit(X_train_vect, y_train)
+end = time.time()
+fit_time = (end - start)
+
+start = time.time()
+y_pred = gb_model.predict(X_test_vect)
+end = time.time()
+pred_time = (end - start)
+
+precision, recall, fscore, train_support = score(y_test, y_pred, pos_label='spam', average='binary')
+print('Fit time: {} / Predict time: {} ---- Precision: {} / Recall: {} / Accuracy: {}'.format(
+    round(fit_time, 3), round(pred_time, 3), round(precision, 3), round(recall, 3), round((y_pred==y_test).sum()/len(y_pred), 3)))
+>>> Fit time: 186.61 / Predict time: 0.135 ---- Precision: 0.889 / Recall: 0.816 / Accuracy: 0.962
+
+
+@CHAPTER QUIZ
