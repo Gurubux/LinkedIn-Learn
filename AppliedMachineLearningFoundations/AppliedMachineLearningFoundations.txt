@@ -1,0 +1,310 @@
+Applied Machine Learning: Foundations
+INTRODUCTION
+LEVERAGING MACHINE LEARNING (IN PROGRESS)
+WHAT YOU SHOULD KNOW
+WHAT TOOLS YOU NEED
+USING THE EXERCISE FILES
+
+1. MACHINE LEARNING BASICS
+WHAT IS MACHINE LEARNING?
+WHAT KIND OF PROBLEMS CAN THIS HELP YOU SOLVE?
+WHY PYTHON?
+MACHINE LEARNING VS. DEEP LEARNING VS. ARTIFICIAL INTELLIGENCE
+DEMOS OF MACHINE LEARNING IN REAL LIFE
+COMMON CHALLENGES
+CHAPTER QUIZ
+
+2. EXPLORATORY DATA ANALYSIS AND DATA CLEANING
+WHY DO WE NEED TO EXPLORE AND CLEAN OUR DATA?
+EXPLORING CONTINUOUS FEATURES
+PLOTTING CONTINUOUS FEATURES
+CONTINUOUS DATA CLEANING
+EXPLORING CATEGORICAL FEATURES
+PLOTTING CATEGORICAL FEATURES
+CATEGORICAL DATA CLEANING
+CHAPTER QUIZ
+
+3. MEASURING SUCCESS
+WHY DO WE SPLIT UP OUR DATA?
+SPLIT DATA FOR TRAIN/VALIDATION/TEST SET
+WHAT IS CROSS-VALIDATION?
+ESTABLISH AN EVALUATION FRAMEWORK
+CHAPTER QUIZ
+
+4. OPTIMIZING A MODEL
+BIAS/VARIANCE TRADEOFF
+WHAT IS UNDERFITTING?
+WHAT IS OVERFITTING?
+FINDING THE OPTIMAL TRADEOFF
+HYPERPARAMETER TUNING
+REGULARIZATION
+CHAPTER QUIZ
+
+5. END-TO-END PIPELINE
+OVERVIEW OF THE PROCESS
+CLEAN CONTINUOUS FEATURES
+CLEAN CATEGORICAL FEATURES
+SPLIT DATA INTO TRAIN/VALIDATION/TEST SET
+FIT A BASIC MODEL USING CROSS-VALIDATION
+TUNE HYPERPARAMETERS
+EVALUATE RESULTS ON VALIDATION SET
+6M43S
+FINAL MODEL SELECTION AND EVALUATION ON TEST SET
+CHAPTER QUIZ
+
+
+************************************************************************************************************
+INTRODUCTION
+************************************************************************************************************
+LEVERAGING MACHINE LEARNING (IN PROGRESS)
+WHAT YOU SHOULD KNOW
+WHAT TOOLS YOU NEED
+USING THE EXERCISE FILES
+
+************************************************************************************************************
+1. MACHINE LEARNING BASICS
+************************************************************************************************************
+WHAT IS MACHINE LEARNING?
+WHAT KIND OF PROBLEMS CAN THIS HELP YOU SOLVE?
+WHY PYTHON?
+MACHINE LEARNING VS. DEEP LEARNING VS. ARTIFICIAL INTELLIGENCE
+DEMOS OF MACHINE LEARNING IN REAL LIFE
+COMMON CHALLENGES
+CHAPTER QUIZ
+
+************************************************************************************************************
+2. EXPLORATORY DATA ANALYSIS AND DATA CLEANING
+************************************************************************************************************
+WHY DO WE NEED TO EXPLORE AND CLEAN OUR DATA?
+EXPLORING CONTINUOUS FEATURES
+
+
+PLOTTING CONTINUOUS FEATURES
+distplot()
+#Distribution For people`s Age For survival frequency
+#Distribution For people`s Ticket Fare For survival frequency
+for i in ['Age', 'Fare']:
+    died = list(titanic[titanic['Survived'] == 0][i].dropna())
+    survived = list(titanic[titanic['Survived'] == 1][i].dropna())
+    xmin = min(min(died), min(survived))
+    xmax = max(max(died), max(survived))
+    width = (xmax - xmin) / 40
+    sns.distplot(died, color='r', kde=False, bins=np.arange(xmin, xmax, width))
+    sns.distplot(survived, color='g', kde=False, bins=np.arange(xmin, xmax, width))
+    plt.legend(['Did not survive', 'Survived'])
+    plt.title('Overlaid histogram for {}'.format(i))
+    plt.show()
+
+#Ordinal Variables Pclass = 1,2,3 ; SibSp = 0,1, 2, 3, 4, 5, 8 ; Parch = 0, 1, 2, 3, 4, 5, 6
+for i, col in enumerate(['Pclass', 'SibSp', 'Parch']):
+    plt.figure(i)
+    sns.catplot(x=col, y='Survived', data=titanic, kind='point', aspect=2,)
+
+titanic['family_cnt'] = titanic['SibSp'] + titanic['Parch']
+sns.catplot(x='family_cnt', y='Survived', data=titanic, kind='point', aspect=2,)
+
+
+
+
+
+
+
+
+
+
+
+
+CONTINUOUS DATA CLEANING
+#Fill missing for Age
+titanic['Age'].fillna(titanic['Age'].mean(), inplace=True)
+
+#Combine SibSp & Parch
+titanic['Family_cnt'] = titanic['SibSp'] + titanic['Parch']
+titanic.drop(['SibSp', 'Parch'], axis=1, inplace=True)
+
+
+
+EXPLORING CATEGORICAL FEATURES
+# Drop all continuous features
+cont_feat = ['PassengerId', 'Pclass', 'Name', 'Age', 'SibSp', 'Parch', 'Fare']
+titanic.drop(cont_feat, axis=1, inplace=True)
+
+# Explore Sex, Cabin, and Embarked
+titanic.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 891 entries, 0 to 890
+Data columns (total 5 columns):
+Survived    891 non-null int64
+Sex         891 non-null object
+Ticket      891 non-null object
+Cabin      \204 non-null object
+Embarked    889 non-null object
+dtypes: int64(1), object(4)
+memory usage: 34.9+ KB
+
+
+titanic.groupby(titanic['Cabin'].isnull()).mean()
+>>>
+		Survived
+Cabin	
+False	0.666667
+True	0.299854
+
+# Where NaN put 0 else put 1
+#Create indicator for Cabin
+titanic['Cabin_ind'] = np.where(titanic['Cabin'].isnull(), 0, 1)
+	Survived	Sex		Ticket				Cabin	Embarked	Cabin_ind
+0	0			male	A/5 21171			NaN		S			0
+1	1			female	PC 17599			C85		C			1
+2	1			female	STON/O2. 3101282	NaN		S			0
+3	1			female	113803				C123	S			1
+4	0			male	373450				NaN		S			0
+5	0			male	330877				NaN		Q			0
+6	0			male	17463				E46		S			1
+7	0			male	349909				NaN		S			0
+8	1			female	347742				NaN		S			0
+9	1			female	237736				NaN		C			0
+
+
+for i, col in enumerate(['Cabin_ind', 'Sex', 'Embarked']):
+    plt.figure(i)
+    sns.catplot(x=col, y='Survived', data=titanic, kind='point', aspect=2 )
+
+
+
+titanic.pivot_table('Survived', index='Sex', columns='Pclass', aggfunc=['count',np.sum])
+>>>
+		count		sum
+Pclass	1	2	3	1	2	3
+Sex						
+-------------------------------
+female	94	76	144	91	70	72
+male	122	108	347	45	17	47
+
+
+titanic.pivot_table('Survived', index='Cabin_ind', columns='Embarked', aggfunc='count')
+>>>
+Embarked	C	Q	S
+Cabin_ind			
+-------------------------------
+0			99	73	515
+1			69	4	129
+
+
+
+
+
+PLOTTING CATEGORICAL FEATURES
+
+
+
+
+CATEGORICAL DATA CLEANING
+
+#Convert Sex to numeric
+gender_num = {'male': 0, 'female': 1}
+
+titanic['Sex'] = titanic['Sex'].map(gender_num)
+>>>
+	PassengerId	Survived	Pclass	Sex	Age		SibSp	Parch	Fare	Cabin	Embarked	Cabin_ind
+0	1			0			3		0	22.0	1		0		7.2500	NaN		S			0
+1	2			1			1		1	38.0	1		0		71.2833	C85		C			1
+2	3			1			3		1	26.0	0		0		7.9250	NaN		S			0
+3	4			1			1		1	35.0	1		0		53.1000	C123	S			1
+4	5			0			3		0	35.0	0		0		8.0500	NaN		S			0
+
+# Drop Cabin and Embarked
+titanic.drop(['Cabin', 'Embarked'], axis=1, inplace=True)
+>>>
+	PassengerId	Survived	Pclass	Sex	Age		SibSp	Parch	Fare	Cabin_ind
+0	1			0			3		0	22.0	1		0		7.2500	0
+1	2			1			1		1	38.0	1		0		71.2833	1
+2	3			1			3		1	26.0	0		0		7.9250	0
+3	4			1			1		1	35.0	1		0		53.1000	1
+4	5			0			3		0	35.0	0		0		8.0500	0
+
+
+
+
+
+
+
+
+
+
+
+CHAPTER QUIZ
+
+************************************************************************************************************
+3. MEASURING SUCCESS
+************************************************************************************************************
+WHY DO WE SPLIT UP OUR DATA?
+
+
+SPLIT DATA FOR TRAIN/VALIDATION/TEST SET
+Split the dataset up into the following segments:
+
+Training Data: 60%
+Validation Data: 20%
+Test Data: 20%
+
+features = titanic.drop('Survived', axis=1)
+labels = titanic['Survived']
+
+X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.4, random_state=42)
+X_test, X_val, y_test, y_val = train_test_split(X_test, y_test, test_size=0.5, random_state=42)
+
+
+
+WHAT IS CROSS-VALIDATION?
+Hold-out test set
+K-Fold Cross Validation
+	Data is divided into k subsets and holdout method is repeated k times
+	Each time one of the k subsets is a testing set and other k-1 are combined to form the Training set 
+
+
+
+
+
+
+
+
+ESTABLISH AN EVALUATION FRAMEWORK
+Two Components
+	1. EVALUATION METRICS. How are we gauging the accuracy of the model? What is the quantitative measure of performance that we`re going to use? 
+	2. Process. How will we leverage our full dataset to mitigate the likelihood of overfitting or underfitting? Both of which will impact the models ability to generalize.
+
+	1. EVALUATION METRICS. 
+		a. accuracy = total predicted correctly / total count
+		b. Precision= total Correctly predicted positive(Survived) / Total predicted positive(survived)
+		c. Recall	= total Correctly predicted positive(Survived) / Total positive(survived)
+
+CHAPTER QUIZ
+Which is NOT true of regularization when applied appropriately?
+	improves models performance on training data
+************************************************************************************************************
+4. OPTIMIZING A MODEL
+************************************************************************************************************
+BIAS/VARIANCE TRADEOFF
+WHAT IS UNDERFITTING?
+WHAT IS OVERFITTING?
+FINDING THE OPTIMAL TRADEOFF
+HYPERPARAMETER TUNING
+REGULARIZATION
+CHAPTER QUIZ
+
+************************************************************************************************************
+5. END-TO-END PIPELINE
+************************************************************************************************************
+OVERVIEW OF THE PROCESS
+CLEAN CONTINUOUS FEATURES
+CLEAN CATEGORICAL FEATURES
+SPLIT DATA INTO TRAIN/VALIDATION/TEST SET
+FIT A BASIC MODEL USING CROSS-VALIDATION
+TUNE HYPERPARAMETERS
+EVALUATE RESULTS ON VALIDATION SET
+6M43S
+FINAL MODEL SELECTION AND EVALUATION ON TEST SET
+CHAPTER QUIZ
+What is the most likely reason for test set performance to deviate in a significant way from the validation set performance?
+	limited data and/or data wasn't split randomly
