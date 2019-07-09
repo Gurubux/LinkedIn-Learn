@@ -1,0 +1,460 @@
+INTRODUCTION
+THE POWER OF ALGORITHMS IN MACHINE LEARNING 
+WHAT YOU SHOULD KNOW 
+WHAT TOOLS YOU NEED 
+
+************************************************************************************************************
+1. REVIEW OF FOUNDATIONS
+************************************************************************************************************
+DEFINING MODEL VS. ALGORITHM 
+PROCESS OVERVIEW 
+CLEAN CONTINUOUS VARIABLES 
+CLEAN CATEGORICAL VARIABLES 
+SPLIT INTO TRAIN, VALIDATION, AND TEST SET 
+
+************************************************************************************************************
+3. LOGISTIC REGRESSION
+************************************************************************************************************
+WHAT IS LOGISTIC REGRESSION? 
+WHEN SHOULD YOU CONSIDER USING LOGISTIC REGRESSION? 
+WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+-  We`re going to focus on this C hyperparameter. So you can see here that has a default value of one.
+-  So regularization combats this overfitting by discouraging overly complex models in some way. 
+	Now, calling C a regularization parameter is actually slightly misleading as :
+		
+		C = 1 / λ 
+			where Lambda is actually the regularization parameter. 
+		λ = 0 then C = ∞ 
+			that indicates low regularization and more likely to overfit. 
+		λ = ∞ then C = 0
+			that indicates high regularization and more likely to underfit. 
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/LogisticRegression_Hyperparameter_regularization_C.PNG"
+
+
+FIT A BASIC LOGISTIC REGRESSION MODEL 
+
+from sklearn.linear_model import LogisticRegression
+lr = LogisticRegression()
+parameters = {'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]}
+
+cv = GridSearchCV(lr, parameters, cv=5)
+cv.fit(tr_features, tr_labels.values.ravel())
+
+print_results(cv)
+
+def print_results(results):
+    print('BEST PARAMS: {}\n'.format(results.best_params_))
+
+    means = results.cv_results_['mean_test_score']
+    stds = results.cv_results_['std_test_score']
+    for mean, std, params in zip(means, stds, results.cv_results_['params']):
+        print('{} (+/-{}) for {}'.format(round(mean, 3), round(std * 2, 3), params))
+>>>
+BEST PARAMS: {'C': 1}
+
+0.678 (+/-0.092) for {'C': 0.001}
+0.704 (+/-0.099) for {'C': 0.01}
+0.796 (+/-0.13) for {'C': 0.1}
+0.798 (+/-0.123) for {'C': 1}
+0.794 (+/-0.118) for {'C': 10}
+0.794 (+/-0.118) for {'C': 100}
+0.794 (+/-0.118) for {'C': 1000}
+
+
+cv.best_estimator_
+>>>
+LogisticRegression(C=1, class_weight=None, dual=False, fit_intercept=True,
+          intercept_scaling=1, max_iter=100, multi_class='warn',
+          n_jobs=None, penalty='l2', random_state=None, solver='warn',
+          tol=0.0001, verbose=0, warm_start=False)
+
+# Write out pickled model
+joblib.dump(cv.best_estimator_, '../../../LR_model.pkl')
+************************************************************************************************************
+4. SUPPORT VECTOR MACHINES
+************************************************************************************************************
+WHAT IS SUPPORT VECTOR MACHINE?
+WHEN SHOULD YOU CONSIDER USING SVM?
+WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+FIT A BASIC SVM MODEL
+
+from sklearn.svm import SV
+svc = SVC()
+parameters = {
+    'kernel': ['linear', 'rbf'],
+    'C': [0.1, 1, 10]
+}
+
+cv = GridSearchCV(svc, parameters, cv=5)
+cv.fit(tr_features, tr_labels.values.ravel())
+
+print_results(cv)
+>>>
+BEST PARAMS: {'C': 0.1, 'kernel': 'linear'}
+
+0.796 (+/-0.116) for {'C': 0.1, 'kernel': 'linear'}
+0.624 (+/-0.005) for {'C': 0.1, 'kernel': 'rbf'}
+0.796 (+/-0.116) for {'C': 1, 'kernel': 'linear'}
+0.667 (+/-0.081) for {'C': 1, 'kernel': 'rbf'}
+0.796 (+/-0.116) for {'C': 10, 'kernel': 'linear'}
+0.691 (+/-0.073) for {'C': 10, 'kernel': 'rbf'}
+
+cv.best_estimator_
+>>>
+SVC(C=0.1, cache_size=200, class_weight=None, coef0=0.0,
+  decision_function_shape='ovr', degree=3, gamma='auto_deprecated',
+  kernel='linear', max_iter=-1, probability=False, random_state=None,
+  shrinking=True, tol=0.001, verbose=False)
+
+# Write out pickled model
+joblib.dump(cv.best_estimator_, '../../../SVM_model.pkl')
+
+************************************************************************************************************
+4. MULTI-LAYER PERCEPTRON
+************************************************************************************************************
+WHAT IS A MULTI-LAYER PERCEPTRON?
+WHEN SHOULD YOU CONSIDER USING A MULTI-LAYER PERCEPTRON?
+WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+
+from sklearn.neural_network import MLPRegressor, MLPClassifier
+print(MLPRegressor())
+print(MLPClassifier())
+>>>
+MLPRegressor(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       n_iter_no_change=10, nesterovs_momentum=True, power_t=0.5,
+       random_state=None, shuffle=True, solver='adam', tol=0.0001,
+       validation_fraction=0.1, verbose=False, warm_start=False)
+MLPClassifier(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(100,), learning_rate='constant',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       n_iter_no_change=10, nesterovs_momentum=True, power_t=0.5,
+       random_state=None, shuffle=True, solver='adam', tol=0.0001,
+       validation_fraction=0.1, verbose=False, warm_start=False)
+
+FIT A BASIC MULTI-LAYER PERCEPTRON MODEL
+
+mlp = MLPClassifier()
+parameters = {
+    'hidden_layer_sizes': [(10,), (50,), (100,)],
+    'activation': ['relu', 'tanh', 'logistic'],
+    'learning_rate': ['constant', 'invscaling', 'adaptive']
+}
+
+cv = GridSearchCV(mlp, parameters, cv=5)
+cv.fit(tr_features, tr_labels.values.ravel())
+
+print_results(cv)
+>>>
+BEST PARAMS: {'activation': 'relu', 'hidden_layer_sizes': (50,), 'learning_rate': 'invscaling'}
+
+0.764 (+/-0.118) for {'activation': 'relu', 'hidden_layer_sizes': (10,), 'learning_rate': 'constant'}
+0.719 (+/-0.074) for {'activation': 'relu', 'hidden_layer_sizes': (10,), 'learning_rate': 'invscaling'}
+0.704 (+/-0.132) for {'activation': 'relu', 'hidden_layer_sizes': (10,), 'learning_rate': 'adaptive'}
+0.788 (+/-0.063) for {'activation': 'relu', 'hidden_layer_sizes': (50,), 'learning_rate': 'constant'}
+0.807 (+/-0.087) for {'activation': 'relu', 'hidden_layer_sizes': (50,), 'learning_rate': 'invscaling'}
+0.779 (+/-0.118) for {'activation': 'relu', 'hidden_layer_sizes': (50,), 'learning_rate': 'adaptive'}
+0.794 (+/-0.088) for {'activation': 'relu', 'hidden_layer_sizes': (100,), 'learning_rate': 'constant'}
+0.781 (+/-0.088) for {'activation': 'relu', 'hidden_layer_sizes': (100,), 'learning_rate': 'invscaling'}
+0.801 (+/-0.116) for {'activation': 'relu', 'hidden_layer_sizes': (100,), 'learning_rate': 'adaptive'}
+0.687 (+/-0.083) for {'activation': 'tanh', 'hidden_layer_sizes': (10,), 'learning_rate': 'constant'}
+0.715 (+/-0.1) for {'activation': 'tanh', 'hidden_layer_sizes': (10,), 'learning_rate': 'invscaling'}
+0.693 (+/-0.107) for {'activation': 'tanh', 'hidden_layer_sizes': (10,), 'learning_rate': 'adaptive'}
+0.768 (+/-0.106) for {'activation': 'tanh', 'hidden_layer_sizes': (50,), 'learning_rate': 'constant'}
+0.766 (+/-0.12) for {'activation': 'tanh', 'hidden_layer_sizes': (50,), 'learning_rate': 'invscaling'}
+0.796 (+/-0.125) for {'activation': 'tanh', 'hidden_layer_sizes': (50,), 'learning_rate': 'adaptive'}
+0.796 (+/-0.09) for {'activation': 'tanh', 'hidden_layer_sizes': (100,), 'learning_rate': 'constant'}
+0.807 (+/-0.088) for {'activation': 'tanh', 'hidden_layer_sizes': (100,), 'learning_rate': 'invscaling'}
+0.801 (+/-0.106) for {'activation': 'tanh', 'hidden_layer_sizes': (100,), 'learning_rate': 'adaptive'}
+0.661 (+/-0.054) for {'activation': 'logistic', 'hidden_layer_sizes': (10,), 'learning_rate': 'constant'}
+0.684 (+/-0.106) for {'activation': 'logistic', 'hidden_layer_sizes': (10,), 'learning_rate': 'invscaling'}
+0.706 (+/-0.083) for {'activation': 'logistic', 'hidden_layer_sizes': (10,), 'learning_rate': 'adaptive'}
+0.757 (+/-0.137) for {'activation': 'logistic', 'hidden_layer_sizes': (50,), 'learning_rate': 'constant'}
+0.768 (+/-0.104) for {'activation': 'logistic', 'hidden_layer_sizes': (50,), 'learning_rate': 'invscaling'}
+0.764 (+/-0.132) for {'activation': 'logistic', 'hidden_layer_sizes': (50,), 'learning_rate': 'adaptive'}
+0.777 (+/-0.152) for {'activation': 'logistic', 'hidden_layer_sizes': (100,), 'learning_rate': 'constant'}
+0.792 (+/-0.108) for {'activation': 'logistic', 'hidden_layer_sizes': (100,), 'learning_rate': 'invscaling'}
+0.792 (+/-0.109) for {'activation': 'logistic', 'hidden_layer_sizes': (100,), 'learning_rate': 'adaptive'}
+
+cv.best_estimator_
+>>>
+MLPClassifier(activation='relu', alpha=0.0001, batch_size='auto', beta_1=0.9,
+       beta_2=0.999, early_stopping=False, epsilon=1e-08,
+       hidden_layer_sizes=(50,), learning_rate='invscaling',
+       learning_rate_init=0.001, max_iter=200, momentum=0.9,
+       n_iter_no_change=10, nesterovs_momentum=True, power_t=0.5,
+       random_state=None, shuffle=True, solver='adam', tol=0.0001,
+       validation_fraction=0.1, verbose=False, warm_start=False)
+
+joblib.dump(cv.best_estimator_, '../../../MLP_model.pkl')
+
+************************************************************************************************************
+5. RANDOM FOREST
+************************************************************************************************************
+WHAT IS RANDOM FOREST?
+WHEN SHOULD YOU CONSIDER USING RANDOM FOREST?
+WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+print(RandomForestClassifier())
+print(RandomForestRegressor())
+>>>
+RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+            max_depth=None, max_features='auto', max_leaf_nodes=None,
+            min_impurity_decrease=0.0, min_impurity_split=None,
+            min_samples_leaf=1, min_samples_split=2,
+            min_weight_fraction_leaf=0.0, n_estimators='warn', n_jobs=None,
+            oob_score=False, random_state=None, verbose=0,
+            warm_start=False)
+RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
+           max_features='auto', max_leaf_nodes=None,
+           min_impurity_decrease=0.0, min_impurity_split=None,
+           min_samples_leaf=1, min_samples_split=2,
+           min_weight_fraction_leaf=0.0, n_estimators='warn', n_jobs=None,
+           oob_score=False, random_state=None, verbose=0, warm_start=False)
+
+
+FIT A BASIC RANDOM FOREST MODEL
+rf = RandomForestClassifier()
+parameters = {
+    'n_estimators': [5, 50, 250],
+    'max_depth': [2, 4, 8, 16, 32, None]
+}
+
+cv = GridSearchCV(rf, parameters, cv=5)
+cv.fit(tr_features, tr_labels.values.ravel())
+
+print_results(cv)
+>>>
+BEST PARAMS: {'max_depth': 4, 'n_estimators': 50}
+
+0.796 (+/-0.112) for {'max_depth': 2, 'n_estimators': 5}
+0.796 (+/-0.106) for {'max_depth': 2, 'n_estimators': 50}
+0.798 (+/-0.124) for {'max_depth': 2, 'n_estimators': 250}
+0.824 (+/-0.106) for {'max_depth': 4, 'n_estimators': 5}
+0.828 (+/-0.091) for {'max_depth': 4, 'n_estimators': 50}
+0.824 (+/-0.109) for {'max_depth': 4, 'n_estimators': 250}
+0.807 (+/-0.087) for {'max_depth': 8, 'n_estimators': 5}
+0.826 (+/-0.073) for {'max_depth': 8, 'n_estimators': 50}
+0.822 (+/-0.063) for {'max_depth': 8, 'n_estimators': 250}
+0.811 (+/-0.041) for {'max_depth': 16, 'n_estimators': 5}
+0.816 (+/-0.04) for {'max_depth': 16, 'n_estimators': 50}
+0.813 (+/-0.023) for {'max_depth': 16, 'n_estimators': 250}
+0.801 (+/-0.041) for {'max_depth': 32, 'n_estimators': 5}
+0.8 (+/-0.034) for {'max_depth': 32, 'n_estimators': 50}
+0.813 (+/-0.032) for {'max_depth': 32, 'n_estimators': 250}
+0.801 (+/-0.051) for {'max_depth': None, 'n_estimators': 5}
+0.809 (+/-0.04) for {'max_depth': None, 'n_estimators': 50}
+0.811 (+/-0.03) for {'max_depth': None, 'n_estimators': 250}
+
+joblib.dump(cv.best_estimator_, '../../../RF_model.pkl')
+
+
+************************************************************************************************************
+6. BOOSTING
+************************************************************************************************************
+WHAT IS BOOSTING?
+WHEN SHOULD YOU CONSIDER USING BOOSTING?
+WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER BOOSTING?
+
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
+print(GradientBoostingClassifier())
+print(GradientBoostingRegressor())
+>>>
+GradientBoostingClassifier(criterion='friedman_mse', init=None,
+              learning_rate=0.1, loss='deviance', max_depth=3,
+              max_features=None, max_leaf_nodes=None,
+              min_impurity_decrease=0.0, min_impurity_split=None,
+              min_samples_leaf=1, min_samples_split=2,
+              min_weight_fraction_leaf=0.0, n_estimators=100,
+              n_iter_no_change=None, presort='auto', random_state=None,
+              subsample=1.0, tol=0.0001, validation_fraction=0.1,
+              verbose=0, warm_start=False)
+GradientBoostingRegressor(alpha=0.9, criterion='friedman_mse', init=None,
+             learning_rate=0.1, loss='ls', max_depth=3, max_features=None,
+             max_leaf_nodes=None, min_impurity_decrease=0.0,
+             min_impurity_split=None, min_samples_leaf=1,
+             min_samples_split=2, min_weight_fraction_leaf=0.0,
+             n_estimators=100, n_iter_no_change=None, presort='auto',
+             random_state=None, subsample=1.0, tol=0.0001,
+             validation_fraction=0.1, verbose=0, warm_start=False)
+FIT A BASIC BOOSTING MODEL
+gb = GradientBoostingClassifier()
+parameters = {
+    'n_estimators': [5, 50, 250, 500],
+    'max_depth': [1, 3, 5, 7, 9],
+    'learning_rate': [0.01, 0.1, 1, 10, 100]
+}
+
+cv = GridSearchCV(gb, parameters, cv=5)
+cv.fit(tr_features, tr_labels.values.ravel())
+
+print_results(cv)
+>>>
+BEST PARAMS: {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 500}
+
+0.624 (+/-0.005) for {'learning_rate': 0.01, 'max_depth': 1, 'n_estimators': 5}
+0.796 (+/-0.116) for {'learning_rate': 0.01, 'max_depth': 1, 'n_estimators': 50}
+0.796 (+/-0.116) for {'learning_rate': 0.01, 'max_depth': 1, 'n_estimators': 250}
+0.811 (+/-0.118) for {'learning_rate': 0.01, 'max_depth': 1, 'n_estimators': 500}
+0.624 (+/-0.005) for {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 5}
+0.811 (+/-0.071) for {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 50}
+0.83 (+/-0.076) for {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 250}
+0.841 (+/-0.079) for {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 500}
+0.624 (+/-0.005) for {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 5}
+0.818 (+/-0.051) for {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 50}
+0.82 (+/-0.039) for {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 250}
+0.83 (+/-0.044) for {'learning_rate': 0.01, 'max_depth': 5, 'n_estimators': 500}
+0.624 (+/-0.005) for {'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 5}
+0.818 (+/-0.054) for {'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 50}
+0.822 (+/-0.041) for {'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 250}
+0.801 (+/-0.023) for {'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 500}
+0.624 (+/-0.005) for {'learning_rate': 0.01, 'max_depth': 9, 'n_estimators': 5}
+0.801 (+/-0.055) for {'learning_rate': 0.01, 'max_depth': 9, 'n_estimators': 50}
+0.801 (+/-0.024) for {'learning_rate': 0.01, 'max_depth': 9, 'n_estimators': 250}
+0.783 (+/-0.026) for {'learning_rate': 0.01, 'max_depth': 9, 'n_estimators': 500}
+0.796 (+/-0.116) for {'learning_rate': 0.1, 'max_depth': 1, 'n_estimators': 5}
+0.815 (+/-0.12) for {'learning_rate': 0.1, 'max_depth': 1, 'n_estimators': 50}
+0.818 (+/-0.112) for {'learning_rate': 0.1, 'max_depth': 1, 'n_estimators': 250}
+0.828 (+/-0.093) for {'learning_rate': 0.1, 'max_depth': 1, 'n_estimators': 500}
+0.813 (+/-0.073) for {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 5}
+0.835 (+/-0.082) for {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 50}
+0.831 (+/-0.038) for {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 250}
+0.811 (+/-0.03) for {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 500}
+0.815 (+/-0.053) for {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 5}
+0.826 (+/-0.018) for {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 50}
+0.803 (+/-0.048) for {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 250}
+0.807 (+/-0.053) for {'learning_rate': 0.1, 'max_depth': 5, 'n_estimators': 500}
+0.822 (+/-0.056) for {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 5}
+0.8 (+/-0.015) for {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 50}
+0.794 (+/-0.044) for {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 250}
+0.801 (+/-0.066) for {'learning_rate': 0.1, 'max_depth': 7, 'n_estimators': 500}
+0.8 (+/-0.042) for {'learning_rate': 0.1, 'max_depth': 9, 'n_estimators': 5}
+0.788 (+/-0.041) for {'learning_rate': 0.1, 'max_depth': 9, 'n_estimators': 50}
+0.79 (+/-0.024) for {'learning_rate': 0.1, 'max_depth': 9, 'n_estimators': 250}
+0.79 (+/-0.049) for {'learning_rate': 0.1, 'max_depth': 9, 'n_estimators': 500}
+0.818 (+/-0.1) for {'learning_rate': 1, 'max_depth': 1, 'n_estimators': 5}
+0.83 (+/-0.078) for {'learning_rate': 1, 'max_depth': 1, 'n_estimators': 50}
+0.828 (+/-0.069) for {'learning_rate': 1, 'max_depth': 1, 'n_estimators': 250}
+0.818 (+/-0.082) for {'learning_rate': 1, 'max_depth': 1, 'n_estimators': 500}
+0.82 (+/-0.063) for {'learning_rate': 1, 'max_depth': 3, 'n_estimators': 5}
+0.794 (+/-0.038) for {'learning_rate': 1, 'max_depth': 3, 'n_estimators': 50}
+0.796 (+/-0.039) for {'learning_rate': 1, 'max_depth': 3, 'n_estimators': 250}
+0.801 (+/-0.048) for {'learning_rate': 1, 'max_depth': 3, 'n_estimators': 500}
+0.805 (+/-0.042) for {'learning_rate': 1, 'max_depth': 5, 'n_estimators': 5}
+0.811 (+/-0.078) for {'learning_rate': 1, 'max_depth': 5, 'n_estimators': 50}
+0.809 (+/-0.074) for {'learning_rate': 1, 'max_depth': 5, 'n_estimators': 250}
+0.803 (+/-0.081) for {'learning_rate': 1, 'max_depth': 5, 'n_estimators': 500}
+0.783 (+/-0.013) for {'learning_rate': 1, 'max_depth': 7, 'n_estimators': 5}
+0.787 (+/-0.051) for {'learning_rate': 1, 'max_depth': 7, 'n_estimators': 50}
+0.796 (+/-0.032) for {'learning_rate': 1, 'max_depth': 7, 'n_estimators': 250}
+0.79 (+/-0.052) for {'learning_rate': 1, 'max_depth': 7, 'n_estimators': 500}
+0.785 (+/-0.034) for {'learning_rate': 1, 'max_depth': 9, 'n_estimators': 5}
+0.77 (+/-0.033) for {'learning_rate': 1, 'max_depth': 9, 'n_estimators': 50}
+0.8 (+/-0.053) for {'learning_rate': 1, 'max_depth': 9, 'n_estimators': 250}
+0.801 (+/-0.043) for {'learning_rate': 1, 'max_depth': 9, 'n_estimators': 500}
+0.204 (+/-0.116) for {'learning_rate': 10, 'max_depth': 1, 'n_estimators': 5}
+0.204 (+/-0.116) for {'learning_rate': 10, 'max_depth': 1, 'n_estimators': 50}
+0.204 (+/-0.116) for {'learning_rate': 10, 'max_depth': 1, 'n_estimators': 250}
+0.204 (+/-0.116) for {'learning_rate': 10, 'max_depth': 1, 'n_estimators': 500}
+0.311 (+/-0.192) for {'learning_rate': 10, 'max_depth': 3, 'n_estimators': 5}
+0.311 (+/-0.192) for {'learning_rate': 10, 'max_depth': 3, 'n_estimators': 50}
+0.311 (+/-0.192) for {'learning_rate': 10, 'max_depth': 3, 'n_estimators': 250}
+0.311 (+/-0.192) for {'learning_rate': 10, 'max_depth': 3, 'n_estimators': 500}
+0.552 (+/-0.363) for {'learning_rate': 10, 'max_depth': 5, 'n_estimators': 5}
+0.444 (+/-0.316) for {'learning_rate': 10, 'max_depth': 5, 'n_estimators': 50}
+0.397 (+/-0.204) for {'learning_rate': 10, 'max_depth': 5, 'n_estimators': 250}
+0.397 (+/-0.197) for {'learning_rate': 10, 'max_depth': 5, 'n_estimators': 500}
+0.599 (+/-0.171) for {'learning_rate': 10, 'max_depth': 7, 'n_estimators': 5}
+0.588 (+/-0.188) for {'learning_rate': 10, 'max_depth': 7, 'n_estimators': 50}
+0.616 (+/-0.133) for {'learning_rate': 10, 'max_depth': 7, 'n_estimators': 250}
+0.618 (+/-0.159) for {'learning_rate': 10, 'max_depth': 7, 'n_estimators': 500}
+0.7 (+/-0.124) for {'learning_rate': 10, 'max_depth': 9, 'n_estimators': 5}
+0.717 (+/-0.128) for {'learning_rate': 10, 'max_depth': 9, 'n_estimators': 50}
+0.7 (+/-0.124) for {'learning_rate': 10, 'max_depth': 9, 'n_estimators': 250}
+0.704 (+/-0.11) for {'learning_rate': 10, 'max_depth': 9, 'n_estimators': 500}
+0.376 (+/-0.005) for {'learning_rate': 100, 'max_depth': 1, 'n_estimators': 5}
+0.376 (+/-0.005) for {'learning_rate': 100, 'max_depth': 1, 'n_estimators': 50}
+0.376 (+/-0.005) for {'learning_rate': 100, 'max_depth': 1, 'n_estimators': 250}
+0.376 (+/-0.005) for {'learning_rate': 100, 'max_depth': 1, 'n_estimators': 500}
+0.29 (+/-0.104) for {'learning_rate': 100, 'max_depth': 3, 'n_estimators': 5}
+0.29 (+/-0.104) for {'learning_rate': 100, 'max_depth': 3, 'n_estimators': 50}
+0.29 (+/-0.104) for {'learning_rate': 100, 'max_depth': 3, 'n_estimators': 250}
+0.29 (+/-0.104) for {'learning_rate': 100, 'max_depth': 3, 'n_estimators': 500}
+0.373 (+/-0.181) for {'learning_rate': 100, 'max_depth': 5, 'n_estimators': 5}
+0.375 (+/-0.174) for {'learning_rate': 100, 'max_depth': 5, 'n_estimators': 50}
+0.369 (+/-0.176) for {'learning_rate': 100, 'max_depth': 5, 'n_estimators': 250}
+0.375 (+/-0.173) for {'learning_rate': 100, 'max_depth': 5, 'n_estimators': 500}
+0.551 (+/-0.126) for {'learning_rate': 100, 'max_depth': 7, 'n_estimators': 5}
+0.547 (+/-0.13) for {'learning_rate': 100, 'max_depth': 7, 'n_estimators': 50}
+0.584 (+/-0.117) for {'learning_rate': 100, 'max_depth': 7, 'n_estimators': 250}
+0.562 (+/-0.135) for {'learning_rate': 100, 'max_depth': 7, 'n_estimators': 500}
+0.635 (+/-0.063) for {'learning_rate': 100, 'max_depth': 9, 'n_estimators': 5}
+0.674 (+/-0.079) for {'learning_rate': 100, 'max_depth': 9, 'n_estimators': 50}
+0.652 (+/-0.061) for {'learning_rate': 100, 'max_depth': 9, 'n_estimators': 250}
+0.663 (+/-0.108) for {'learning_rate': 100, 'max_depth': 9, 'n_estimators': 500}
+
+joblib.dump(cv.best_estimator_, '../../../GB_model.pkl')
+
+************************************************************************************************************
+7. SUMMARY
+************************************************************************************************************
+WHY DO YOU NEED TO CONSIDER SO MANY DIFFERENT MODELS?
+CONCEPTUAL COMPARISON OF ALGORITHMS
+FINAL MODEL SELECTION AND EVALUATION
+
+
+val_features = pd.read_csv('../../../val_features.csv')
+val_labels = pd.read_csv('../../../val_labels.csv', header=None)
+
+te_features = pd.read_csv('../../../test_features.csv')
+te_labels = pd.read_csv('../../../test_labels.csv', header=None)
+
+
+import joblib
+models = {}
+
+for mdl in ['LR', 'SVM', 'MLP', 'RF', 'GB']:
+    models[mdl] = joblib.load('../../../{}_model.pkl'.format(mdl))
+
+
+def evaluate_model(name, model, features, labels):
+    start = time()
+    pred = model.predict(features)
+    end = time()
+    accuracy = round(accuracy_score(labels, pred), 3)
+    precision = round(precision_score(labels, pred), 3)
+    recall = round(recall_score(labels, pred), 3)
+    print('{} -- Accuracy: {} / Precision: {} / Recall: {} / Latency: {}ms'.format(name,
+                                                                                   accuracy,
+                                                                                   precision,
+                                                                                   recall,
+                                                                                   round((end - start)*1000, 1)))
+
+
+for name, mdl in models.items():
+    evaluate_model(name, mdl, val_features, val_labels)
+>>>
+LR -- Accuracy: 0.77 / Precision: 0.707 / Recall: 0.631 / Latency: 1.5ms
+SVM -- Accuracy: 0.747 / Precision: 0.672 / Recall: 0.6 / Latency: 1.4ms
+MLP -- Accuracy: 0.747 / Precision: 0.667 / Recall: 0.615 / Latency: 1.2ms
+RF -- Accuracy: 0.82 / Precision: 0.824 / Recall: 0.646 / Latency: 7.0ms
+GB -- Accuracy: 0.815 / Precision: 0.808 / Recall: 0.646 / Latency: 2.4ms
+#Result 2
+LR -- Accuracy: 0.77 / Precision: 0.707 / Recall: 0.631 / Latency: 0.0ms
+SVM -- Accuracy: 0.747 / Precision: 0.672 / Recall: 0.6 / Latency: 15.7ms
+MLP -- Accuracy: 0.781 / Precision: 0.697 / Recall: 0.708 / Latency: 0.0ms
+RF -- Accuracy: 0.809 / Precision: 0.83 / Recall: 0.6 / Latency: 15.6ms
+GB -- Accuracy: 0.815 / Precision: 0.808 / Recall: 0.646 / Latency: 0.0ms
+
+
+evaluate_model('Random Forest', models['RF'], te_features, te_labels)
+>>>
+Random Forest -- Accuracy: 0.81 / Precision: 0.875 / Recall: 0.645 / Latency: 7.5ms
+
+evaluate_model('GB', models['GB'], te_features, te_labels)
+>>>
+GB -- Accuracy: 0.816 / Precision: 0.852 / Recall: 0.684 / Latency: 0.0ms
