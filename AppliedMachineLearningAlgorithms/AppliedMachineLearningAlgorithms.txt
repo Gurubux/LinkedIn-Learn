@@ -413,8 +413,57 @@ QUIZ
 6. BOOSTING
 ************************************************************************************************************
 WHAT IS BOOSTING?
+Boosting is an ensemble method that aggregates a number of weak models to create one strong model.
+	Weak Model 	 - We mean a model where its predictions are only slightly better than random guessing.So for instance, if it's a binary outcome, then we roughly have a 50% chance of getting the right answer just by guessing. A weak model would only be slightly better than 50% accuracy.
+	Strong Model - A strong model is one where its predictions are very strongly correlated with the actual outcome, or the true classification.
+
+Boosting "iteratively builds" weak models where each one "learns from the previous model`s mistakes". So in the end, as a whole, it has constantly improved by learning from its own mistakes to generate really powerful predictions.
+
+\DIFFERENCE between RANDOM FOREST and BOOSTING - (Both are Ensemble methods)
+The big difference between Random Forest and boosting is that each individual model or decision tree in Random Forest was built "independently". Each tree did not know what any of the other trees were doing. That is not the case with boosting. In boosting, each successive model "learns from the mistakes of the ones before it". So they`re not independent. 
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/Boosting.PNG"
+
+
+PREDICTIONS IS PARALLELIZED BUT TRAINING ISN`T BECAUSE OF THE LEARNING ALGORITHM THAT MAKES EACH DT NON-INDEPENDENT
+
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/Boosting_Testing_WeightedVoting.PNG"
+
 WHEN SHOULD YOU CONSIDER USING BOOSTING?
+
+USED FOR :
+- Categorical or continuous variable
+- Interested in significance of predictors 
+- Useful on nearly any type of problem
+- Prediction Fast
+
+NOT USED FOR :
+- Very Complex problems
+- Training time is slow and Computer power is highly required.
+- Messy Data, outliers
+
+
+SUMMARY :
+Gradient boosting is one of the most flexible, powerful tools out there, and honestly, you should really consider it for any problem. With that said, you do need to consider that it will take a long time to fit and you should be careful of its tendency to overfit.
+
+
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER BOOSTING?
+Gradient Boosting tree
+	- n_estimators - 
+	- max_depth - The trees For boosting should be shallower than the trees For random forest. 
+	- learning_rate - When we use learning rate in multi layer perceptron that hyper parameter actually controlled how the learning rate changed throughout the optimization process. Remember that the three settings we looked at were "constant, inverse scaling, and adaptive." While the actual initial learning rate was controlled by a learning_rate_init parameter. Now, learning rate For gradient boosting is a little bit different as this learning rate hyperparameter controls the actual value of learning rate and it stays constant across the whole optimization process. That`s why here you can see the default value is "0.1" , instead of something like the constant or inverse scaling. 
+		\In other words, this learning rate hyperparameter is the equivalent to learning rate emit in multilayer perceptron when that learning rate parameter was set to constant
+	
+
+
+
+QUIZ
+1. The trees built in Gradient Boosted Trees can be fit in parallel. - False
+2. Gradient Boosted Trees` ability to learn from its own mistakes also drives it to overfit to outliers.
+3. A small learning rate will ensure you "always" find the optimal model. - False
+4. Random Forest does better with few, deep trees, and Gradient Boosted Trees does better with many, shallow trees.
+
+
+
 
 from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
 print(GradientBoostingClassifier())
