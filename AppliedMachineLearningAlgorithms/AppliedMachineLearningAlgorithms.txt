@@ -460,7 +460,7 @@ QUIZ
 1. The trees built in Gradient Boosted Trees can be fit in parallel. - False
 2. Gradient Boosted Trees` ability to learn from its own mistakes also drives it to overfit to outliers.
 3. A small learning rate will ensure you "always" find the optimal model. - False
-4. Random Forest does better with few, deep trees, and Gradient Boosted Trees does better with many, shallow trees.
+4. \RANDOM FOREST DOES BETTER WITH FEW, DEEP TREES, AND GRADIENT BOOSTED TREES DOES BETTER WITH MANY, SHALLOW TREES.
 
 
 
@@ -608,7 +608,31 @@ joblib.dump(cv.best_estimator_, '../../../GB_model.pkl')
 7. SUMMARY
 ************************************************************************************************************
 WHY DO YOU NEED TO CONSIDER SO MANY DIFFERENT MODELS?
+'No free lunch' theorem. No algorithm works best for every problem.
+
+Question to ask ---> Which algorithm generates best model For this given problem?
+					ACCURACY 					 |				LATENCY
+1. How to handle data of different Sizes ? 		 |		1. How long will it take to train ?  LR
+	Is our data short and fat ?SVM				 |		2. How long it will take to make predictions ? GB
+	 or long and skinny? 						 |
+2. How complex is the data set ? 				 |
+	High Complext - GB, MLP, SVM
+3. How messy is the data ? 
+	Outliers - SVM
+	and GB is not bcz it overfits the outliers.
+
+
 CONCEPTUAL COMPARISON OF ALGORITHMS
+
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/LR_SVM_MLP_RF_GB.PNG"
+
+
+
+
+
+
+
+
 FINAL MODEL SELECTION AND EVALUATION
 
 
@@ -663,3 +687,13 @@ Random Forest -- Accuracy: 0.81 / Precision: 0.875 / Recall: 0.645 / Latency: 7.
 evaluate_model('GB', models['GB'], te_features, te_labels)
 >>>
 GB -- Accuracy: 0.816 / Precision: 0.852 / Recall: 0.684 / Latency: 0.0ms
+
+
+
+QUIZ
+1. What is the No Free Lunch Theorem?
+	No algorithm works best for every problem.
+2. Which statement is NOT true?
+	Gradient Boosted Trees takes a long time to make predictions.
+3. Recall and Precision are only necessary if you don`t have access to Accuracy.
+	False

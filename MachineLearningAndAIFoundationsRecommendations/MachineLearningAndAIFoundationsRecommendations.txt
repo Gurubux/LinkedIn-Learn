@@ -1,0 +1,86 @@
+Machine Learning and AI Foundations: Recommendations
+1. THE BASICS OF MAKING RECOMMENDATIONS
+WHAT IS A RECOMMENDATION SYSTEM?
+WHAT CAN YOU DO WITH RECOMMENDATION SYSTEMS?
+COOL USES OF RECOMMENDATION SYSTEMS
+
+2. WAYS OF MAKING RECOMMENDATIONS
+CONTENT-BASED RECOMMENDATIONS: RECOMMENDING BASED ON PRODUCT ATTRIBUTES
+COLLABORATIVE FILTERING: RECOMMENDING BASED ON SIMILAR USERS
+
+3. GETTING TO KNOW OUR TOOLS
+INTRODUCTION TO NUMPY, SCIPY, AND PANDAS
+THINK IN VECTORS: HOW TO WORK WITH LARGE DATA SETS EFFICIENTLY
+
+4. BUILDING THE FRAMEWORK FOR OUR RECOMMENDATION SYSTEM
+EXPLORE OUR PRODUCT RECOMMENDATION DATA SET
+REPRESENT PRODUCT REVIEWS AS A MATRIX
+RECOMMEND BY PREDICTING MISSING USER RATINGS
+A SIMPLE WAY TO PREDICT MISSING USER RATINGS
+
+5. COLLABORATIVE FILTERING WITH MATRIX FACTORIZATION
+LATENT REPRESENTATIONS OF USERS AND PRODUCTS
+CODE THE RECOMMENDATION SYSTEM
+HOW MATRIX FACTORIZATION WORKS
+USE LATENT REPRESENTATIONS TO FIND SIMILAR PRODUCTS
+
+6. TESTING OUR SYSTEM
+EXPLORE OUR SYSTEM’S RECOMMENDATIONS
+USE REGULARIZATION
+MEASURE RECOMMENDATION ACCURACY
+
+7. USING THE RECOMMENDATION SYSTEM IN A REAL WORLD PROGRAM
+MAKE RECOMMENDATIONS FOR EXISTING USERS
+HOW TO HANDLE FIRST-TIME USERS
+FIND SIMILAR PRODUCTS
+
+
+
+************************************************************************************************************
+1. THE BASICS OF MAKING RECOMMENDATIONS
+************************************************************************************************************
+WHAT IS A RECOMMENDATION SYSTEM?
+WHAT CAN YOU DO WITH RECOMMENDATION SYSTEMS?
+COOL USES OF RECOMMENDATION SYSTEMS
+
+************************************************************************************************************
+2. WAYS OF MAKING RECOMMENDATIONS
+************************************************************************************************************
+CONTENT-BASED RECOMMENDATIONS: RECOMMENDING BASED ON PRODUCT ATTRIBUTES
+COLLABORATIVE FILTERING: RECOMMENDING BASED ON SIMILAR USERS
+
+************************************************************************************************************
+3. GETTING TO KNOW OUR TOOLS
+************************************************************************************************************
+INTRODUCTION TO NUMPY, SCIPY, AND PANDAS
+THINK IN VECTORS: HOW TO WORK WITH LARGE DATA SETS EFFICIENTLY
+
+************************************************************************************************************
+4. BUILDING THE FRAMEWORK FOR OUR RECOMMENDATION SYSTEM
+************************************************************************************************************
+EXPLORE OUR PRODUCT RECOMMENDATION DATA SET
+REPRESENT PRODUCT REVIEWS AS A MATRIX
+RECOMMEND BY PREDICTING MISSING USER RATINGS
+A SIMPLE WAY TO PREDICT MISSING USER RATINGS
+
+************************************************************************************************************
+5. COLLABORATIVE FILTERING WITH MATRIX FACTORIZATION
+************************************************************************************************************
+LATENT REPRESENTATIONS OF USERS AND PRODUCTS
+CODE THE RECOMMENDATION SYSTEM
+HOW MATRIX FACTORIZATION WORKS
+USE LATENT REPRESENTATIONS TO FIND SIMILAR PRODUCTS
+
+************************************************************************************************************
+6. TESTING OUR SYSTEM
+************************************************************************************************************
+EXPLORE OUR SYSTEM’S RECOMMENDATIONS
+USE REGULARIZATION
+MEASURE RECOMMENDATION ACCURACY
+
+************************************************************************************************************
+7. USING THE RECOMMENDATION SYSTEM IN A REAL WORLD PROGRAM
+************************************************************************************************************
+MAKE RECOMMENDATIONS FOR EXISTING USERS
+HOW TO HANDLE FIRST-TIME USERS
+FIND SIMILAR PRODUCTS

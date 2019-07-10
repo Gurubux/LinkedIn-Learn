@@ -1,0 +1,94 @@
+Machine Learning and AI Foundations: Value Estimations
+
+1. WHAT IS MACHINE LEARNING AND VALUE PREDICTION?
+WHAT IS MACHINE LEARNING?
+SUPERVISED MACHINE LEARNING FOR VALUE PREDICTION
+BUILD A SIMPLE HOME VALUE ESTIMATOR
+FIND THE BEST WEIGHTS AUTOMATICALLY
+COOL USES OF VALUE PREDICTION
+
+2. AN OVERVIEW OF BUILDING A MACHINE LEARNING SYSTEM
+INTRODUCTION TO NUMPY, SCIKIT-LEARN, AND PANDAS
+THINK IN VECTORS: HOW TO WORK WITH LARGE DATA SETS EFFICIENTLY
+THE BASIC WORKFLOW FOR TRAINING A SUPERVISED MACHINE LEARNING MODEL
+GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
+SAVE GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
+
+3. TRAINING DATA
+EXPLORE A HOME VALUE DATA SET
+STANDARD CONVENTIONS FOR NAMING TRAINING DATA
+DECIDE HOW MUCH DATA YOU NEED
+
+4. FEATURES
+FEATURE ENGINEERING
+CHOOSE THE BEST FEATURES FOR HOME VALUE PREDICTION
+USE AS FEW FEATURES AS POSSIBLE: THE CURSE OF DIMENSIONALITY
+
+5. CODING OUR SYSTEM
+PREPARE THE FEATURES
+TRAINING VS. TESTING DATA
+TRAIN THE VALUE ESTIMATOR
+MEASURE ACCURACY WITH MEAN ABSOLUTE ERROR
+
+6. IMPROVING OUR SYSTEM
+OVERFITTING AND UNDERFITTING
+THE BRUTE FORCE SOLUTION: GRID SEARCH
+FEATURE SELECTION
+
+7. USING THE ESTIMATOR IN A REAL-WORLD PROGRAM
+PREDICT VALUES FOR NEW DATA
+RETRAIN THE CLASSIFIER WITH FRESH DATA
+
+
+************************************************************************************************************
+1. WHAT IS MACHINE LEARNING AND VALUE PREDICTION?
+************************************************************************************************************
+WHAT IS MACHINE LEARNING?
+SUPERVISED MACHINE LEARNING FOR VALUE PREDICTION
+BUILD A SIMPLE HOME VALUE ESTIMATOR
+FIND THE BEST WEIGHTS AUTOMATICALLY
+COOL USES OF VALUE PREDICTION
+
+************************************************************************************************************
+2. AN OVERVIEW OF BUILDING A MACHINE LEARNING SYSTEM
+************************************************************************************************************
+INTRODUCTION TO NUMPY, SCIKIT-LEARN, AND PANDAS
+THINK IN VECTORS: HOW TO WORK WITH LARGE DATA SETS EFFICIENTLY
+THE BASIC WORKFLOW FOR TRAINING A SUPERVISED MACHINE LEARNING MODEL
+GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
+SAVE GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
+
+************************************************************************************************************
+3. TRAINING DATA
+************************************************************************************************************
+EXPLORE A HOME VALUE DATA SET
+STANDARD CONVENTIONS FOR NAMING TRAINING DATA
+DECIDE HOW MUCH DATA YOU NEED
+
+************************************************************************************************************
+4. FEATURES
+************************************************************************************************************
+FEATURE ENGINEERING
+CHOOSE THE BEST FEATURES FOR HOME VALUE PREDICTION
+USE AS FEW FEATURES AS POSSIBLE: THE CURSE OF DIMENSIONALITY
+
+************************************************************************************************************
+5. CODING OUR SYSTEM
+************************************************************************************************************
+PREPARE THE FEATURES
+TRAINING VS. TESTING DATA
+TRAIN THE VALUE ESTIMATOR
+MEASURE ACCURACY WITH MEAN ABSOLUTE ERROR
+
+************************************************************************************************************
+6. IMPROVING OUR SYSTEM
+************************************************************************************************************
+OVERFITTING AND UNDERFITTING
+THE BRUTE FORCE SOLUTION: GRID SEARCH
+FEATURE SELECTION
+
+************************************************************************************************************
+7. USING THE ESTIMATOR IN A REAL-WORLD PROGRAM
+************************************************************************************************************
+PREDICT VALUES FOR NEW DATA
+RETRAIN THE CLASSIFIER WITH FRESH DATA
