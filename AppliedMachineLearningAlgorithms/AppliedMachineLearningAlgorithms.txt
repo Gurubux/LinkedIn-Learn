@@ -74,7 +74,40 @@ joblib.dump(cv.best_estimator_, '../../../LR_model.pkl')
 4. SUPPORT VECTOR MACHINES
 ************************************************************************************************************
 WHAT IS SUPPORT VECTOR MACHINE?
+What is SVM? 
+	"SUPPORT VECTOR MACHINES" is a classifier that "finds an optimal hyperplane that maximizes the margin between two classes". So, let`s start with a very basic example with only two dimensions. So, using X1 and X2, we want a line to separate the red squares from the blue circles. So, any line shown on this plot is really a viable option. They would all perfectly separate the red squares from the blue circles. However, there has to be an optimal line, or decision boundary. We really want to capture the behavior of the data here. In other words, what line would give us the best chance to correctly classify additional examples in each of these two classes? 
+	- You would probably want a line that is evenly spaced between these two classes to give a little bit of buffer for each class. So, that`s exactly what support vector machines does. The definition sounds fancy, but really, you`re just trying to find a line that`s right in the middle of your two classes, evenly spaced between the two. Mathematically, it`s defined as maximizing the margin between your decision boundary and the closest points. 
+
+SUPPORT VECTOR - So, now you might be wondering where this "SUPPORT VECTOR" terminology comes from. 
+	Support vector is the name for the perpendicular line from your decision boundary to your closest points in both classes. So, on the right, it`s the perpendicular line that goes from that green optimal hyperplane to those filled-in points, that filled-in blue circle and the filled-in red squares. of those support vectors. Now, in the example on the left, to be the ideal decision boundary. You can see how close these closest points in each class are to the decision boundary, so the algorithm wouldn`t like these as the optimal solution. "That`s what SVM is seeking to do, is maximize that distance between the decision boundary and the nearest points." 
+
+HYPERPLANE - In our definition, we talked about finding an optimal hyperplane, but in our examples, we`ve just been using a line So, a hyperplane is just a generalized term to identify your decision boundary So, in two dimensions, that`s just a line. 
+
+KERNEL TRICK - Up to this point, everything we`ve discussed "requires our data to be linearly separable", so we`re using a straight line to separate out examples in two-dimensional space to separate examples in a three-dimensional space. We`re not using any curved lines or curved hyperplanes. So, what happens when we have data that can`t be separated by a straight line or a hyperplane? That leads us to this really creative trick called "the kernel trick". in n-dimensional space into a higher dimension where it is linearly separable. That may kind of sound like magic, so let`s look at an example. where we`re trying to identify the presence of cancer based on gene X and gene Y. This data clearly is not linearly separable in two dimensions. We couldn`t draw a straight line here that would separate the blue from the red. We would need a circle in order to do that. However, if we were to project this data from two-dimensional space into three-dimensional space like this, all of a sudden now we can use a flat hyperplane to split our data very nicely to identify the presence of cancer. So, that`s the kernel trick, and it`s a really powerful tool for support vector machines.
+
+
+
 WHEN SHOULD YOU CONSIDER USING SVM?
+Now that we have a decent feel what SVM is on a conceptual level, let`s talk a little bit about when you should use it. I want to quickly reiterate what I mentioned when we covered logistic regression. There are way too many variables in play For this to be hard and fast rules. The more comFortable you get with each algorithm, For what algorithms work best For different types of problems. This is just meant to get you started. 
+USED FOR :
+	Both categorical and continuous outputs, (but I found it to not be very useful For regression.) So it really should only be a focus when you`re working on a classification problem with some kind of binary target variable. 
+	When the feature-to-row ratio is very high. This is what I called short and fat data previously. It`s when you have a lot of features and relatively few rows. but SVM tends to do fairly well, and it`s actually one of its distinguishing features. 
+	SVM is also quite good at untangling complex relationships. Definitely more so than logistic regression is. 
+	SVM also handles data with a lot of outliers quite well. If you think about how SVM works using these support vectors it actually makes sense, because it only looks at the points closest to the line, so that outliers are kind of ignored. So if you`re working with data with a lot of outliers, and many other algorithms are struggling, you might want to consider SVM. 
+
+NOT USED FOR :
+	Feature-to-row ratio is low, you should not use it if you have a lot of rows and relatively few features. 
+	SVM will take a long time to train, and the perFormance really won`t be worth it relative to other algorithms. Despite the really nice plots that we saw beFore, and this hyperplane is an extremely high-dimensional space, you can`t really get a good picture what`s going on inside of SVM. So if you care about transparency, and maybe the significance of predictors, I would probably avoid SVM. 
+	If you`re looking For a quick benchmark model, SVM probably is not the right choice.
+	And it takes longer than other algorithms to make predictions as well. if time or maybe compute power is a significant constraint.
+
+SUMMARY :
+	SVM should be used when you have a lot of features, but few rows, or when you have a lot of outliers, that you`re trying to untangle. But it is quite slow to train, you might want to look somewhere else.
+
+
+
+
+
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
 FIT A BASIC SVM MODEL
 
