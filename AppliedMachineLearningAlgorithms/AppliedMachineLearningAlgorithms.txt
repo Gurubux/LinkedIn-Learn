@@ -17,6 +17,23 @@ SPLIT INTO TRAIN, VALIDATION, AND TEST SET
 ************************************************************************************************************
 WHAT IS LOGISTIC REGRESSION? 
 WHEN SHOULD YOU CONSIDER USING LOGISTIC REGRESSION? 
+USED FOR :
+	A binary target variable 
+	Not too many outliers, 
+	Not too many missing values
+	Relationships that aren`t too complex. 
+	Great For is an initial benchmark model on a binary classification problem with fairly well-behaved data. 
+	It`s relatively flexible, 
+	It`s very fast to train. 
+
+NOT USED FOR:
+	A continuous target variable. 
+	Massive amount of data. (There are other algorithms that really shine when you have a ton of data. I also want to call out That`s when you have lots of features, but very few rows. Or you can have long and skinny data where you have a lot of rows, but very few features. skewed features, or really complex relationships.)
+	Generally speaking it`s not going to be the best perForming algorithm on any given use case. It will usually do pretty well on any given problem, but it will rarely be the best. 
+SUMMARY :
+	Logistic regression is a great tool For a fast, transparent baseline model For a binary classification problem. It doesn`t do well with a lot of data or particularly messy data. It`s also unlikely to give you the best possible perFormance on any given problem.
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/LogisticRegr_Use_NotUse.PNG"
+
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
 -  We`re going to focus on this C hyperparameter. So you can see here that has a default value of one.
 -  So regularization combats this overfitting by discouraging overly complex models in some way. 
@@ -84,7 +101,7 @@ SUPPORT VECTOR - So, now you might be wondering where this "SUPPORT VECTOR" term
 HYPERPLANE - In our definition, we talked about finding an optimal hyperplane, but in our examples, we`ve just been using a line So, a hyperplane is just a generalized term to identify your decision boundary So, in two dimensions, that`s just a line. 
 
 KERNEL TRICK - Up to this point, everything we`ve discussed "requires our data to be linearly separable", so we`re using a straight line to separate out examples in two-dimensional space to separate examples in a three-dimensional space. We`re not using any curved lines or curved hyperplanes. So, what happens when we have data that can`t be separated by a straight line or a hyperplane? That leads us to this really creative trick called "the kernel trick". in n-dimensional space into a higher dimension where it is linearly separable. That may kind of sound like magic, so let`s look at an example. where we`re trying to identify the presence of cancer based on gene X and gene Y. This data clearly is not linearly separable in two dimensions. We couldn`t draw a straight line here that would separate the blue from the red. We would need a circle in order to do that. However, if we were to project this data from two-dimensional space into three-dimensional space like this, all of a sudden now we can use a flat hyperplane to split our data very nicely to identify the presence of cancer. So, that`s the kernel trick, and it`s a really powerful tool for support vector machines.
-
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/SVM_Kernel_trick.PNG"
 
 
 WHEN SHOULD YOU CONSIDER USING SVM?
@@ -103,12 +120,22 @@ NOT USED FOR :
 
 SUMMARY :
 	SVM should be used when you have a lot of features, but few rows, or when you have a lot of outliers, that you`re trying to untangle. But it is quite slow to train, you might want to look somewhere else.
-
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/SVM_Use_NotUse.PNG"
 
 
 
 
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+C
+kernel
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/SVM_Hyperparameter_regularization_C.PNG"
+
+
+
+
+
+
+
 FIT A BASIC SVM MODEL
 
 from sklearn.svm import SV
@@ -142,12 +169,65 @@ SVC(C=0.1, cache_size=200, class_weight=None, coef0=0.0,
 # Write out pickled model
 joblib.dump(cv.best_estimator_, '../../../SVM_model.pkl')
 
+
+
+
+QUIZ:
+1. The kernel trick is NOT used EVERY TIME you fit SVM to data.
+2. SVM`s main competitive advantage is its performance on short-and-fat data or when there are a lot of outliers.
+3. Which of the following does NOT happen with a very low value of C?
+	more likely to overfit
+4. Our Titanic data appears to be linearly separable.
+
+
 ************************************************************************************************************
 4. MULTI-LAYER PERCEPTRON
 ************************************************************************************************************
 WHAT IS A MULTI-LAYER PERCEPTRON?
+So multilayer perceptron is "a classic feed-forward artificial neural network of some deep learning algorithms." Not all algorithms in deep learning use a feed-forward artificial neural network, but many do. 
+Another way to look at this, is that a multilayer perceptron is "a connected series of nodes, where each node represents a function. a directed acyclic graph. Meaning that there is directionality between the nodes and no node will ever be revisited."
+
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/MultiLayer_Perceptron.PNG"
+
+
 WHEN SHOULD YOU CONSIDER USING A MULTI-LAYER PERCEPTRON?
+USED FOR:
+	classification and regression
+	Categorical and continuous variable
+	Complex Relationships
+	High Performance
+	Control over Training Process
+
+NOT USED FOR:
+	Transperency, BlackBox. Quite difficult to understand internally
+	If you`re looking For a quick benchmark model, MULTI-LAYER PERCEPTRON probably is not the right choice.
+	Lot of hyperparameter tuning
+	Slow (but better than SVM)
+	Less data
+
+SUMMARY :
+	 So to summarize, multilayer perceptrons are often the best tool For the job when you have a lot of data and you really only care about performance. But they`re not ideal if you have limited data, if you don`t have much time or compute power, or you really care about the transparency of the model in understanding its predictions.
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/MultiLayer_Perceptron_Use_NotUse.PNG"
+
+
+
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+"activation" 		- 
+	Sigmoid - a sigmoid curve, otherwise known as a logistic curve - familiar S-shaped curve from zero to one that looks exactly like what we saw with logistic regression. 
+	TanH - a hyperbolic tangent curve which is referred to as TanH, this is also an S-shaped but it`s between negative one and one.
+	Relu - Rectified Linear unit - It just sets a floor at zero, so if any number is below zero, it sets it to zero and if it`s above zero, then it doesn`t do anything.
+			"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/MultiLayer_Perceptron_Hyperparameter_regularization_activation.PNG"
+
+"hidden_layer_sizes" - Determines how many hidden layers there are and how many hidden nodes in each layer
+			"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/MultiLayer_Perceptron_Hyperparameter_regularization_hidden_layer_sizes.PNG"
+
+
+"learning_rate" 	 - The learning rate facilitates whether the algorithm will find the optimal solution and how quickly it will find the optimal solution. A high learning rate will push the algorithm along quicker to find the optimal solution but it	s possible that it pushes too far and it never actually finds the best solution. On the other hand, a lower learning rate will take much longer for the algorithm to fit, but you can have more confidence that it will find the optimal solution.
+					- "constant". - So that'll just take that initial learning rate and it'll keep it the same throughout the entire optimization process.
+					- "invscaling"- in other words, inverse scaling. So it gradually decreases the learning rate at each step. So this will allow it to take large jumps at first. And then it slowly decreases as it gets closer and closer to the optimal model. 
+					- "adaptive"  - And this keeps the learning rate constant as long as the training loss keeps decreasing. If the learning rate stops going down then it will decrease the learning rate so that it takes smaller steps. 
+
+			"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/MultiLayer_Perceptron_Hyperparameter_regularization_learning_rate.PNG"
 
 from sklearn.neural_network import MLPRegressor, MLPClassifier
 print(MLPRegressor())
@@ -228,8 +308,43 @@ joblib.dump(cv.best_estimator_, '../../../MLP_model.pkl')
 5. RANDOM FOREST
 ************************************************************************************************************
 WHAT IS RANDOM FOREST?
+Random forest just merges a collection of "independent" decision trees to get a more accurate and stable prediction.
+So random forest is a type of ensemble method.
+Ensemble combines several machine learning models to decrease both bias and variance. 
+
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/Random_Forest.PNG"
+"https://raw.githubusercontent.com/Gurubux/LinkedIn-Learn/master/AppliedMachineLearningAlgorithms/Random_Forest_Testing_Voting.PNG"
+
+
+
 WHEN SHOULD YOU CONSIDER USING RANDOM FOREST?
+
+USED FOR :
+- Categorical or continuous variable
+- Interested in significance of predictors - (One of my favorite things about random forest is that it has an attribute that lays out the importance of each predictor that you`re working with. This is really helpful to understand the relationships and the power of the features that you're using in your model. )
+- If you`re looking For a quick benchmark model, RANDOM FOREST probably is  the right choice.
+- Messy Data, outliers
+
+
+NOT USED FOR :
+- Very Complex problems
+- Transperency is important
+- Slow
+
+
+SUMMARY :
+Random forest is a tremendously flexible, relatively fast tool that plays well with different data and can give you relatively good performance. 
+It doesn`t always give you the best performance, but it is a really nice Swiss Army knife to have in your tool set.
+
+
+
+
 WHAT ARE THE KEY HYPERPARAMETERS TO CONSIDER?
+n_estimators - It simply controls how many individual decision trees are built.
+max_depth 	 - hyperparameter controls how deep each of those individual decision trees can go. 
+
+What is the main reason you sample both examples AND features for each decision tree in a Random Forest?
+	encourage independence of trees
 
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 print(RandomForestClassifier())
@@ -284,6 +399,14 @@ BEST PARAMS: {'max_depth': 4, 'n_estimators': 50}
 0.811 (+/-0.03) for {'max_depth': None, 'n_estimators': 250}
 
 joblib.dump(cv.best_estimator_, '../../../RF_model.pkl')
+
+
+QUIZ
+1. What is the main reason you sample both examples AND features for each decision tree in a Random Forest?
+	\encourage independence of trees
+2. Random Forest is a tremendously flexible model that makes for a really good initial benchmark model.
+3. \Increasing n_estimators or max_depth will ALWAYS decrease the training error.
+4. \If I fit two Random Forest models with the exact same hyperparameter settings on the exact same data, I should get exactly the same model and performance.-False
 
 
 ************************************************************************************************************
