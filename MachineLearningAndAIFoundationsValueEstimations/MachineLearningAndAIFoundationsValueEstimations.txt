@@ -48,6 +48,25 @@ SUPERVISED MACHINE LEARNING FOR VALUE PREDICTION
 BUILD A SIMPLE HOME VALUE ESTIMATOR
 FIND THE BEST WEIGHTS AUTOMATICALLY
 COOL USES OF VALUE PREDICTION
+QUIZ:
+1. In machine learning, the computer learns to do new things without you having to explicitly program it .
+
+2. Supervised learning is the branch of machine learning where:
+	the computer learns how to perform a function by looking at labeled training data
+
+3. What is a cost function?
+	an equation that tells you how wrong an estimator function is with the current weights
+
+4. What can supervised machine learning be used for?
+	estimate the risk of issuing a home loan to a potential borrower
+	estimate the risk that a patient has a particular medical condition based on their medical test results 
+	estimate the value of used cars
+
+
+
+
+
+
 
 ************************************************************************************************************
 2. AN OVERVIEW OF BUILDING A MACHINE LEARNING SYSTEM
@@ -55,23 +74,62 @@ COOL USES OF VALUE PREDICTION
 INTRODUCTION TO NUMPY, SCIKIT-LEARN, AND PANDAS
 THINK IN VECTORS: HOW TO WORK WITH LARGE DATA SETS EFFICIENTLY
 THE BASIC WORKFLOW FOR TRAINING A SUPERVISED MACHINE LEARNING MODEL
+STEP 1 : Get Data
+STEP 2 : Clean and preprocess data
+STEP 3 : Shuffle the Data
+STEP 4 : Split into Training/Test data
+STEP 5 : Set Model Hyperparameters
+STEP 6 : Train the model - (FIT)
+STEP 7 : Evaluate the Model
+STEP 8 : Use the Model - (PREDICTION)
+
 GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
 SAVE GRADIENT BOOSTING: A VERSATILE MACHINE LEARNING ALGORITHM
 
+
+QUIZ:
+Gradient boosting is an algorithm that _____.
+	iteratively improves its predictions by adding additional decision trees to improve the predictions of previous trees
+	uses an ensemble of small decision trees to estimate value
+	can model complex relationships in data
 ************************************************************************************************************
 3. TRAINING DATA
 ************************************************************************************************************
 EXPLORE A HOME VALUE DATA SET
 STANDARD CONVENTIONS FOR NAMING TRAINING DATA
 DECIDE HOW MUCH DATA YOU NEED
+QUIZ:
+Which statement about training data is true?
+	more training data is usually better than less training data
+	a good starting point is to have 10 times as many data points in the training data set as the number of features in the model
+	machine learning algorithms work best when your training data set covers a wide range of combinations of features in your model 
+
+
+
 
 ************************************************************************************************************
 4. FEATURES
 ************************************************************************************************************
 FEATURE ENGINEERING
+Feature engineering is using our knowledge of the problem to choose features or create new features that allow machine learning algorithms to work more accurately.
+1. Adding or Dropping features - Choosing data with highest amount of signal.
+2. Combining mutliple features into one features
+3. Binning - Replace exact numerical measurement into a broad category
+4. One-hot encoding
+
+
+
 CHOOSE THE BEST FEATURES FOR HOME VALUE PREDICTION
 USE AS FEW FEATURES AS POSSIBLE: THE CURSE OF DIMENSIONALITY
+	So, when building machine learning systems, you should throw in more features just for the sake of throwing in more features. Your goal is to include the features that have the most predictive information and exclude the features that aren`t predictive.
+	 The curse of dimensionality says that as we add more features to our model the number of rows of training data that we need to build a good model tends to grow exponentially.
 
+QUIZ:
+1. What is one-hot encoding?
+	a way to convert categorical data into a format suitable for use in a machine learning model.
+2. To get the best results from machine learning, what should  you do?
+	use features in your model that correlate strongly with the output values you want to predict
+3. Because of the curse of dimensionality, you should include as few features as possible in your model while still accurately modeling the problem .
 ************************************************************************************************************
 5. CODING OUR SYSTEM
 ************************************************************************************************************
@@ -79,6 +137,10 @@ PREPARE THE FEATURES
 TRAINING VS. TESTING DATA
 TRAIN THE VALUE ESTIMATOR
 MEASURE ACCURACY WITH MEAN ABSOLUTE ERROR
+QUIZ:
+Mean absolute error is a measurement of the average prediction error across your data set .
+
+
 
 ************************************************************************************************************
 6. IMPROVING OUR SYSTEM
@@ -86,9 +148,38 @@ MEASURE ACCURACY WITH MEAN ABSOLUTE ERROR
 OVERFITTING AND UNDERFITTING
 THE BRUTE FORCE SOLUTION: GRID SEARCH
 FEATURE SELECTION
+# Create a numpy array based on the model's feature importances
+importance = model.feature_importances_
+
+# Sort the feature labels based on the feature importance rankings from the model
+feauture_indexes_by_importance = importance.argsort()
+
+# Print each feature label, from most important to least important (reverse order)
+for index in feauture_indexes_by_importance:
+    print("{} - {:.2f}%".format(feature_labels[index], (importance[index] * 100.0)))
+
+QUIZ : 
+1. What is true about overfitting?
+	- It occurs when the model is too complex to fit the data
+	- It can be addressed by reducing the complexity of the model or using regularization
+	- It results in poor prediction accuracy   
+
+2. What is grid search, as is relates to machine learning?
+	A way to find the best hyperparameters for a machine learning model by trying many different possible combinations.
+
+3. What is true about feature selection?	
+	help us understand which features are most important to your model	
+	find features that are not needed and can be removed from your model	
+	give us a better idea of which features your model is using most often to predict values
+
 
 ************************************************************************************************************
 7. USING THE ESTIMATOR IN A REAL-WORLD PROGRAM
 ************************************************************************************************************
 PREDICT VALUES FOR NEW DATA
 RETRAIN THE CLASSIFIER WITH FRESH DATA
+QUIZ:
+1. When using a machine learning model in a real application:
+	you should test the accuracy of new models before using them to replace an existing model
+	you should consider retraining the model on a regular basis as data changes
+	you need to provide the input features in exactly the same format they were provided in during training

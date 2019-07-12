@@ -42,12 +42,43 @@ FIND SIMILAR PRODUCTS
 WHAT IS A RECOMMENDATION SYSTEM?
 WHAT CAN YOU DO WITH RECOMMENDATION SYSTEMS?
 COOL USES OF RECOMMENDATION SYSTEMS
+QUIZ
+- A recommender function takes the user data and predicts the user rating for a product .
+- Similar product preferences could be useful in recommending social media friendships.
+- Which company is famous for its research into recommendation systems? - NetFlix
+
+
 
 ************************************************************************************************************
 2. WAYS OF MAKING RECOMMENDATIONS
 ************************************************************************************************************
 CONTENT-BASED RECOMMENDATIONS: RECOMMENDING BASED ON PRODUCT ATTRIBUTES
+They try to recommend products that have similar attributes to a product that the user already liked. 
+The idea is that if a user really likes movies that score high in romance, we can recommend other movies that also feature romance.
+
+ADVANTAGES   :
+Content-based recommendations can work well if you have descriptive data available for every product that you want to recommend. It`s very useful for cases where you don't yet have any user reviews to work with.
+
+DISADVANTAGE :
+Need descriptive data for every product you want to recommend - Before you can recommend products to users, you have to create the script of data for every product in your inventory. This is time-consuming and introduces a lot of subjectivity that can throw off your recommendation results. For example, one person might say that the movie is very suspenseful, but another person might disagree and say that it isn`t suspenseful at all. 
+Difficult to implement for many kinds of large product databases - If you have thousands of products to label, it can be very tricky to label them all in a consistent and fair way. This makes it difficult and time-consuming to use content-based recommendations on large product databases unless the products are easy to describe with a consistent set of attributes.
+
+
 COLLABORATIVE FILTERING: RECOMMENDING BASED ON SIMILAR USERS
+Collaborative filtering systems make recommendations only based on how users rated products in the past, not based on anything about the products themselves. In collaborative filtering, the recommendation system has no knowledge of the actual product it is recommending. It only knows how other users rated the product. It uses those past ratings to make new recommendations.
+
+ADVANTAGES   :
+	The advantage is that you don`t even need to know anything about the products that you`re recommending. As long as you have user review data, you can build a collaborative filtering recommendation system. 
+
+DISADVANTAGE :
+	It only works when you already have user reviews to work from. If you don`t have any reviews, you can`t make recommendations. That means it`s difficult to recommend products to brand new users because new users haven`t reviewed any products yet. 
+	Collaborative filtering tends to favor products with lots of reviews over products with few reviews. This can make it hard for users to discover new releases since they aren't likely to get recommended as often.
+
+QUIZ : 
+1. Three of the following are disadvantages of content-based recommendation. Which one is not?
+	It must have user reviews in order to work.
+2. With collaborative filtering, knowledge of the product is not important .
+
 
 ************************************************************************************************************
 3. GETTING TO KNOW OUR TOOLS
@@ -63,6 +94,13 @@ REPRESENT PRODUCT REVIEWS AS A MATRIX
 RECOMMEND BY PREDICTING MISSING USER RATINGS
 A SIMPLE WAY TO PREDICT MISSING USER RATINGS
 
+QUIZ:
+1. The to_html() function can be used to convert data to a web page .
+2. How can you handle duplicates when using the pivot_table() function?
+	by passing an aggfunc argument that specifies how to handle duplicates
+3. A recommendation system should be able to provide the rating a user would have given to any product.
+4. Predicting missing user ratings can be done by multiplying the user's preference attribute in each category and the corresponding product's appeal attribute in that category.
+
 ************************************************************************************************************
 5. COLLABORATIVE FILTERING WITH MATRIX FACTORIZATION
 ************************************************************************************************************
@@ -71,16 +109,35 @@ CODE THE RECOMMENDATION SYSTEM
 HOW MATRIX FACTORIZATION WORKS
 USE LATENT REPRESENTATIONS TO FIND SIMILAR PRODUCTS
 
+scipy.optimize.fmin_cg(f, x0, fprime=None, args=(), gtol=1e-05, norm=inf, epsilon=1.4901161193847656e-08, maxiter=None, full_output=0, disp=1, retall=0, callback=None)
+"Minimize a function using a nonlinear conjugate gradient algorithm." - Alternative to SVD(Singular vector Decomposition for Sparse matrix)
+
+
+QUIZ::
+1. The user and product matrices are called latent vectors because they have hidden information we found by working backwards from the data .
+2. In the low_rank_matrix_factorization() function, which parameter specifies the number of latent features to generate?
+	num_features
+3. When estimating a matrix factorization, the cost function represents how different the calculated matrix is from the real matrix .
+4. When looking for a similar product, we calculate the sum of the absolute value of the differences across all features, in order to obtain the total difference score.
 ************************************************************************************************************
 6. TESTING OUR SYSTEM
 ************************************************************************************************************
 EXPLORE OUR SYSTEM’S RECOMMENDATIONS
 USE REGULARIZATION
 MEASURE RECOMMENDATION ACCURACY
-
+QUIZ::
+1. You can use the join() function to combine the recommendation results with the matching product names.
+2. Overfitting should be avoided because it can result in bad recommendations .
+3. Why do we separate the data to training and testing sets?
+	Testing is fair only when done on data the model did not see before.
 ************************************************************************************************************
 7. USING THE RECOMMENDATION SYSTEM IN A REAL WORLD PROGRAM
 ************************************************************************************************************
 MAKE RECOMMENDATIONS FOR EXISTING USERS
 HOW TO HANDLE FIRST-TIME USERS
 FIND SIMILAR PRODUCTS
+QUIZ::
+1. The pickle feature is useful in running the recommendation on pre-saved model data .
+2. Which of the following is not a way to handle recommendations for first time users?
+	Recommend the products that have the highest number of reviews.
+3. You use the feature difference method to build a list of products similar to product X. You can expect this list to include product X itself.
