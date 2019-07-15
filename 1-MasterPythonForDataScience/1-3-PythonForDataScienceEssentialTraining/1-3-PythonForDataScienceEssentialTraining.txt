@@ -570,6 +570,7 @@ Parameter :
 	(Use trial and error )
 
 ------------------------CODE START------------------------
+from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 Z = linkage(X, `ward`)
 # Z is the clustering results that have been generated from the Scipy hierarchical clustering algorithm. 
